@@ -3,4 +3,10 @@ body {
   width: 100vw;
   height: 100vh;
   margin: 0;
+  font-family: 'SpotLight', sans-serif;
+}
+
+@font-face {
+  font-family: 'SpotLight';
+  src: url('/src/fonts/SpotLight.OTF');
 }
