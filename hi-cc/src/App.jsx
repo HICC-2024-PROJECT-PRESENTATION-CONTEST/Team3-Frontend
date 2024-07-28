@@ -1,6 +1,6 @@
 import { Routes, Route, BrowserRouter, Navigate } from "react-router-dom";
 
-import AdminLogin from './pages/adminPage/AdminLogin';
+import AdminLogin from './pages/adminPage/AdminLogin/AdminLogin';
 import QR from './pages/adminPage/QR/QR';
 import Privacy from './pages/adminPage/Privacy/Privacy';
 

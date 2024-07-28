@@ -1,7 +1,5 @@
 import { useNavigate } from "react-router-dom";
 
-import Button from "../../../components/Button";
-
 export default function Start() {
     const navigate = useNavigate();
     function handleClick() {
