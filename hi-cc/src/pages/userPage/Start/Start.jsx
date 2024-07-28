@@ -1,8 +1,7 @@
 import { useNavigate } from "react-router-dom";
 import { styled } from "styled-components";
-import Circle1 from "../../../assets/Circle1.png";
-import Circle2 from "../../../assets/Circle2.png";
-import HeartIcon from "../../../assets/HeartIcon.png";
+import Square1 from '../../../assets/Square1.png';
+import Square2 from '../../../assets/Square2.png';
 
 export default function Start() {
     const navigate = useNavigate();
@@ -16,15 +15,11 @@ export default function Start() {
 
     return (
         <StartWrapper>
-            <Heart src={HeartIcon} alt="" />
-            <SmallCircle src={Circle1} alt="" />
-            <BigCircle src={Circle2} alt="" />
+            <SmallSquare src={Square1} alt="" />
+            <BigSquare src={Square2} alt="" />
             <LoginWrapper>
-                <Text>
-                    <MainText>Hi, CC!</MainText>가 이상형을 찾아드립니다.
-                </Text>
                 <StartButton onClick={handleStartClick}>시작하기</StartButton>
-                이미 등록한 적 있나요?
+                <Text>이미 등록한 적 있나요?</Text>
                 <LoginButton onClick={handleLoginClick}>로그인하기</LoginButton>
             </LoginWrapper>
         </StartWrapper>
@@ -38,32 +33,32 @@ const StartWrapper = styled.div`
     width: 100vw;
     height: 100vh;
     align-items: center;
-    background: linear-gradient(to bottom, #FFF5F6, #FAA8B1);
+    background: linear-gradient(to bottom, #FFDEE2, 52%, #FAA8B1);
     overflow: hidden;
 `
 
-const Heart = styled.img`
-    position: absolute;
-    top: 45px;
-    width: 57px;
-    height: auto;
-    z-index: 1;
-`
+// const Heart = styled.img`
+//     position: absolute;
+//     top: 45px;
+//     width: 57px;
+//     height: auto;
+//     z-index: 1;
+// `
 
-const SmallCircle = styled.img`
+const SmallSquare = styled.img`
     position: absolute;
-    top: 45px;
-    right: -100px;
-    width: 180px;
+    top: 33%;
+    right: 59px;
+    width: 20px;
     height: auto;
     z-index: 0;
 `
 
-const BigCircle = styled.img`
+const BigSquare = styled.img`
     position: absolute;
-    top: 167px;
-    left: -300px;
-    width: 490px;
+    top: 25%;
+    right: 28px;
+    width: 31px;
     height: auto;
     z-index: 0;
 `
@@ -81,11 +76,12 @@ const LoginWrapper = styled.div`
 const StartButton = styled.button`
     width: 267px;
     height: 61px;
-    background-color: #FFF5F6;
+    background-color: #000000;
+    color: #FFFFFF;
+    font-size: 30px;
     z-index: 100;
     border-width: 0px;
-    border-radius: 30px;
-    font-size: 22px;
+    border-radius: 20px;
     margin: 10px 0;
 `
 const LoginButton = styled.button`
@@ -93,6 +89,8 @@ const LoginButton = styled.button`
     height: 30px;
     background-color: transparent;
     text-decoration: underline;
+    color: #353535;
+    font-size: 16px;
     border-width: 0px;
     z-index: 100;
 `
@@ -102,15 +100,6 @@ const Text = styled.div`
     flex-direction: column;
     align-items: center;
     justify-content: center;
-    color: #000000;
-    font-size: 30px;
-`
-
-const MainText = styled.div`
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    color: #F94364;
-    font-size: 40px;
-    font-weight: bold;
+    color: #353535;
+    font-size: 16px;
 `
