@@ -1,14 +1,16 @@
-import React from "react";
+import React, { useEffect } from "react";
 import styled from "styled-components";
 
 import BasicButton from "../assets/BasicButton.png";
 import BasicButtonInactive from "../assets/BasicButtonInactive.png";
 
-const MainButton = ({ onClick, $valid, children }) => {
+export default function MainButton ({ onClick, $valid, children }) {
+    useEffect(() => {
+    }, [$valid])
     return (
         <ButtonWrapper>
-            <ButtonImg src={$valid === "true" ? BasicButton : BasicButtonInactive} onClick={$valid?onClick:""} $valid={$valid ? "true" : "false"}></ButtonImg>
-            <ButtonText onClick={$valid?onClick:""} $valid={$valid ? "true" : "false"}>{children}</ButtonText>
+            <ButtonImg src={$valid === true ? BasicButton : BasicButtonInactive} onClick={$valid ? onClick : null} $valid={$valid ? "true" : "false"}></ButtonImg>
+            <ButtonText onClick={$valid ? onClick : null} $valid={$valid ? "true" : "false"}>{children}</ButtonText>
         </ButtonWrapper>
     )
 };
@@ -34,6 +36,3 @@ const ButtonText = styled.span`
     color: url(${props => props.$valid === "true" ? "#000000" : "#FFFFFF"});
     bottom: 59px;
 `
-
-
-export default MainButton;
