@@ -57,14 +57,13 @@ export default function Agreement() {
                     <MainButtonText>모두 동의하기</MainButtonText>
                 </CheckboxWrapper>
             </AgreeAllButton>
-
             {/* 이용약관1 */}
             <CheckboxWrapper>
                 <CheckboxInnerWrapper>
                     <Checkbox onClick={() => handleAgree('essential1')} $valid={agreement.essential1} />
                 </CheckboxInnerWrapper>
                 <CheckboxTextWrapper>
-                    (<span>필수) 서비스 이용 약관</span>
+                    <span>(필수) 서비스 이용 약관</span>
                     <AgreementDetails onClick={() => handleAgreementDetails('1')}>보기</AgreementDetails>
                 </CheckboxTextWrapper>
             </CheckboxWrapper>
@@ -150,7 +149,6 @@ const CheckboxInnerWrapper = styled.div`
     border-radius: 5px;
     border-color: #000000; 
     background-color: #FFFFFF;
-    margin-right: 1vw;
 `
 
 const Checkbox = styled.div`
@@ -164,10 +162,13 @@ const Checkbox = styled.div`
 
 const MainButtonText = styled.span`
     font-size: 17px;
+    margin: 0 1vw;
 `
 const CheckboxTextWrapper = styled.div`
     display: inline-block;
-    width: 100%;
+    justify-content: space-between;
+    width: calc(100% - 2vw - 21px);
+    margin: 0 1vw;
     color: #464646;
     @media screen and (max-width: 360px) {
         font-size: 10px;
