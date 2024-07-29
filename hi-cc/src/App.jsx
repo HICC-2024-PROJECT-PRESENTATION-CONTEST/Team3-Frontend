@@ -7,6 +7,8 @@ import Privacy from './pages/adminPage/Privacy/Privacy';
 
 import Start from './pages/userPage/Start/Start';
 import Agreement from './pages/userPage/Agreement/Agreement';
+import Agreement1 from "./pages/userPage/Agreement/Agreement1";
+import Agreement2 from "./pages/userPage/Agreement/Agreement2";
 import Profile from './pages/userPage/Profile/Profile';
 import Recommends from './pages/userPage/Recommends/Recommends';
 import Message from './pages/userPage/Message/Message';
@@ -25,6 +27,8 @@ function App() {
         <Route path="/admin/profiles" element={<Privacy />} />
         <Route path="/login" element={<Login />} />
         <Route path="/agreement" element={<Agreement />} />
+        <Route path="/agreement/1" element={<Agreement1 />} />
+        <Route path="/agreement/2" element={<Agreement2 />} />
         <Route path="/profile" element={<Profile />} />
         <Route path="/recommends" element={<Recommends />} />
         <Route path="/message" element={<Message />} />
