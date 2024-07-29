@@ -1,4 +1,4 @@
-import { useState, useEffect } from "react";
+import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import styled from "styled-components";
 
@@ -28,28 +28,59 @@ export default function Agreement() {
         }))
     }
 
+    function handleAgreementDetails(path) {
+        navigate(`${path}`)
+    }
+
     function handleClick() {
         navigate('/profile');
     }
 
     return (
         <AgreementWrapper>
-            <Title>서비스 이용을 위한</Title>
-            <Title>이용약관 동의</Title>
+            <Title>
+                <TitleText>서비스 이용을 위한</TitleText>
+                <TitleText>이용약관 동의</TitleText>
+                <DescriptionText>
+                    원활한 서비스 이용을 위해
+                </DescriptionText>
+                <DescriptionText>
+                    필수 항목 동의가 필요합니다.
+                </DescriptionText>
+            </Title>
+            {/* 모두 동의하기 버튼 */}
             <AgreeAllButton onClick={handleAllAgree}>
                 <CheckboxWrapper>
-                    <Checkbox $valid={isAllAgreed}/>
+                    <CheckboxInnerWrapper>
+                        <Checkbox $valid={isAllAgreed} />
+                    </CheckboxInnerWrapper>
+                    <MainButtonText>모두 동의하기</MainButtonText>
                 </CheckboxWrapper>
-                <ButtonText>모두 동의하기</ButtonText>
             </AgreeAllButton>
+
+            {/* 이용약관1 */}
             <CheckboxWrapper>
-                <Checkbox onClick={() => handleAgree('essential1')} $valid={agreement.essential1}/>
+                <CheckboxInnerWrapper>
+                    <Checkbox onClick={() => handleAgree('essential1')} $valid={agreement.essential1} />
+                </CheckboxInnerWrapper>
+                <CheckboxTextWrapper>
+                    (<span>필수) 서비스 이용 약관</span>
+                    <AgreementDetails onClick={() => handleAgreementDetails('1')}>보기</AgreementDetails>
+                </CheckboxTextWrapper>
             </CheckboxWrapper>
-            (필수)
+            {/* 이용약관2 */}
             <CheckboxWrapper>
-                <Checkbox onClick={() => handleAgree('essential2')} $valid={agreement.essential2}/>
+                <CheckboxInnerWrapper>
+                    <Checkbox onClick={() => handleAgree('essential2')} $valid={agreement.essential2} />
+                </CheckboxInnerWrapper>
+                <CheckboxTextWrapper>
+                    <span>(필수) 개인정보 수집·이용 동의서</span>
+                    <AgreementDetails onClick={() => handleAgreementDetails('2')}>보기</AgreementDetails>
+                </CheckboxTextWrapper>
             </CheckboxWrapper>
-            (필수)
+
+
+            {/* 동의하고 넘어가는 버튼 */}
             <Button onClick={handleClick} $valid={isAllAgreed}>동의하기</Button>
         </AgreementWrapper>
     )
@@ -66,8 +97,21 @@ const AgreementWrapper = styled.div`
 `
 
 const Title = styled.span`
-    font-size: 25px;
+    width: 75vw;
+    min-width: calc(230px -5vw);
+    max-width: calc(480px - 5vw);
+    margin: 11vh 0 3vh 0;
     top: 100px;
+`
+
+const TitleText = styled.div`
+    margin: 1vh 0;
+    font-size: 25px;
+`
+
+const DescriptionText = styled.div`
+    font-size: 13px;
+    color: #464646;
 `
 
 const AgreeAllButton = styled.div`
@@ -82,11 +126,23 @@ const AgreeAllButton = styled.div`
     border-radius: 20px;
     border-color: #000000;
     background-color: #FAA8B1;
+    justify-content: center;
     cursor: pointer;
     z-index: 100;
 `
 
 const CheckboxWrapper = styled.div`
+    display: flex;
+    width: 75vw;
+    min-width: 200px;
+    max-width: 460px;
+    height: auto;
+    margin: 2vh 0;
+    font-size: 14px;
+    align-items: center;
+`
+
+const CheckboxInnerWrapper = styled.div`
     width: 21px;
     height: 21px;
     border: solid;
@@ -94,19 +150,31 @@ const CheckboxWrapper = styled.div`
     border-radius: 5px;
     border-color: #000000; 
     background-color: #FFFFFF;
-    margin: 0 1vw 0 3vw;
-    z-index: 1;
+    margin-right: 1vw;
 `
 
 const Checkbox = styled.div`
-    width: 17;
-    height: 17px;
-    border-radius: 5px;
+    width: 15;
+    height: 15px;
+    border-radius: 2px;
     background-color: ${props => props.$valid ? "black" : "white"};
-    margin: 2px;
+    margin: 3px;
     z-index: 1;
 `
 
-const ButtonText = styled.span`
+const MainButtonText = styled.span`
     font-size: 17px;
+`
+const CheckboxTextWrapper = styled.div`
+    display: inline-block;
+    width: 100%;
+    color: #464646;
+    @media screen and (max-width: 360px) {
+        font-size: 10px;
+    }
+`
+
+const AgreementDetails = styled.div`
+    text-decoration: underline;
+    float: right;
 `

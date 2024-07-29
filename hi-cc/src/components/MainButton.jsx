@@ -21,6 +21,7 @@ const ButtonWrapper = styled.div`
     align-items: center;
     width: fit-content;
     cursor: ${props => props.$valid === "true" ? "pointer" : "default"};
+    z-index: 0;
 `
 
 const ButtonImg = styled.img`
@@ -28,6 +29,10 @@ const ButtonImg = styled.img`
     justify-content: center;
     align-items: center;
     bottom: 43px;
+    @media screen and (max-width: 360px) {
+        width: 200px;
+        height: auto;
+    }
 `
 
 const ButtonText = styled.span`
@@ -35,4 +40,8 @@ const ButtonText = styled.span`
     font-size: 30px;
     color: url(${props => props.$valid === "true" ? "#000000" : "#FFFFFF"});
     bottom: 59px;
+    @media screen and (max-width: 360px) {
+        font-size: 23px;
+        bottom: 53px;
+    }
 `
