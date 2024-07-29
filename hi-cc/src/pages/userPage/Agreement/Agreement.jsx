@@ -1,5 +1,5 @@
-import { useState } from "react";
-import { useNavigate } from "react-router-dom";
+import { useState, useEffect } from "react";
+import { useNavigate, useLocation } from "react-router-dom";
 import styled from "styled-components";
 
 import Button from "../../../components/MainButton";
@@ -10,6 +10,17 @@ export default function Agreement() {
         essential1: false,
         essential2: false
     });
+
+    {/* 이용약관1, 2 값 받아오기 */}
+    const location = useLocation();
+    useEffect(() => {
+        if (location.state) {
+            setAgreement(prevState => ({
+                ...prevState,
+                ...location.state
+            }));
+        }
+    }, [location.state])
 
     let isAllAgreed = Object.values(agreement).every(value => value);
 
@@ -29,7 +40,7 @@ export default function Agreement() {
     }
 
     function handleAgreementDetails(path) {
-        navigate(`${path}`)
+        navigate(`${path}`, { state: { ...agreement } });
     }
 
     function handleClick() {

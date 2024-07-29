@@ -1,12 +1,13 @@
 import styled from "styled-components"
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useLocation } from "react-router-dom";
 
 import Button from "../../../components/MainButton";
 
 export default function Agreement2() {
     const navigate = useNavigate();
-    function handleClick() {
-        navigate('/agreement');
+    const location = useLocation();
+    function handleClick(agree) {
+        navigate('/agreement', { state: { ...location.state, essential2: agree} });
     }
 
     return (
@@ -32,8 +33,6 @@ export default function Agreement2() {
                 <DetailsInnerWrapper>
                     <DetailsText>Lorem ipsum, dolor sit amet consectetur adipisicing elit. Enim modi in
                         exercitationem explicabo, at rem officia autem non porro soluta dolorum
-
-
                         officiis ipsa repellat, laudantium ea unde labore, temporibus quas? Lorem
                         ipsum dolor sit amet, consectetur adipisicing elit. Eveniet eius totam
                         quam pariatur ratione, in voluptatem dignissimos laboriosam sint aut!
@@ -62,8 +61,8 @@ export default function Agreement2() {
             </AdditionalText>
 
             {/* 동의하기 버튼 */}
-            <Button onClick={handleClick} $valid={true}>동의하기</Button>
-            <DisagreeButton onClick={handleClick}>동의하지 않습니다.</DisagreeButton>
+            <Button onClick={() => handleClick(true)} $valid={true}>동의하기</Button>
+            <DisagreeButton onClick={() => handleClick(false)}>동의하지 않습니다.</DisagreeButton>
         </AgreementWrapper>
     )
 };
