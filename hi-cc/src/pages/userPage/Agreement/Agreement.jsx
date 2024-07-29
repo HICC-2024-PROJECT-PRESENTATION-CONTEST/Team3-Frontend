@@ -59,8 +59,8 @@ export default function Agreement() {
             </AgreeAllButton>
             {/* 이용약관1 */}
             <CheckboxWrapper>
-                <CheckboxInnerWrapper>
-                    <Checkbox onClick={() => handleAgree('essential1')} $valid={agreement.essential1} />
+                <CheckboxInnerWrapper onClick={() => handleAgree('essential1')}>
+                    <Checkbox $valid={agreement.essential1} />
                 </CheckboxInnerWrapper>
                 <CheckboxTextWrapper>
                     <span>(필수) 서비스 이용 약관</span>
@@ -69,8 +69,8 @@ export default function Agreement() {
             </CheckboxWrapper>
             {/* 이용약관2 */}
             <CheckboxWrapper>
-                <CheckboxInnerWrapper>
-                    <Checkbox onClick={() => handleAgree('essential2')} $valid={agreement.essential2} />
+                <CheckboxInnerWrapper onClick={() => handleAgree('essential2')}>
+                    <Checkbox $valid={agreement.essential2} />
                 </CheckboxInnerWrapper>
                 <CheckboxTextWrapper>
                     <span>(필수) 개인정보 수집·이용 동의서</span>
@@ -139,6 +139,7 @@ const CheckboxWrapper = styled.div`
     margin: 2vh 0;
     font-size: 14px;
     align-items: center;
+    cursor: pointer;
 `
 
 const CheckboxInnerWrapper = styled.div`
