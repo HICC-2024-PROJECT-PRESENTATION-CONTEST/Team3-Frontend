@@ -21,7 +21,7 @@ const ButtonWrapper = styled.div`
     align-items: center;
     width: fit-content;
     cursor: ${props => props.$valid === "true" ? "pointer" : "default"};
-    z-index: 0;
+    z-index: 100000;
 `
 
 const ButtonImg = styled.img`
