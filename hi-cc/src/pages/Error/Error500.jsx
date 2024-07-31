@@ -20,5 +20,5 @@ const ServerErrorWrapper = styled.div`
     height: 100vh;
     justify-content: center;
     align-items: center;
-    background: #F9DBDD;
+    background: url('/src/assets/ErrorBackground.png') no-repeat center/cover;
 `
