@@ -21,11 +21,11 @@ const ButtonWrapper = styled.div`
     align-items: center;
     width: fit-content;
     cursor: ${props => props.$valid === "true" ? "pointer" : "default"};
-    z-index: 0;
+    z-index: 100000;
 `
 
 const ButtonImg = styled.img`
-    position: absolute;
+    position: fixed;
     justify-content: center;
     align-items: center;
     bottom: 43px;
@@ -36,7 +36,7 @@ const ButtonImg = styled.img`
 `
 
 const ButtonText = styled.span`
-    position: absolute;
+    position: fixed;
     font-size: 30px;
     color: url(${props => props.$valid === "true" ? "#000000" : "#FFFFFF"});
     bottom: 59px;
