@@ -15,6 +15,7 @@ import Message from './pages/userPage/Message/Message';
 import MyPage from './pages/userPage/MyPage/MyPage';
 import Login from './pages/userPage/Login/Login';
 import Error404 from './pages/Error/Error404';
+import Error500 from './pages/Error/Error500';
 
 function App() {
 
@@ -34,6 +35,7 @@ function App() {
         <Route path="/message" element={<Message />} />
         <Route path="/mypage" element={<MyPage />} />
         <Route path="*" element={<Error404 />} />
+        <Route path="/500" element={<Error500 />} />
       </Routes>
     </BrowserRouter>
   )
