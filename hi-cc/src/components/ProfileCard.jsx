@@ -25,11 +25,11 @@ export default function ProfileCard(props, {children}) {
       }, []);
 
     return(
-        <ProfileCardWrapper>
-            <Top />
+        <ProfileCardWrapper onClick={props.onClick}>
+            <Top $selected={props.$selected}/>
             <Icon1 />
             <Icon2 />
-            <WriteHere ref={CardRef}>
+            <WriteHere ref={CardRef} $selected={props.$selected}>
                 <Image src={props.src}></Image>
                 <br/>
                 이름: <br />
@@ -48,6 +48,7 @@ const ProfileCardWrapper = styled.div`
     position: relative;
     width: calc(40vw + 10px);
     height: 80px;
+    cursor: pointer;
 `
 
 const Top = styled.div`
@@ -59,7 +60,7 @@ const Top = styled.div`
     top: 0px;
     left: 0px;
 
-    background: #FAA8B1;
+    background: ${props => props.$selected? "#F94364" : "#FAA8B1"};
     border: 3px solid #000000;
     border-radius: 20px 20px 0px 0px;
     z-index: 150;
@@ -77,7 +78,7 @@ const WriteHere = styled.div`
     font-size: 12px;
     line-height: 30px;
 
-    background: #FFFFFF;
+    background: ${props => props.$selected? "#FAA8B1" : "#FFFFFF"};
     border: 3px solid #000000;
     border-radius: 20px;
     z-index: 100;
