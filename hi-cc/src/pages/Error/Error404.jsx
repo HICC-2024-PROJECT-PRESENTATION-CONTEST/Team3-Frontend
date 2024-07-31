@@ -9,7 +9,7 @@ export default function Error404() {
     function handleClick() {
         navigate(-1);
     }
-    
+
     return (
         <NotFoundWrapper>
             <ErrorModal title="404" subtitle="Not Found">
@@ -29,5 +29,5 @@ const NotFoundWrapper = styled.div`
     height: 100vh;
     justify-content: center;
     align-items: center;
-    background: url('/src/assets/ErrorBackground.png') no-repeat center/cover;
+    background: url('/src/assets/ErrorBackground.png') center;
 `
