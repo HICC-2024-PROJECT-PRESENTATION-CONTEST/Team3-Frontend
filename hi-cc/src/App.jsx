@@ -14,7 +14,7 @@ import Recommends from './pages/userPage/Recommends/Recommends';
 import Message from './pages/userPage/Message/Message';
 import MyPage from './pages/userPage/MyPage/MyPage';
 import Login from './pages/userPage/Login/Login';
-import Error from './pages/Error/Error';
+import NotFound from './pages/Error/NotFound';
 
 function App() {
 
@@ -33,7 +33,7 @@ function App() {
         <Route path="/recommends" element={<Recommends />} />
         <Route path="/message" element={<Message />} />
         <Route path="/mypage" element={<MyPage />} />
-        <Route path="*" element={<Error />} />
+        <Route path="*" element={<NotFound />} />
       </Routes>
     </BrowserRouter>
   )
