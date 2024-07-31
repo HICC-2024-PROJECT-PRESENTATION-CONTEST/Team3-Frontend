@@ -2,11 +2,11 @@ import styled from "styled-components";
 
 import ErrorModal from "../../components/ErrorModal";
 
-export default function NotFound() {
-    return(
+export default function Error404() {
+    return (
         <NotFoundWrapper>
             <ErrorModal title="404" subtitle="Not Found">
-                페이지를 찾을 수 없습니다.<br/>
+                페이지를 찾을 수 없습니다.<br />
                 입력하신 주소가 정확한지 다시 한 번 확인해주세요.
             </ErrorModal>
         </NotFoundWrapper>
