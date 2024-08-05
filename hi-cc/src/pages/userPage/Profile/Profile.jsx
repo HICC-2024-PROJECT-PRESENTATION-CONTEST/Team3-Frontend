@@ -16,7 +16,7 @@ export default function Profile() {
         genderRef: useRef(null),
         birthyearRef: useRef(null),
         heightRef: useRef(null),
-        takeAfterRef: useRef(null),
+        looklikeRef: useRef(null),
         smokingRef: useRef(null),
     }
 
@@ -33,7 +33,7 @@ export default function Profile() {
         ageDifferenceUp: 0,
         height: '',
         MBTI: '',
-        takeAfter: '',
+        looklike: '',
         smoking: null,
     });
 
@@ -46,7 +46,7 @@ export default function Profile() {
         gender: false,
         birthyear: false,
         height: false,
-        takeAfter: false,
+        looklike: false,
         smoking: false,
     });
 
@@ -160,7 +160,7 @@ export default function Profile() {
                         isValid = value !== '';
                         break;
                     case 'birthyear':
-                    case 'takeAfter':
+                    case 'looklike':
                         isValid = (value !== '' && value !== 'default');
                         break;
                     case 'height':
@@ -186,22 +186,13 @@ export default function Profile() {
             ...tempWarnings,
         }));
 
-        // 업데이트된 warnings를 사용하여 유효성 검사를 수행합니다.
-        const hasWarnings = Object.values(tempWarnings).some(warning => warning);
-
-        if (hasWarnings) {
-            if (firstInvalidRef) {
-                console.log(firstInvalidRef);
-                return firstInvalidRef.current.focus();
-            }
-        } else {
-            navigate('/recommends');
+        if (firstInvalidRef) {
+            console.log(firstInvalidRef);
+            return firstInvalidRef.current.focus();
         }
-    }
 
-    useEffect(() => {
-        
-    }, [handleClick])
+        navigate('/recommends');
+    }
 
 
     return (
@@ -496,28 +487,28 @@ export default function Profile() {
                 </MBTIWrapper>
 
                 {/* 닮은꼴 입력 칸 */}
-                <TakeAfterWrapper>
+                <LooklikeWrapper>
                     <InputTitle>
                         닮은꼴
                         <EssentialMark>*</EssentialMark>
                     </InputTitle>
                     <SelectInput
-                        name="takeAfter"
+                        name="looklike"
                         onChange={handleChange}
-                        value={inputs.takeAfter || "default"}
-                        ref={refs.takeAfterRef}
-                        $valid={!warnings.takeAfter}
+                        value={inputs.looklike || "default"}
+                        ref={refs.looklikeRef}
+                        $valid={!warnings.looklike}
                     >
                         <option value="default" hidden>본인의 닮은꼴을 선택해주세요.</option>
                         {['토끼상', '고양이상', '강아지상', '여우상', '곰상', '사슴상'].map(person => (
                             <Option key={person} value={person}>{person}</Option>
                         ))}
                     </SelectInput>
-                    {warnings.takeAfter &&
+                    {warnings.looklike &&
                         <WarningMessage>
                             *본인의 닮은꼴을 선택해주세요.
                         </WarningMessage>}
-                </TakeAfterWrapper>
+                </LooklikeWrapper>
 
                 {/* 흡연여부 입력 칸 */}
                 <SmokingWrapper>
@@ -695,7 +686,7 @@ const MBTIWrapper = styled.div`
     align-items: flex-start;
     width: 100%;
 `
-const TakeAfterWrapper = styled.div`
+const LooklikeWrapper = styled.div`
     position: relative;
     display: flex;
     flex-direction: column;
