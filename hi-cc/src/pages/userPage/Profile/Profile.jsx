@@ -1,5 +1,822 @@
+import { useState, useRef } from "react";
+import styled from "styled-components";
+import { useNavigate } from "react-router-dom";
+
+import Button from "../../../components/MainButton";
+
+const API_URL = import.meta.env.VITE_API_URL;
+
 export default function Profile() {
-    return(
-        <></>
+    const navigate = useNavigate();
+
+    const refs = { // focus & 유효성 체크를 위한 ref
+        nameRef: useRef(null),
+        phoneNumberFirstRef: useRef(null),
+        phoneNumberSecondRef: useRef(null),
+        passwordRef: useRef(null),
+        confirmPasswordRef: useRef(null),
+        genderRef: useRef(null),
+        birthyearRef: useRef(null),
+        heightRef: useRef(null),
+        looklikeRef: useRef(null),
+        smokingRef: useRef(null),
+    }
+
+    const [inputs, setInputs] = useState({
+        name: "",
+        phoneNumberFirst: "",
+        phoneNumberSecond: "",
+        password: "",
+        confirmPassword: "",
+        gender: "",
+        major: "",
+        birthyear: "",
+        ageDifferenceDown: 0,
+        ageDifferenceUp: 0,
+        height: "",
+        MBTI: "",
+        looklike: "",
+        smoking: "",
+    });
+
+    const [warnings, setWarnings] = useState({
+        name: false,
+        phoneNumberFirst: false,
+        phoneNumberSecond: false,
+        password: false,
+        confirmPassword: false,
+        gender: false,
+        birthyear: false,
+        height: false,
+        looklike: false,
+        smoking: false,
+    });
+
+    function handleChange(e) {
+        const { name, value } = e.target;
+        setInputs((prevInput) => {
+            return {
+                ...prevInput,
+                [name]: value
+            }
+        });
+    }
+
+    function handleSelect(e) {
+        // div 요소는 name, value 속성을 가지지 않으므로
+        const name = e.target.getAttribute('name');
+        const value = e.target.getAttribute('value');
+        setInputs((prevInput) => {
+            return {
+                ...prevInput,
+                [name]: value,
+            }
+        });
+        console.log(inputs);
+    }
+
+    function handleBlur(e) {
+        const { name, value } = e.target;
+        let isValid = false;
+
+        // 유효성 검사 로직
+        switch (name) {
+            case 'name':
+                const regex = /^[\uAC00-\uD7A3\u3040-\u30FF\u4E00-\u9FFF\u3400-\u4DBF\uF900-\uFAFF\u0020-\u007E]+$/;
+                isValid = regex.test(value) && value.trim().length >= 2;
+                break;
+            case 'phoneNumberFirst':
+            case 'phoneNumberSecond':
+                isValid = /^\d{4}$/.test(value);
+                break;
+            case 'password':
+                isValid = /^\d{4}$/.test(value);
+                break;
+            // 4자리 숫자인지 확인
+            case 'confirmPassword':
+                isValid = value === inputs.password;
+                break;
+            case 'height':
+                isValid = (value === "" || (value >= 140 && value <= 220));
+                break;
+            default:
+                break;
+        }
+
+        setWarnings((prevState) => ({
+            ...prevState,
+            [name]: !isValid
+        }));
+    }
+
+    // 나이차 +, - 버튼
+    function handleAgeDifferenceChange(name, operation) {
+        setInputs((prevInput) => {
+            let newValue = prevInput[name];
+            if (operation === '+' && newValue < 9) {
+                newValue += 1;
+            } else if (operation === '-' && newValue > 0) {
+                newValue -= 1;
+            }
+            return {
+                ...prevInput,
+                [name]: +newValue
+            }
+        });
+    }
+
+    // 등록하기 버튼
+    async function handleClick() {
+        let tempWarnings = {};
+        let firstInvalidRef = null;
+
+        // 유효성 체크
+        Object.keys(refs).forEach((key) => {
+            if (refs[key].current) {
+                let name = refs[key].current.name;
+                let value = refs[key].current.value;
+                if(name === undefined) {
+                    name = refs[key].current.getAttribute("name");
+                    value = refs[key].current.getAttribute("value");
+                }
+                let isValid = false;
+
+                switch (name) {
+                    case 'name':
+                        const regex = /^[\uAC00-\uD7A3\u3040-\u30FF\u4E00-\u9FFF\u3400-\u4DBF\uF900-\uFAFF\u0020-\u007E]+$/;
+                        isValid = regex.test(value) && value.trim().length >= 2;
+                        break;
+                    case 'phoneNumberFirst':
+                    case 'phoneNumberSecond':
+                        isValid = /^\d{4}$/.test(value);
+                        break;
+                    case 'password':
+                        isValid = /^\d{4}$/.test(value);
+                        break;
+                    case 'confirmPassword':
+                        isValid = value === inputs.password;
+                        break;
+                    case 'gender':
+                        isValid = value !== "";
+                        break;
+                    case 'birthyear':
+                    case 'looklike':
+                        isValid = (value !== "" && value !== 'default');
+                        break;
+                    case 'height':
+                        isValid = (value === "" || (value >= 140 && value <= 220));
+                        console.log(inputs);
+                        break;
+                    case 'smoking':
+                        isValid = value !== "";
+                        break;
+                    default:
+                        break;
+                }
+
+                tempWarnings[name] = !isValid;
+
+                if (!isValid && !firstInvalidRef) {
+                    firstInvalidRef = refs[key];
+                }
+            }
+        });
+
+        setWarnings((prevState) => ({
+            ...prevState,
+            ...tempWarnings,
+        }));
+
+        if (firstInvalidRef) {
+            console.log(firstInvalidRef);
+            return firstInvalidRef.current.focus();
+        }
+
+        const data = {
+            name: inputs.name,
+            phone: "010" + inputs.phoneNumberFirst + inputs.phoneNumberSecond,
+            gender: inputs.gender,
+            birthyear: parseInt(inputs.birthyear, 10), // 10진수
+            birthyear_offset: {
+                plus: parseInt(inputs.ageDifferenceUp, 10),
+                minus: parseInt(inputs.ageDifferenceDown, 10),
+            },
+            height: parseInt(inputs.height, 10),
+            major: inputs.major,
+            mbti: inputs.MBTI,
+            looklike: inputs.looklike,
+            smoking: inputs.smoking === "true" ? true : false,
+        };
+
+        try {
+            const response = await fetch(`${API_URL}/profiles`, {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify(data),
+            });
+
+            if (response.ok) {
+                navigate('/recommends');
+            } else {
+                alert('서버 응답에 문제가 있습니다.');
+            }
+        } catch (error) {
+            console.error('Error:', error);
+        }
+    };
+
+
+    return (
+        <ProfileWrapper>
+            {/* 프로필 등록 페이지 소개 */}
+            <Title>
+                <TitleText>
+                    내 정보 등록
+                </TitleText>
+                <DescriptionText>
+                    *이 표시된 칸은 필수 입력칸입니다.
+                </DescriptionText>
+            </Title>
+
+            {/* 프로필 입력 칸 */}
+            <InputWrapper>
+                {/* 이름 입력 칸 */}
+                <NameWrapper>
+                    <InputTitle>성명
+                        <EssentialMark>*</EssentialMark></InputTitle>
+                    <TextInput
+                        type="text"
+                        name="name"
+                        placeholder="이름은 상대 선택 화면에서 '홍*동'과 같이 표시됩니다."
+                        onChange={handleChange}
+                        onBlur={handleBlur}
+                        value={inputs.name}
+                        ref={refs.nameRef}
+                        $valid={!warnings.name}
+                    />
+                    {warnings.name && (
+                        <WarningMessage>
+                            *2글자 ~ 30글자의 한글/영어/중국어/일본어 이름만 등록 가능합니다.
+                        </WarningMessage>
+                    )}
+                </NameWrapper>
+
+                {/* 전화번호 입력 칸 */}
+                <PhoneNumberWrapper>
+                    <InputTitle>
+                        휴대폰 번호
+                        <EssentialMark>*</EssentialMark>
+                    </InputTitle>
+                    <PhoneNumberInnerWrapper>
+                        <PhoneNumberInput>010</PhoneNumberInput> -
+                        <PhoneNumberInput>
+                            <TextInput
+                                name="phoneNumberFirst"
+                                type="number"
+                                min="0"
+                                max="9999"
+                                onChange={handleChange}
+                                onBlur={handleBlur}
+                                value={inputs.phoneNumberFirst}
+                                ref={refs.phoneNumberFirstRef}
+                                $valid={!warnings.phoneNumberFirst}
+                                onKeyDown={(e) => ["e", "E", "+", "-"].includes(e.key) && e.preventDefault()} // e, E, +, - 입력 막기
+                            />
+                        </PhoneNumberInput> -
+                        <PhoneNumberInput>
+                            <TextInput
+                                name="phoneNumberSecond"
+                                type="number"
+                                min="0"
+                                max="9999"
+                                onChange={handleChange}
+                                onBlur={handleBlur}
+                                value={inputs.phoneNumberSecond}
+                                ref={refs.phoneNumberSecondRef}
+                                $valid={!warnings.phoneNumberSecond}
+                                onKeyDown={(e) => ["e", "E", "+", "-"].includes(e.key) && e.preventDefault()} // e, E, +, - 입력 막기
+                            />
+                        </PhoneNumberInput>
+                    </PhoneNumberInnerWrapper>
+                    {(warnings.phoneNumberFirst || warnings.phoneNumberSecond) && (
+                        <WarningMessage>
+                            *올바른 전화번호를 입력해주세요.
+                        </WarningMessage>
+                    )}
+                </PhoneNumberWrapper>
+
+                {/* 비밀번호 입력 칸 */}
+                <PasswordWrapper>
+                    <InputTitle>
+                        비밀번호
+                        <EssentialMark>*</EssentialMark>
+                    </InputTitle>
+                    <TextInput
+                        type="password"
+                        name="password"
+                        onChange={handleChange}
+                        onBlur={handleBlur}
+                        value={inputs.password}
+                        placeholder="비밀번호는 4자리 숫자로 입력해주세요."
+                        autoComplete="off"
+                        ref={refs.passwordRef}
+                        $valid={!warnings.password}
+                    />
+                    {warnings.password && (
+                        <WarningMessage>
+                            *비밀번호는 4자리 숫자로 입력해주세요.
+                        </WarningMessage>
+                    )}
+                </PasswordWrapper>
+
+                {/* 비밀번호 확인 입력 칸 */}
+                <PasswordWrapper>
+                    <InputTitle>
+                        비밀번호 확인
+                        <EssentialMark>*</EssentialMark>
+                    </InputTitle>
+                    <TextInput
+                        type="password"
+                        name="confirmPassword"
+                        onChange={handleChange}
+                        onBlur={handleBlur}
+                        value={inputs.confirmPassword}
+                        placeholder="비밀번호를 다시 입력해주세요."
+                        autoComplete="off"
+                        ref={refs.confirmPasswordRef}
+                        $valid={!warnings.confirmPassword}
+                    />
+                    {warnings.confirmPassword && (
+                        <WarningMessage>
+                            *비밀번호가 일치하지 않습니다.
+                        </WarningMessage>
+                    )}
+                </PasswordWrapper>
+
+                {/* 성별 입력 칸 */}
+                <GenderWrapper>
+                    <InputTitle>
+                        성별
+                        <EssentialMark>*</EssentialMark>
+                    </InputTitle>
+                    <CheckboxWrapper name="gender" ref={refs.genderRef} value={inputs.gender} tabIndex={0}>
+                        {/* div에 focus하려면 tabIndex를 붙여야함 */}
+                        <Checkbox
+                            name="gender"
+                            onClick={handleSelect}
+                            value="M"
+                            $selected={inputs.gender === "M"}
+                        >
+                            남
+                        </Checkbox>
+                        <Checkbox
+                            name="gender"
+                            onClick={handleSelect}
+                            value="F"
+                            $selected={inputs.gender === "F"}
+                        >
+                            여
+                        </Checkbox>
+                    </CheckboxWrapper>
+                    {warnings.gender &&
+                        <WarningMessage>
+                            *성별을 선택해주세요.
+                        </WarningMessage>
+                    }
+                </GenderWrapper>
+
+                {/* 학과 입력 칸 */}
+                <MajorWrapper>
+                    <InputTitle>학과</InputTitle>
+                    <TextInput
+                        name="major"
+                        onChange={handleChange}
+                        value={inputs.major}
+                        placeholder="학과를 입력해주세요."
+                        $valid="true"
+                    />
+                </MajorWrapper>
+
+                {/* 생년 입력 칸 */}
+                <BirthyearWrapper>
+                    <InputTitle>
+                        생년
+                        <EssentialMark>*</EssentialMark>
+                    </InputTitle>
+                    <SelectInput
+                        name="birthyear"
+                        onChange={handleChange}
+                        value={inputs.birthyear || "default"}
+                        ref={refs.birthyearRef}
+                        $valid={!warnings.birthyear}
+                    >
+                        <option value="default" hidden>YYYY</option>
+                        {Array.from({ length: 17 }, (_, i) => 1990 + i).map(year => (
+                            <Option key={year} value={year}>{year}</Option>
+                        ))}
+                    </SelectInput>
+                    {warnings.birthyear &&
+                        <WarningMessage>
+                            *태어난 해를 선택해주세요.
+                        </WarningMessage>}
+                </BirthyearWrapper>
+
+                {/* 나이차 입력 칸 */}
+                <AgeDifferenceWrapper>
+                    <InputTitle>
+                        상대방 나이차
+                        <EssentialMark>*</EssentialMark>
+                    </InputTitle>
+                    <AgeDifferenceInnerWrapper>
+                        위로
+                        <AgeDifferenceInputWrapper>
+                            <CountButton
+                                type="button"
+                                name="ageDifferenceUp"
+                                onClick={() => handleAgeDifferenceChange('ageDifferenceUp', '-')}
+                                value={inputs.ageDifferenceUp}
+                                $valid={inputs.ageDifferenceUp > 0}
+                            >
+                                -
+                            </CountButton>
+                            {inputs.ageDifferenceUp}
+                            <CountButton
+                                type="button"
+                                name="ageDifferenceUp"
+                                onClick={() => handleAgeDifferenceChange('ageDifferenceUp', '+')}
+                                value={inputs.ageDifferenceUp}
+                                $valid={inputs.ageDifferenceUp < 9}
+                            >
+                                +
+                            </CountButton>
+                        </AgeDifferenceInputWrapper>
+                        아래로
+                        <AgeDifferenceInputWrapper>
+                            <CountButton
+                                type="button"
+                                name="ageDifferenceDown"
+                                onClick={() => handleAgeDifferenceChange('ageDifferenceDown', '-')}
+                                value={inputs.ageDifferenceDown}
+                                $valid={inputs.ageDifferenceDown > 0}
+                            >
+                                -
+                            </CountButton>
+                            {inputs.ageDifferenceDown}
+                            <CountButton
+                                type="button"
+                                name="ageDifferenceDown"
+                                onClick={() => handleAgeDifferenceChange('ageDifferenceDown', '+')}
+                                value={inputs.ageDifferenceDown}
+                                $valid={inputs.ageDifferenceDown < 9}
+                            >
+                                +
+                            </CountButton>
+                        </AgeDifferenceInputWrapper>
+                    </AgeDifferenceInnerWrapper>
+                </AgeDifferenceWrapper>
+
+                {/* 키 입력 칸 */}
+                <HeightWrapper>
+                    <InputTitle>
+                        키
+                    </InputTitle>
+                    <TextInput
+                        type="number"
+                        name="height"
+                        onChange={handleChange}
+                        onBlur={handleBlur}
+                        ref={refs.heightRef}
+                        value={inputs.height}
+                        placeholder="키를 입력해주세요."
+                        $valid={!warnings.height}
+                        min="140"
+                        max="220"
+                        onKeyDown={(e) => ["e", "E", "+", "-"].includes(e.key) && e.preventDefault()} // e, E, +, - 입력 막기
+                    />
+                    {warnings.height &&
+                        <WarningMessage>
+                            *올바른 키를 입력해주세요.
+                        </WarningMessage>}
+                </HeightWrapper>
+
+                {/* MBTI 입력 칸 */}
+                <MBTIWrapper>
+                    <InputTitle>
+                        MBTI
+                    </InputTitle>
+                    <SelectInput
+                        name="MBTI"
+                        onChange={handleChange}
+                        value={inputs.MBTI || "default"}
+                        $valid={true}
+                    >
+                        <option value="default" hidden>MBTI를 선택해주세요.</option>
+                        {['ISTJ', 'ISFJ', 'INFJ', 'INTJ', 'ISTP', 'ISFP', 'INFP', 'INTP', 'ESTP', 'ESFP', 'ENFP', 'ENTP', 'ESTJ', 'ESFJ', 'ENFJ', 'ENTJ'].map(type => (
+                            <Option key={type} value={type}>{type}</Option>
+                        ))}
+                    </SelectInput>
+                </MBTIWrapper>
+
+                {/* 닮은꼴 입력 칸 */}
+                <LooklikeWrapper>
+                    <InputTitle>
+                        닮은꼴
+                        <EssentialMark>*</EssentialMark>
+                    </InputTitle>
+                    <SelectInput
+                        name="looklike"
+                        onChange={handleChange}
+                        value={inputs.looklike || "default"}
+                        ref={refs.looklikeRef}
+                        $valid={!warnings.looklike}
+                    >
+                        <option value="default" hidden>본인의 닮은꼴을 선택해주세요.</option>
+                        {['토끼상', '고양이상', '강아지상', '여우상', '곰상', '사슴상'].map(person => (
+                            <Option key={person} value={person}>{person}</Option>
+                        ))}
+                    </SelectInput>
+                    {warnings.looklike &&
+                        <WarningMessage>
+                            *본인의 닮은꼴을 선택해주세요.
+                        </WarningMessage>}
+                </LooklikeWrapper>
+
+                {/* 흡연여부 입력 칸 */}
+                <SmokingWrapper>
+                    <InputTitle>
+                        흡연여부
+                        <EssentialMark>*</EssentialMark>
+                    </InputTitle>
+                    <CheckboxWrapper
+                        name="smoking"
+                        value={inputs.smoking}
+                        ref={refs.smokingRef}
+                        tabIndex={0}
+                    >
+                        <Checkbox
+                            name="smoking"
+                            onClick={handleSelect}
+                            value="true"
+                            $selected={inputs.smoking === "true"}
+                        >
+                            예
+                        </Checkbox>
+                        <Checkbox
+                            name="smoking"
+                            onClick={handleSelect}
+                            value="false"
+                            $selected={inputs.smoking === "false"}
+                        >
+                            아니오
+                        </Checkbox>
+                    </CheckboxWrapper>
+                    {warnings.smoking &&
+                        <WarningMessage>
+                            *흡연 여부를 선택해주세요.
+                        </WarningMessage>}
+                </SmokingWrapper>
+            </InputWrapper>
+
+            {/* 등록하기 버튼 */}
+            {/* 비밀번호 0000일 경우 고려하기!! */}
+            <Button onClick={handleClick} $valid={true}>등록하기</Button>
+        </ProfileWrapper>
     )
 };
+
+const ProfileWrapper = styled.div`
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    width: 100vw;
+    align-items: center;
+    background: #F9DBDD;
+`
+
+const Title = styled.span`
+    width: 75vw;
+    min-width: calc(230px - 5vw);
+    max-width: calc(480px - 5vw);
+    margin: 11vh 0 3vh 0;
+    top: 100px;
+`
+
+const TitleText = styled.div`
+    margin: 1px 0;
+    font-size: 25px;
+`
+
+const DescriptionText = styled.pre`
+    font-size: 13px;
+`
+
+const InputWrapper = styled.form`
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    width: 75vw;
+    min-width: calc(230px - 5vw);
+    max-width: calc(480px - 5vw);
+    
+    color: #000000;
+`
+
+const NameWrapper = styled.div`
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    width: 100%;
+    padding: 10px 0;
+`
+const PhoneNumberWrapper = styled.div`
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    text-align: center;
+    width: 100%;
+`
+
+const PhoneNumberInnerWrapper = styled.div`
+    display: flex;
+    align-items: center;
+    text-align: center;
+    width: 100%;
+`
+
+const PhoneNumberInput = styled.div`
+    width: 30%;
+    padding: 0 5px;
+    margin: 0 4%;
+`
+
+const PasswordWrapper = styled.div`
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    width: 100%;
+`
+
+const GenderWrapper = styled.div`
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    width: 100%;
+`
+const MajorWrapper = styled.div`
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    width: 100%;
+`
+const BirthyearWrapper = styled.div`
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    width: 100%;
+`
+const AgeDifferenceWrapper = styled.div`
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    width: 100%;
+`
+const AgeDifferenceInnerWrapper = styled.div`
+    position: relative;
+    display: flex;
+    align-items: center;
+    width: 100%;
+`
+const AgeDifferenceInputWrapper = styled.div`
+    position: relative;
+    flex-direction: row;
+    display: flex;
+    align-items: center;
+    margin: 0 10px;
+    width: 110px;
+`
+
+const HeightWrapper = styled.div`
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    width: 100%;
+`
+const MBTIWrapper = styled.div`
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    width: 100%;
+`
+const LooklikeWrapper = styled.div`
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    width: 100%;
+`
+
+const SmokingWrapper = styled.div`
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    width: 100%;
+`
+
+const InputTitle = styled.div`
+    font-size: 15px;
+    padding: 25px 0 10px 0;
+`
+
+const EssentialMark = styled.span`
+    font-size: 15px;
+    color: #F94364;
+`
+
+const TextInput = styled.input`
+    width: calc(100% - 10px);
+    padding: 5px 5px;
+    font-size: 13px;
+    
+    border-color: ${(props) => props.$valid ? "#000000" : "#F94364"};
+    border-width: 2px;
+    border-radius: 5px;
+    
+    &::placeholder {
+        color: #979797;
+        font-size: 13px;
+    }
+
+    // type이 number일 경우 화살표 제거
+    &::-webkit-outer-spin-button {
+        -webkit-appearance: none;
+        margin: 0;
+    }
+    &::-webkit-inner-spin-button {
+        -webkit-appearance: none;
+        margin: 0;
+    }
+`
+
+const SelectInput = styled.select`
+    width: 100%;
+    padding: 5px;
+
+    border-color: ${(props) => props.$valid ? "#000000" : "#F94364"};
+    border-width: 2px;
+    border-radius: 5px;
+    margin-top: 5px;
+
+    color: ${(props) => props.value === "default" ? "#979797" : "#000000"};
+    font-size: 13px;
+`
+
+const Option = styled.option`
+    color: #000000;
+    font-size: 13px;
+`
+
+const WarningMessage = styled.div`
+    font-size: 11px;
+    color: #F94364;
+    padding-top: 5px;
+`
+const CheckboxWrapper = styled.div`
+    display: flex;
+    align-items: flex-start;
+`
+
+const Checkbox = styled.div`
+    border: solid 2px;
+    border-radius: 5px;
+    margin-right: 10px;
+    padding: 3px 15px;
+
+    background-color: ${(props) => props.$selected ? "#FAA8B1" : "#FFFFFF"};
+`
+
+const CountButton = styled.button`
+    width: 27px;
+    height: 27px;
+    border: solid 2px;
+    border-radius: 5px;
+    margin: 0 10px;
+
+    background-color: ${(props) => props.$valid ? "#FAA8B1" : "#D9D9D9"};
+`
+
+const StyledButton = styled(Button)`
+    
+`

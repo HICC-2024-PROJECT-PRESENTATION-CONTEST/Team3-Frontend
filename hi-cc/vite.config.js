@@ -5,4 +5,16 @@ import svgr from "vite-plugin-svgr"
 // https://vitejs.dev/config/
 export default defineConfig({
   plugins: [react(), svgr()],
+  server: {
+    host: 'local.hc.ccc.vg',
+    port: 3000,
+    // proxy: {
+    //   '/api': {
+    //     target: "http://api.hc.ccc.vg",
+    //     changeOrigin: true,
+    //     rewrite: (path) => path.replace(/^\/api/, ''),
+    //   },
+    // },
+  },
+
 })
