@@ -1,4 +1,4 @@
-import { useState, useRef } from "react";
+import { useState, useRef, useEffect } from "react";
 import styled from "styled-components";
 import { useNavigate } from "react-router-dom";
 
@@ -7,54 +7,56 @@ import Button from "../../../components/MainButton";
 export default function Profile() {
     const navigate = useNavigate();
 
-    const userNameRef = useRef(); // focus 기능을 위한 ref
-    const phoneNumberFirstRef = useRef();
-    const phoneNumberSecondRef = useRef();
-    const passwordRef = useRef();
-    const confirmPasswordRef = useRef();
-    const genderRef = useRef();
-    const birthYearRef = useRef();
-    const takeAfterRef = useRef();
-    const smokingRef = useRef();
+    const refs = { // focus & 유효성 체크를 위한 ref
+        nameRef: useRef(null),
+        phoneNumberFirstRef: useRef(null),
+        phoneNumberSecondRef: useRef(null),
+        passwordRef: useRef(null),
+        confirmPasswordRef: useRef(null),
+        genderRef: useRef(null),
+        birthyearRef: useRef(null),
+        heightRef: useRef(null),
+        takeAfterRef: useRef(null),
+        smokingRef: useRef(null),
+    }
 
     const [inputs, setInputs] = useState({
-        userName: '',
+        name: '',
         phoneNumberFirst: '',
         phoneNumberSecond: '',
         password: '',
         confirmPassword: '',
         gender: '',
         major: '',
-        birthYear: '',
+        birthyear: '',
         ageDifferenceDown: 0,
         ageDifferenceUp: 0,
         height: '',
         MBTI: '',
         takeAfter: '',
-        smoking: '',
+        smoking: null,
     });
 
     const [warnings, setWarnings] = useState({
-        userName: false,
+        name: false,
         phoneNumberFirst: false,
         phoneNumberSecond: false,
         password: false,
         confirmPassword: false,
         gender: false,
-        birthYear: false,
+        birthyear: false,
+        height: false,
         takeAfter: false,
         smoking: false,
     });
 
-    const { userName, phoneNumberFirst, phoneNumberSecond, password, confirmPassword, gender, major, birthYear, ageDifferenceDown, ageDifferenceUp, height, MBTI, takeAfter, smoking } = inputs;
-
     function handleChange(e) {
         const { name, value } = e.target;
         setInputs((prevInput) => {
-                return {
-                    ...prevInput,
-                    [name]: value
-                }
+            return {
+                ...prevInput,
+                [name]: value
+            }
         });
         console.log(inputs);
     }
@@ -66,7 +68,7 @@ export default function Profile() {
         setInputs((prevInput) => {
             return {
                 ...prevInput,
-                [name]: value
+                [name]: value,
             }
         });
         console.log(inputs);
@@ -78,7 +80,7 @@ export default function Profile() {
 
         // 유효성 검사 로직
         switch (name) {
-            case 'userName':
+            case 'name':
                 const regex = /^[\uAC00-\uD7A3\u3040-\u30FF\u4E00-\u9FFF\u3400-\u4DBF\uF900-\uFAFF\u0020-\u007E]+$/;
                 isValid = regex.test(value) && value.trim().length >= 2;
                 break;
@@ -88,16 +90,13 @@ export default function Profile() {
                 break;
             case 'password':
                 isValid = /^\d{4}$/.test(value);
-                // 4자리 숫자인지 확인
                 break;
+            // 4자리 숫자인지 확인
             case 'confirmPassword':
                 isValid = value === inputs.password;
                 break;
-            case 'gender':
-            case 'birthYear':
-            case 'takeAfter':
-            case 'smoking':
-                isValid = value !== '';
+            case 'height':
+                isValid = (value === "" || (value >= 140 && value <= 220));
                 break;
             default:
                 break;
@@ -127,32 +126,82 @@ export default function Profile() {
 
     // 등록하기 버튼
     function handleClick() {
-        if (warnings.userName) {
-            return userNameRef.current.focus();
-        }
+        let tempWarnings = {};
+        let firstInvalidRef = null;
 
-        if (warnings.phoneNumberFirst) {
-            return phoneNumberFirst.current.focus();
-        }
+        // 유효성 체크
+        Object.keys(refs).forEach((key) => {
+            if (refs[key].current) {
+                let name = refs[key].current.name;
+                let value = refs[key].current.value;
+                if(name === undefined) {
+                    name = refs[key].current.getAttribute("name");
+                    value = refs[key].current.getAttribute("value");
+                }
+                let isValid = false;
+                console.log(name);
 
-        if (warnings.phoneNumberSecond) {
-            return phoneNumberSecond.current.focus();
-        }
+                switch (name) {
+                    case 'name':
+                        const regex = /^[\uAC00-\uD7A3\u3040-\u30FF\u4E00-\u9FFF\u3400-\u4DBF\uF900-\uFAFF\u0020-\u007E]+$/;
+                        isValid = regex.test(value) && value.trim().length >= 2;
+                        break;
+                    case 'phoneNumberFirst':
+                    case 'phoneNumberSecond':
+                        isValid = /^\d{4}$/.test(value);
+                        break;
+                    case 'password':
+                        isValid = /^\d{4}$/.test(value);
+                        break;
+                    case 'confirmPassword':
+                        isValid = value === inputs.password;
+                        break;
+                    case 'gender':
+                        isValid = value !== '';
+                        break;
+                    case 'birthyear':
+                    case 'takeAfter':
+                        isValid = (value !== '' && value !== 'default');
+                        break;
+                    case 'height':
+                        isValid = value === '' || (value >= 140 && value <= 220);
+                        break;
+                    case 'smoking':
+                        isValid = value !== null;
+                        break;
+                    default:
+                        break;
+                }
 
-        if (warnings.password) {
-            return password.current.focus();
-        }
-        
-        if (warnings.confirmPassword) {
-            return confirmPassword.current.focus();
-        }
+                tempWarnings[name] = !isValid;
 
-        if (warnings.gender) {
-            return  gender.current.focus();
-        }
+                if (!isValid && !firstInvalidRef) {
+                    firstInvalidRef = refs[key];
+                }
+            }
+        });
 
-        navigate('/recommends');
+        setWarnings((prevState) => ({
+            ...prevState,
+            ...tempWarnings,
+        }));
+
+        // 업데이트된 warnings를 사용하여 유효성 검사를 수행합니다.
+        const hasWarnings = Object.values(tempWarnings).some(warning => warning);
+
+        if (hasWarnings) {
+            if (firstInvalidRef) {
+                console.log(firstInvalidRef);
+                return firstInvalidRef.current.focus();
+            }
+        } else {
+            navigate('/recommends');
+        }
     }
+
+    useEffect(() => {
+        
+    }, [handleClick])
 
 
     return (
@@ -175,15 +224,15 @@ export default function Profile() {
                         <EssentialMark>*</EssentialMark></InputTitle>
                     <TextInput
                         type="text"
-                        name="userName"
+                        name="name"
                         placeholder="이름은 상대 선택 화면에서 '홍*동'과 같이 표시됩니다."
                         onChange={handleChange}
                         onBlur={handleBlur}
-                        value={userName}
-                        ref={userNameRef}
-                        $valid={!warnings.userName}
+                        value={inputs.name}
+                        ref={refs.nameRef}
+                        $valid={!warnings.name}
                     />
-                    {warnings.userName&& (
+                    {warnings.name && (
                         <WarningMessage>
                             *2글자 ~ 30글자의 한글/영어/중국어/일본어 이름만 등록 가능합니다.
                         </WarningMessage>
@@ -205,9 +254,11 @@ export default function Profile() {
                                 min="0"
                                 max="9999"
                                 onChange={handleChange}
-                                value={phoneNumberFirst}
-                                ref={phoneNumberFirstRef}
+                                onBlur={handleBlur}
+                                value={inputs.phoneNumberFirst}
+                                ref={refs.phoneNumberFirstRef}
                                 $valid={!warnings.phoneNumberFirst}
+                                onKeyDown={(e) => ["e", "E", "+", "-"].includes(e.key) && e.preventDefault()} // e, E, +, - 입력 막기
                             />
                         </PhoneNumberInput> -
                         <PhoneNumberInput>
@@ -217,12 +268,19 @@ export default function Profile() {
                                 min="0"
                                 max="9999"
                                 onChange={handleChange}
-                                value={phoneNumberSecond}
-                                ref={phoneNumberSecondRef}
+                                onBlur={handleBlur}
+                                value={inputs.phoneNumberSecond}
+                                ref={refs.phoneNumberSecondRef}
                                 $valid={!warnings.phoneNumberSecond}
+                                onKeyDown={(e) => ["e", "E", "+", "-"].includes(e.key) && e.preventDefault()} // e, E, +, - 입력 막기
                             />
                         </PhoneNumberInput>
                     </PhoneNumberInnerWrapper>
+                    {(warnings.phoneNumberFirst || warnings.phoneNumberSecond) && (
+                        <WarningMessage>
+                            *올바른 전화번호를 입력해주세요.
+                        </WarningMessage>
+                    )}
                 </PhoneNumberWrapper>
 
                 {/* 비밀번호 입력 칸 */}
@@ -236,13 +294,13 @@ export default function Profile() {
                         name="password"
                         onChange={handleChange}
                         onBlur={handleBlur}
-                        value={password}
-                        placeholder="비밀번호는 4자리 숫자로 입력해주세요"
+                        value={inputs.password}
+                        placeholder="비밀번호는 4자리 숫자로 입력해주세요."
                         autoComplete="off"
-                        ref={passwordRef}
+                        ref={refs.passwordRef}
                         $valid={!warnings.password}
                     />
-                    {warnings.password&& (
+                    {warnings.password && (
                         <WarningMessage>
                             *비밀번호는 4자리 숫자로 입력해주세요.
                         </WarningMessage>
@@ -260,9 +318,10 @@ export default function Profile() {
                         name="confirmPassword"
                         onChange={handleChange}
                         onBlur={handleBlur}
-                        value={confirmPassword}
+                        value={inputs.confirmPassword}
+                        placeholder="비밀번호를 다시 입력해주세요."
                         autoComplete="off"
-                        ref={confirmPasswordRef}
+                        ref={refs.confirmPasswordRef}
                         $valid={!warnings.confirmPassword}
                     />
                     {warnings.confirmPassword && (
@@ -278,25 +337,30 @@ export default function Profile() {
                         성별
                         <EssentialMark>*</EssentialMark>
                     </InputTitle>
-                    <CheckboxWrapper ref={genderRef} tabIndex={0}>
+                    <CheckboxWrapper name="gender" ref={refs.genderRef} value={inputs.gender} tabIndex={0}>
                         {/* div에 focus하려면 tabIndex를 붙여야함 */}
                         <Checkbox
                             name="gender"
                             onClick={handleSelect}
-                            value="male"
-                            $selected={inputs.gender === "male"}
+                            value="M"
+                            $selected={inputs.gender === "M"}
                         >
                             남
                         </Checkbox>
                         <Checkbox
                             name="gender"
                             onClick={handleSelect}
-                            value="female"
-                            $selected={inputs.gender === "female"}
+                            value="F"
+                            $selected={inputs.gender === "F"}
                         >
                             여
                         </Checkbox>
                     </CheckboxWrapper>
+                    {warnings.gender &&
+                        <WarningMessage>
+                            *성별을 선택해주세요.
+                        </WarningMessage>
+                    }
                 </GenderWrapper>
 
                 {/* 학과 입력 칸 */}
@@ -305,31 +369,35 @@ export default function Profile() {
                     <TextInput
                         name="major"
                         onChange={handleChange}
-                        value={major}
-                        placeholder="학과를 입력하세요."
+                        value={inputs.major}
+                        placeholder="학과를 입력해주세요."
                         $valid="true"
                     />
                 </MajorWrapper>
 
                 {/* 생년 입력 칸 */}
-                <BirthYearWrapper>
+                <BirthyearWrapper>
                     <InputTitle>
                         생년
                         <EssentialMark>*</EssentialMark>
                     </InputTitle>
                     <SelectInput
-                        name="birthYear"
+                        name="birthyear"
                         onChange={handleChange}
-                        value={birthYear}
-                        ref={birthYearRef}
-                        $valid={!warnings.birthYear}
+                        value={inputs.birthyear || "default"}
+                        ref={refs.birthyearRef}
+                        $valid={!warnings.birthyear}
                     >
-                        <option value="" disabled>YYYY</option>
+                        <option value="default" hidden>YYYY</option>
                         {Array.from({ length: 17 }, (_, i) => 1990 + i).map(year => (
-                            <option key={year} value={year}>{year}</option>
+                            <Option key={year} value={year}>{year}</Option>
                         ))}
                     </SelectInput>
-                </BirthYearWrapper>
+                    {warnings.birthyear &&
+                        <WarningMessage>
+                            *태어난 해를 선택해주세요.
+                        </WarningMessage>}
+                </BirthyearWrapper>
 
                 {/* 나이차 입력 칸 */}
                 <AgeDifferenceWrapper>
@@ -340,10 +408,11 @@ export default function Profile() {
                     <AgeDifferenceInnerWrapper>
                         위로
                         <AgeDifferenceInputWrapper>
-                        <CountButton
+                            <CountButton
                                 type="button"
                                 name="ageDifferenceUp"
                                 onClick={() => handleAgeDifferenceChange('ageDifferenceUp', '-')}
+                                value={inputs.ageDifferenceUp}
                                 $valid={inputs.ageDifferenceUp > 0}
                             >
                                 -
@@ -353,6 +422,7 @@ export default function Profile() {
                                 type="button"
                                 name="ageDifferenceUp"
                                 onClick={() => handleAgeDifferenceChange('ageDifferenceUp', '+')}
+                                value={inputs.ageDifferenceUp}
                                 $valid={inputs.ageDifferenceUp < 9}
                             >
                                 +
@@ -364,7 +434,7 @@ export default function Profile() {
                                 type="button"
                                 name="ageDifferenceDown"
                                 onClick={() => handleAgeDifferenceChange('ageDifferenceDown', '-')}
-                                value={ageDifferenceDown}
+                                value={inputs.ageDifferenceDown}
                                 $valid={inputs.ageDifferenceDown > 0}
                             >
                                 -
@@ -374,7 +444,7 @@ export default function Profile() {
                                 type="button"
                                 name="ageDifferenceDown"
                                 onClick={() => handleAgeDifferenceChange('ageDifferenceDown', '+')}
-                                value={ageDifferenceDown}
+                                value={inputs.ageDifferenceDown}
                                 $valid={inputs.ageDifferenceDown < 9}
                             >
                                 +
@@ -389,12 +459,22 @@ export default function Profile() {
                         키
                     </InputTitle>
                     <TextInput
+                        type="number"
                         name="height"
                         onChange={handleChange}
-                        value={height}
+                        onBlur={handleBlur}
+                        ref={refs.heightRef}
+                        value={inputs.height}
                         placeholder="키를 입력해주세요."
-                        $valid="true"
+                        $valid={!warnings.height}
+                        min="140"
+                        max="220"
+                        onKeyDown={(e) => ["e", "E", "+", "-"].includes(e.key) && e.preventDefault()} // e, E, +, - 입력 막기
                     />
+                    {warnings.height &&
+                        <WarningMessage>
+                            *올바른 키를 입력해주세요.
+                        </WarningMessage>}
                 </HeightWrapper>
 
                 {/* MBTI 입력 칸 */}
@@ -405,11 +485,12 @@ export default function Profile() {
                     <SelectInput
                         name="MBTI"
                         onChange={handleChange}
-                        value={MBTI}
+                        value={inputs.MBTI || "default"}
+                        $valid={true}
                     >
-                        <option value="" disabled>MBTI를 선택하세요</option>
+                        <option value="default" hidden>MBTI를 선택해주세요.</option>
                         {['ISTJ', 'ISFJ', 'INFJ', 'INTJ', 'ISTP', 'ISFP', 'INFP', 'INTP', 'ESTP', 'ESFP', 'ENFP', 'ENTP', 'ESTJ', 'ESFJ', 'ENFJ', 'ENTJ'].map(type => (
-                            <option key={type} value={type}>{type}</option>
+                            <Option key={type} value={type}>{type}</Option>
                         ))}
                     </SelectInput>
                 </MBTIWrapper>
@@ -423,15 +504,19 @@ export default function Profile() {
                     <SelectInput
                         name="takeAfter"
                         onChange={handleChange}
-                        value={takeAfter}
-                        ref={takeAfterRef}
+                        value={inputs.takeAfter || "default"}
+                        ref={refs.takeAfterRef}
                         $valid={!warnings.takeAfter}
                     >
-                        <option value="" disabled>본인의 닮은꼴을 선택하세요</option>
+                        <option value="default" hidden>본인의 닮은꼴을 선택해주세요.</option>
                         {['토끼상', '고양이상', '강아지상', '여우상', '곰상', '사슴상'].map(person => (
-                            <option key={person} value={person}>{person}</option>
+                            <Option key={person} value={person}>{person}</Option>
                         ))}
                     </SelectInput>
+                    {warnings.takeAfter &&
+                        <WarningMessage>
+                            *본인의 닮은꼴을 선택해주세요.
+                        </WarningMessage>}
                 </TakeAfterWrapper>
 
                 {/* 흡연여부 입력 칸 */}
@@ -440,33 +525,39 @@ export default function Profile() {
                         흡연여부
                         <EssentialMark>*</EssentialMark>
                     </InputTitle>
-                    <CheckboxWrapper 
-                        ref={smokingRef}
+                    <CheckboxWrapper
+                        name="smoking"
+                        value={inputs.smoking}
+                        ref={refs.smokingRef}
                         tabIndex={0}
                     >
                         <Checkbox
                             name="smoking"
                             onClick={handleSelect}
-                            value="Y"
-                            $selected={inputs.smoking === "Y"}
+                            value={true}
+                            $selected={inputs.smoking === true}
                         >
                             예
                         </Checkbox>
                         <Checkbox
                             name="smoking"
                             onClick={handleSelect}
-                            value="N"
-                            $selected={inputs.smoking === "N"}
+                            value={false}
+                            $selected={inputs.smoking === false}
                         >
                             아니오
                         </Checkbox>
                     </CheckboxWrapper>
+                    {warnings.smoking &&
+                        <WarningMessage>
+                            *흡연 여부를 선택해주세요.
+                        </WarningMessage>}
                 </SmokingWrapper>
             </InputWrapper>
 
             {/* 등록하기 버튼 */}
             {/* 비밀번호 0000일 경우 고려하기!! */}
-            <Button onClick={handleClick} $valid={userName && phoneNumberFirst && phoneNumberSecond && password && confirmPassword && gender && birthYear && takeAfter && smoking}>등록하기</Button>
+            <Button onClick={handleClick} $valid={true}>등록하기</Button>
         </ProfileWrapper>
     )
 };
@@ -482,7 +573,7 @@ const ProfileWrapper = styled.div`
 
 const Title = styled.span`
     width: 75vw;
-    min-width: calc(230px -5vw);
+    min-width: calc(230px - 5vw);
     max-width: calc(480px - 5vw);
     margin: 11vh 0 3vh 0;
     top: 100px;
@@ -503,7 +594,7 @@ const InputWrapper = styled.form`
     flex-direction: column;
     align-items: flex-start;
     width: 75vw;
-    min-width: calc(230px -5vw);
+    min-width: calc(230px - 5vw);
     max-width: calc(480px - 5vw);
     
     color: #000000;
@@ -561,7 +652,7 @@ const MajorWrapper = styled.div`
     align-items: flex-start;
     width: 100%;
 `
-const BirthYearWrapper = styled.div`
+const BirthyearWrapper = styled.div`
     position: relative;
     display: flex;
     flex-direction: column;
@@ -583,9 +674,11 @@ const AgeDifferenceInnerWrapper = styled.div`
 `
 const AgeDifferenceInputWrapper = styled.div`
     position: relative;
+    flex-direction: row;
     display: flex;
+    align-items: center;
     margin: 0 10px;
-    width: 25%;
+    width: 110px;
 `
 
 const HeightWrapper = styled.div`
@@ -629,29 +722,47 @@ const EssentialMark = styled.span`
 `
 
 const TextInput = styled.input`
-    width: calc(100% - 5px);
+    width: calc(100% - 10px);
     padding: 5px 5px;
+    font-size: 13px;
     
     border-color: ${(props) => props.$valid ? "#000000" : "#F94364"};
     border-width: 2px;
     border-radius: 5px;
     
-    ::placeholder {
+    &::placeholder {
         color: #979797;
+        font-size: 13px;
+    }
+
+    // type이 number일 경우 화살표 제거
+    &::-webkit-outer-spin-button {
+        -webkit-appearance: none;
+        margin: 0;
+    }
+    &::-webkit-inner-spin-button {
+        -webkit-appearance: none;
+        margin: 0;
     }
 `
 
 const SelectInput = styled.select`
     width: 100%;
     padding: 5px;
+
+    border-color: ${(props) => props.$valid ? "#000000" : "#F94364"};
     border-width: 2px;
     border-radius: 5px;
     margin-top: 5px;
-    
-    ::placeholder {
-        color: #979797;
-    }
-`;
+
+    color: ${(props) => props.value === "default" ? "#979797" : "#000000"};
+    font-size: 13px;
+`
+
+const Option = styled.option`
+    color: #000000;
+    font-size: 13px;
+`
 
 const WarningMessage = styled.div`
     font-size: 11px;
@@ -680,4 +791,8 @@ const CountButton = styled.button`
     margin: 0 10px;
 
     background-color: ${(props) => props.$valid ? "#FAA8B1" : "#D9D9D9"};
+`
+
+const StyledButton = styled(Button)`
+    
 `
