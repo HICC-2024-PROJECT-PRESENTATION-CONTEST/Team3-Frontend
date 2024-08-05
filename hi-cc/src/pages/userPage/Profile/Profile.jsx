@@ -1,8 +1,10 @@
-import { useState, useRef, useEffect } from "react";
+import { useState, useRef } from "react";
 import styled from "styled-components";
 import { useNavigate } from "react-router-dom";
 
 import Button from "../../../components/MainButton";
+
+const API_URL = import.meta.env.VITE_API_URL;
 
 export default function Profile() {
     const navigate = useNavigate();
@@ -21,20 +23,20 @@ export default function Profile() {
     }
 
     const [inputs, setInputs] = useState({
-        name: '',
-        phoneNumberFirst: '',
-        phoneNumberSecond: '',
-        password: '',
-        confirmPassword: '',
-        gender: '',
-        major: '',
-        birthyear: '',
+        name: "",
+        phoneNumberFirst: "",
+        phoneNumberSecond: "",
+        password: "",
+        confirmPassword: "",
+        gender: "",
+        major: "",
+        birthyear: "",
         ageDifferenceDown: 0,
         ageDifferenceUp: 0,
-        height: '',
-        MBTI: '',
-        looklike: '',
-        smoking: null,
+        height: "",
+        MBTI: "",
+        looklike: "",
+        smoking: "",
     });
 
     const [warnings, setWarnings] = useState({
@@ -58,7 +60,6 @@ export default function Profile() {
                 [name]: value
             }
         });
-        console.log(inputs);
     }
 
     function handleSelect(e) {
@@ -125,7 +126,7 @@ export default function Profile() {
     }
 
     // 등록하기 버튼
-    function handleClick() {
+    async function handleClick() {
         let tempWarnings = {};
         let firstInvalidRef = null;
 
@@ -139,7 +140,6 @@ export default function Profile() {
                     value = refs[key].current.getAttribute("value");
                 }
                 let isValid = false;
-                console.log(name);
 
                 switch (name) {
                     case 'name':
@@ -157,17 +157,18 @@ export default function Profile() {
                         isValid = value === inputs.password;
                         break;
                     case 'gender':
-                        isValid = value !== '';
+                        isValid = value !== "";
                         break;
                     case 'birthyear':
                     case 'looklike':
-                        isValid = (value !== '' && value !== 'default');
+                        isValid = (value !== "" && value !== 'default');
                         break;
                     case 'height':
-                        isValid = value === '' || (value >= 140 && value <= 220);
+                        isValid = (value === "" || (value >= 140 && value <= 220));
+                        console.log(inputs);
                         break;
                     case 'smoking':
-                        isValid = value !== null;
+                        isValid = value !== "";
                         break;
                     default:
                         break;
@@ -191,8 +192,40 @@ export default function Profile() {
             return firstInvalidRef.current.focus();
         }
 
-        navigate('/recommends');
-    }
+        const data = {
+            name: inputs.name,
+            phone: "010" + inputs.phoneNumberFirst + inputs.phoneNumberSecond,
+            gender: inputs.gender,
+            birthyear: parseInt(inputs.birthyear, 10), // 10진수
+            birthyear_offset: {
+                plus: parseInt(inputs.ageDifferenceUp, 10),
+                minus: parseInt(inputs.ageDifferenceDown, 10),
+            },
+            height: parseInt(inputs.height, 10),
+            major: inputs.major,
+            mbti: inputs.MBTI,
+            looklike: inputs.looklike,
+            smoking: inputs.smoking === "true" ? true : false,
+        };
+
+        try {
+            const response = await fetch(`${API_URL}/profiles`, {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify(data),
+            });
+
+            if (response.ok) {
+                navigate('/recommends');
+            } else {
+                alert('서버 응답에 문제가 있습니다.');
+            }
+        } catch (error) {
+            console.error('Error:', error);
+        }
+    };
 
 
     return (
@@ -525,16 +558,16 @@ export default function Profile() {
                         <Checkbox
                             name="smoking"
                             onClick={handleSelect}
-                            value={true}
-                            $selected={inputs.smoking === true}
+                            value="true"
+                            $selected={inputs.smoking === "true"}
                         >
                             예
                         </Checkbox>
                         <Checkbox
                             name="smoking"
                             onClick={handleSelect}
-                            value={false}
-                            $selected={inputs.smoking === false}
+                            value="false"
+                            $selected={inputs.smoking === "false"}
                         >
                             아니오
                         </Checkbox>
