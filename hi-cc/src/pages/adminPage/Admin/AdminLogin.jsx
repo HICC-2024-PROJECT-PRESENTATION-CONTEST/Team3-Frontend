@@ -17,6 +17,7 @@ export default function AdminLogin() {
                 headers: {
                     'Content-Type': 'application/json',
                 },
+                credentials: 'include',
                 body: JSON.stringify({key: key})
             });
 
@@ -28,7 +29,7 @@ export default function AdminLogin() {
 
         } catch(error) {
             setError(true);
-            console.error(error.message);
+            console.error(error);
         }
     }
 
