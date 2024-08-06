@@ -1,7 +1,7 @@
 import { Routes, Route, BrowserRouter } from "react-router-dom";
 import './App.css';
 
-import KeyHandler from './components/KeyHandler';
+import KeyHandler from './pages/adminPage/QR/KeyHandler';
 
 import AdminLogin from "./pages/adminPage/Admin/AdminLogin";
 import Admin from "./pages/adminPage/Admin/Admin";
