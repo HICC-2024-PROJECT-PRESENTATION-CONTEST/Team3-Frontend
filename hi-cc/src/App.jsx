@@ -1,7 +1,7 @@
 import { Routes, Route, BrowserRouter } from "react-router-dom";
 import './App.css';
 
-// import RedirectHandler from './components/RedirectHandler';
+import KeyHandler from './components/KeyHandler';
 
 import AdminLogin from "./pages/adminPage/Admin/AdminLogin";
 import Admin from "./pages/adminPage/Admin/Admin";
@@ -26,6 +26,7 @@ function App() {
     <BrowserRouter>
       <Routes>
         <Route path="/" element={<Start />} />
+        <Route path="/qr/:key" element={<KeyHandler />} />
         <Route path="/admin/login" element={<AdminLogin />} />
         <Route path="/admin" element={<Admin />} />
         <Route path="/admin/users" element={<Users />} />

@@ -3,6 +3,7 @@ import Button from '../../../components/MainButton';
 import { useState, useEffect } from 'react';
 
 const API_URL = import.meta.env.VITE_API_URL;
+const VITE_LOCAL_URL = import.meta.env.VITE_LOCAL_URL;
 
 export default function Qr() {
     const [isAuthenticated, setIsAuthenticated] = useState(null);
@@ -28,7 +29,7 @@ export default function Qr() {
                 return response.json();
             }
         }).then((response) => {
-            const qrResponseUrl = `https://api.qrserver.com/v1/create-qr-code/?data=${response.data.key}&size=200x200`;
+            const qrResponseUrl = `https://api.qrserver.com/v1/create-qr-code/?data=${VITE_LOCAL_URL}/qr/${response.data.key}&size=200x200`;
             setQrImage(qrResponseUrl);
         }).catch((error) => {
             console.error(error.message);
