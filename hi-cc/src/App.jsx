@@ -13,6 +13,7 @@ import Agreement from './pages/userPage/Agreement/Agreement';
 import Agreement1 from "./pages/userPage/Agreement/Agreement1";
 import Agreement2 from "./pages/userPage/Agreement/Agreement2";
 import Profile from './pages/userPage/Profile/Profile';
+import ProfilePicture from './pages/userPage/Profile/ProfilePicture';
 import Recommends from './pages/userPage/Recommends/Recommends';
 import Message from './pages/userPage/Message/Message';
 import MyPage from './pages/userPage/MyPage/MyPage';
@@ -36,6 +37,7 @@ function App() {
         <Route path="/agreement/1" element={<Agreement1 />} />
         <Route path="/agreement/2" element={<Agreement2 />} />
         <Route path="/profile" element={<Profile />} />
+        <Route path="/profilepicture" element={<ProfilePicture />} />
         <Route path="/recommends" element={<Recommends />} />
         <Route path="/message" element={<Message />} />
         <Route path="/mypage" element={<MyPage />} />

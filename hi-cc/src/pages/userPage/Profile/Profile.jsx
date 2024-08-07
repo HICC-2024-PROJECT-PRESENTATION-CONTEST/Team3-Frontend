@@ -232,7 +232,7 @@ export default function Profile() {
             });
 
             if (response.ok) {
-                navigate('/recommends');
+                navigate('/profilepicture');
             } else {
                 alert('서버 응답에 문제가 있습니다.');
             }
@@ -331,7 +331,7 @@ export default function Profile() {
                         onChange={handleChange}
                         onBlur={handleBlur}
                         value={inputs.instagram}
-                        placeholder="@hongik"
+                        placeholder="hongik"
                         ref={refs.instagramRef}
                         $valid={!warnings.instagram}
                     />
