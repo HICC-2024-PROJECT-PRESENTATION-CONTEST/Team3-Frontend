@@ -1,9 +1,12 @@
 import { Routes, Route, BrowserRouter } from "react-router-dom";
 import './App.css';
 
-import AdminLogin from './pages/adminPage/AdminLogin/AdminLogin';
+import KeyHandler from './pages/adminPage/QR/KeyHandler';
+
+import AdminLogin from "./pages/adminPage/Admin/AdminLogin";
+import Admin from "./pages/adminPage/Admin/Admin";
 import QR from './pages/adminPage/QR/QR';
-import Privacy from './pages/adminPage/Privacy/Privacy';
+import Users from './pages/adminPage/Users/Users';
 
 import Start from './pages/userPage/Start/Start';
 import Agreement from './pages/userPage/Agreement/Agreement';
@@ -23,9 +26,11 @@ function App() {
     <BrowserRouter>
       <Routes>
         <Route path="/" element={<Start />} />
-        <Route path="/manager-login/:key" element={<AdminLogin />} />
+        <Route path="/qr/:key" element={<KeyHandler />} />
+        <Route path="/admin/login" element={<AdminLogin />} />
+        <Route path="/admin" element={<Admin />} />
+        <Route path="/admin/users" element={<Users />} />
         <Route path="/admin/qr" element={<QR />} />
-        <Route path="/admin/profiles" element={<Privacy />} />
         <Route path="/login" element={<Login />} />
         <Route path="/agreement" element={<Agreement />} />
         <Route path="/agreement/1" element={<Agreement1 />} />

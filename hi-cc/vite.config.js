@@ -7,7 +7,6 @@ export default defineConfig({
   plugins: [react(), svgr()],
   server: {
     host: 'local.hc.ccc.vg',
-    port: 3000,
     // proxy: {
     //   '/api': {
     //     target: "http://api.hc.ccc.vg",
