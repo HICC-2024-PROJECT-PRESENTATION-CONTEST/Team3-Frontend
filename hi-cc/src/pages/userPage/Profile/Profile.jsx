@@ -13,6 +13,7 @@ export default function Profile() {
         nameRef: useRef(null),
         phoneNumberFirstRef: useRef(null),
         phoneNumberSecondRef: useRef(null),
+        instagramRef: useRef(null),
         passwordRef: useRef(null),
         confirmPasswordRef: useRef(null),
         genderRef: useRef(null),
@@ -26,6 +27,7 @@ export default function Profile() {
         name: "",
         phoneNumberFirst: "",
         phoneNumberSecond: "",
+        instagram: "",
         password: "",
         confirmPassword: "",
         gender: "",
@@ -43,6 +45,7 @@ export default function Profile() {
         name: false,
         phoneNumberFirst: false,
         phoneNumberSecond: false,
+        instagram: false,
         password: false,
         confirmPassword: false,
         gender: false,
@@ -88,6 +91,10 @@ export default function Profile() {
             case 'phoneNumberFirst':
             case 'phoneNumberSecond':
                 isValid = /^\d{4}$/.test(value);
+                break;
+            case 'instagram':
+                const instagramIdRegex = /^([a-z0-9._]{3,30})$/;
+                isValid = (value === "" || instagramIdRegex.test(value));
                 break;
             case 'password':
                 isValid = /^\d{4}$/.test(value);
@@ -150,6 +157,10 @@ export default function Profile() {
                     case 'phoneNumberSecond':
                         isValid = /^\d{4}$/.test(value);
                         break;
+                    case 'instagram':
+                        const instagramIdRegex = /^([a-z0-9._]{3,30})$/;
+                        isValid = (value === "" || instagramIdRegex.test(value));
+                        break;
                     case 'password':
                         isValid = /^\d{4}$/.test(value);
                         break;
@@ -195,6 +206,8 @@ export default function Profile() {
         const data = {
             name: inputs.name,
             phone: "010" + inputs.phoneNumberFirst + inputs.phoneNumberSecond,
+            instagram: inputs.instagram,
+            password: inputs.password,
             gender: inputs.gender,
             birthyear: parseInt(inputs.birthyear, 10), // 10진수
             birthyear_offset: {
@@ -211,6 +224,7 @@ export default function Profile() {
         try {
             const response = await fetch(`${API_URL}/profiles`, {
                 method: 'POST',
+                credentials: 'include',
                 headers: {
                     'Content-Type': 'application/json',
                 },
@@ -243,7 +257,7 @@ export default function Profile() {
             {/* 프로필 입력 칸 */}
             <InputWrapper>
                 {/* 이름 입력 칸 */}
-                <NameWrapper>
+                <BasicWrapper>
                     <InputTitle>성명
                         <EssentialMark>*</EssentialMark></InputTitle>
                     <TextInput
@@ -261,7 +275,7 @@ export default function Profile() {
                             *2글자 ~ 30글자의 한글/영어/중국어/일본어 이름만 등록 가능합니다.
                         </WarningMessage>
                     )}
-                </NameWrapper>
+                </BasicWrapper>
 
                 {/* 전화번호 입력 칸 */}
                 <PhoneNumberWrapper>
@@ -306,6 +320,27 @@ export default function Profile() {
                         </WarningMessage>
                     )}
                 </PhoneNumberWrapper>
+
+                {/* 인스타그램 입력 칸 */}
+                <BasicWrapper>
+                    <InputTitle>
+                        인스타그램 아이디
+                    </InputTitle>
+                    <TextInput
+                        name="instagram"
+                        onChange={handleChange}
+                        onBlur={handleBlur}
+                        value={inputs.instagram}
+                        placeholder="@hongik"
+                        ref={refs.instagramRef}
+                        $valid={!warnings.instagram}
+                    />
+                    {warnings.instagram && (
+                        <WarningMessage>
+                            *올바른 인스타그램 아이디를 입력해주세요.
+                        </WarningMessage>
+                    )}
+                </BasicWrapper>
 
                 {/* 비밀번호 입력 칸 */}
                 <PasswordWrapper>
@@ -356,7 +391,7 @@ export default function Profile() {
                 </PasswordWrapper>
 
                 {/* 성별 입력 칸 */}
-                <GenderWrapper>
+                <BasicWrapper>
                     <InputTitle>
                         성별
                         <EssentialMark>*</EssentialMark>
@@ -385,10 +420,10 @@ export default function Profile() {
                             *성별을 선택해주세요.
                         </WarningMessage>
                     }
-                </GenderWrapper>
+                </BasicWrapper>
 
                 {/* 학과 입력 칸 */}
-                <MajorWrapper>
+                <BasicWrapper>
                     <InputTitle>학과</InputTitle>
                     <TextInput
                         name="major"
@@ -397,7 +432,7 @@ export default function Profile() {
                         placeholder="학과를 입력해주세요."
                         $valid="true"
                     />
-                </MajorWrapper>
+                </BasicWrapper>
 
                 {/* 생년 입력 칸 */}
                 <BirthyearWrapper>
@@ -478,7 +513,7 @@ export default function Profile() {
                 </AgeDifferenceWrapper>
 
                 {/* 키 입력 칸 */}
-                <HeightWrapper>
+                <BasicWrapper>
                     <InputTitle>
                         키
                     </InputTitle>
@@ -499,10 +534,10 @@ export default function Profile() {
                         <WarningMessage>
                             *올바른 키를 입력해주세요.
                         </WarningMessage>}
-                </HeightWrapper>
+                </BasicWrapper>
 
                 {/* MBTI 입력 칸 */}
-                <MBTIWrapper>
+                <BasicWrapper>
                     <InputTitle>
                         MBTI
                     </InputTitle>
@@ -517,10 +552,10 @@ export default function Profile() {
                             <Option key={type} value={type}>{type}</Option>
                         ))}
                     </SelectInput>
-                </MBTIWrapper>
+                </BasicWrapper>
 
                 {/* 닮은꼴 입력 칸 */}
-                <LooklikeWrapper>
+                <BasicWrapper>
                     <InputTitle>
                         닮은꼴
                         <EssentialMark>*</EssentialMark>
@@ -541,10 +576,10 @@ export default function Profile() {
                         <WarningMessage>
                             *본인의 닮은꼴을 선택해주세요.
                         </WarningMessage>}
-                </LooklikeWrapper>
+                </BasicWrapper>
 
                 {/* 흡연여부 입력 칸 */}
-                <SmokingWrapper>
+                <BasicWrapper>
                     <InputTitle>
                         흡연여부
                         <EssentialMark>*</EssentialMark>
@@ -576,7 +611,7 @@ export default function Profile() {
                         <WarningMessage>
                             *흡연 여부를 선택해주세요.
                         </WarningMessage>}
-                </SmokingWrapper>
+                </BasicWrapper>
             </InputWrapper>
 
             {/* 등록하기 버튼 */}
@@ -618,20 +653,13 @@ const InputWrapper = styled.form`
     flex-direction: column;
     align-items: flex-start;
     width: 75vw;
+    padding: 10px;
     min-width: calc(230px - 5vw);
     max-width: calc(480px - 5vw);
     
     color: #000000;
 `
 
-const NameWrapper = styled.div`
-    position: relative;
-    display: flex;
-    flex-direction: column;
-    align-items: flex-start;
-    width: 100%;
-    padding: 10px 0;
-`
 const PhoneNumberWrapper = styled.div`
     position: relative;
     display: flex;
@@ -662,20 +690,6 @@ const PasswordWrapper = styled.div`
     width: 100%;
 `
 
-const GenderWrapper = styled.div`
-    position: relative;
-    display: flex;
-    flex-direction: column;
-    align-items: flex-start;
-    width: 100%;
-`
-const MajorWrapper = styled.div`
-    position: relative;
-    display: flex;
-    flex-direction: column;
-    align-items: flex-start;
-    width: 100%;
-`
 const BirthyearWrapper = styled.div`
     position: relative;
     display: flex;
@@ -690,12 +704,14 @@ const AgeDifferenceWrapper = styled.div`
     align-items: flex-start;
     width: 100%;
 `
+
 const AgeDifferenceInnerWrapper = styled.div`
     position: relative;
     display: flex;
     align-items: center;
     width: 100%;
 `
+
 const AgeDifferenceInputWrapper = styled.div`
     position: relative;
     flex-direction: row;
@@ -705,29 +721,7 @@ const AgeDifferenceInputWrapper = styled.div`
     width: 110px;
 `
 
-const HeightWrapper = styled.div`
-    position: relative;
-    display: flex;
-    flex-direction: column;
-    align-items: flex-start;
-    width: 100%;
-`
-const MBTIWrapper = styled.div`
-    position: relative;
-    display: flex;
-    flex-direction: column;
-    align-items: flex-start;
-    width: 100%;
-`
-const LooklikeWrapper = styled.div`
-    position: relative;
-    display: flex;
-    flex-direction: column;
-    align-items: flex-start;
-    width: 100%;
-`
-
-const SmokingWrapper = styled.div`
+const BasicWrapper = styled.div`
     position: relative;
     display: flex;
     flex-direction: column;
@@ -767,6 +761,20 @@ const TextInput = styled.input`
     &::-webkit-inner-spin-button {
         -webkit-appearance: none;
         margin: 0;
+    }
+
+    &::-webkit-autofill {
+        -webkit-box-shadow: 0 0 0 30px #fff inset; -webkit-text-fill-color: #000;
+        transition: background-color 5000s ease-in-out 0s;
+        /* &:hover {
+            transition: background-color 5000s ease-in-out 0s;
+        }
+        &:focus {
+            transition: background-color 5000s ease-in-out 0s;
+        }
+        &:active {
+            transition: background-color 5000s ease-in-out 0s;
+        } */
     }
 `
 
