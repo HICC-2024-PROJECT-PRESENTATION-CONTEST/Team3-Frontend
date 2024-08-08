@@ -331,7 +331,8 @@ export default function Profile() {
                     <InputTitle>
                         인스타그램 아이디
                     </InputTitle>
-                    <TextInput
+                    <InstaInnerWrapper>
+                    <InstaText>@</InstaText><TextInput
                         name="instagram"
                         onChange={handleChange}
                         onBlur={handleBlur}
@@ -340,6 +341,7 @@ export default function Profile() {
                         ref={refs.instagramRef}
                         $valid={!warnings.instagram}
                     />
+                    </InstaInnerWrapper>
                     {warnings.instagram && (
                         <WarningMessage>
                             *올바른 인스타그램 아이디를 입력해주세요.
@@ -651,6 +653,7 @@ const TitleText = styled.div`
 
 const DescriptionText = styled.pre`
     font-size: 13px;
+    color: #464646;
 `
 
 const InputWrapper = styled.form`
@@ -688,6 +691,18 @@ const PhoneNumberInput = styled.div`
     width: 30%;
     padding: 0 5px;
     margin: 0 4%;
+`
+
+const InstaInnerWrapper = styled.div`
+    display: flex;
+    flex-direction: row;
+    width: 100%;
+    
+    align-items: center;
+`
+const InstaText = styled.div`
+    margin-right: 5px;
+    font-size: 15px;
 `
 
 const PasswordWrapper = styled.div`
@@ -831,8 +846,4 @@ const CountButton = styled.button`
     margin: 0 10px;
 
     background-color: ${(props) => props.$valid ? "#FAA8B1" : "#D9D9D9"};
-`
-
-const StyledButton = styled(Button)`
-    
 `
