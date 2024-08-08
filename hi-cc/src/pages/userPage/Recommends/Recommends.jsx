@@ -39,7 +39,7 @@ export default function Recommends() {
                 <ProfileCard id={7} src={Dog} onClick={() => handleClick(7)} $selected={selectedId === 7} />
             </ProfileCardWrapper>
 
-            <Button onClick={handleSelect} $valid={selectedId !== null}>선택하기</Button>
+            <Button onClick={handleSelect} $valid={selectedId !== null} $position="fixed">선택하기</Button>
         </RecommendsWrapper>
     )
 };

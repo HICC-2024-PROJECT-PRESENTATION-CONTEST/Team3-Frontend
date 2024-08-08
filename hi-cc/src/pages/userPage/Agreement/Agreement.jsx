@@ -11,7 +11,7 @@ export default function Agreement() {
         essential2: false
     });
 
-    {/* 이용약관1, 2 값 받아오기 */}
+    {/* 이용약관1, 2 값 받아오기 */ }
     const location = useLocation();
     useEffect(() => {
         if (location.state) {
@@ -49,49 +49,50 @@ export default function Agreement() {
 
     return (
         <AgreementWrapper>
-            <Title>
-                <TitleText>서비스 이용을 위한</TitleText>
-                <TitleText>이용약관 동의</TitleText>
-                <DescriptionText>
-                    원활한 서비스 이용을 위해
-                </DescriptionText>
-                <DescriptionText>
-                    필수 항목 동의가 필요합니다.
-                </DescriptionText>
-            </Title>
-            {/* 모두 동의하기 버튼 */}
-            <AgreeAllButton onClick={handleAllAgree}>
+            <AgreementInnerWrapper>
+                <Title>
+                    <TitleText>서비스 이용을 위한</TitleText>
+                    <TitleText>이용약관 동의</TitleText>
+                    <DescriptionText>
+                        원활한 서비스 이용을 위해
+                    </DescriptionText>
+                    <DescriptionText>
+                        필수 항목 동의가 필요합니다.
+                    </DescriptionText>
+                </Title>
+                {/* 모두 동의하기 버튼 */}
+                <AgreeAllButton onClick={handleAllAgree}>
+                    <CheckboxWrapper>
+                        <CheckboxInnerWrapper>
+                            <Checkbox $valid={isAllAgreed} />
+                        </CheckboxInnerWrapper>
+                        <MainButtonText>모두 동의하기</MainButtonText>
+                    </CheckboxWrapper>
+                </AgreeAllButton>
+                {/* 이용약관1 */}
                 <CheckboxWrapper>
-                    <CheckboxInnerWrapper>
-                        <Checkbox $valid={isAllAgreed} />
+                    <CheckboxInnerWrapper onClick={() => handleAgree('essential1')}>
+                        <Checkbox $valid={agreement.essential1} />
                     </CheckboxInnerWrapper>
-                    <MainButtonText>모두 동의하기</MainButtonText>
+                    <CheckboxTextWrapper>
+                        <span>(필수) 서비스 이용 약관</span>
+                        <AgreementDetails onClick={() => handleAgreementDetails('1')}>보기</AgreementDetails>
+                    </CheckboxTextWrapper>
                 </CheckboxWrapper>
-            </AgreeAllButton>
-            {/* 이용약관1 */}
-            <CheckboxWrapper>
-                <CheckboxInnerWrapper onClick={() => handleAgree('essential1')}>
-                    <Checkbox $valid={agreement.essential1} />
-                </CheckboxInnerWrapper>
-                <CheckboxTextWrapper>
-                    <span>(필수) 서비스 이용 약관</span>
-                    <AgreementDetails onClick={() => handleAgreementDetails('1')}>보기</AgreementDetails>
-                </CheckboxTextWrapper>
-            </CheckboxWrapper>
-            {/* 이용약관2 */}
-            <CheckboxWrapper>
-                <CheckboxInnerWrapper onClick={() => handleAgree('essential2')}>
-                    <Checkbox $valid={agreement.essential2} />
-                </CheckboxInnerWrapper>
-                <CheckboxTextWrapper>
-                    <span>(필수) 개인정보 수집·이용 동의서</span>
-                    <AgreementDetails onClick={() => handleAgreementDetails('2')}>보기</AgreementDetails>
-                </CheckboxTextWrapper>
-            </CheckboxWrapper>
+                {/* 이용약관2 */}
+                <CheckboxWrapper>
+                    <CheckboxInnerWrapper onClick={() => handleAgree('essential2')}>
+                        <Checkbox $valid={agreement.essential2} />
+                    </CheckboxInnerWrapper>
+                    <CheckboxTextWrapper>
+                        <span>(필수) 개인정보 수집·이용 동의서</span>
+                        <AgreementDetails onClick={() => handleAgreementDetails('2')}>보기</AgreementDetails>
+                    </CheckboxTextWrapper>
+                </CheckboxWrapper>
 
-
+            </AgreementInnerWrapper>
             {/* 동의하고 넘어가는 버튼 */}
-            <Button onClick={handleClick} $valid={isAllAgreed}>동의하기</Button>
+            <Button onClick={handleClick} $valid={isAllAgreed} $position="relative">동의하기</Button>
         </AgreementWrapper>
     )
 };
@@ -104,6 +105,16 @@ const AgreementWrapper = styled.div`
     height: 100vh;
     align-items: center;
     background: #F9DBDD;
+`
+
+const AgreementInnerWrapper = styled.div`
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    width: 100vw;
+    height: auto;
+    min-height: 79vh;
+    align-items: center;
 `
 
 const Title = styled.span`

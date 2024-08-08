@@ -610,7 +610,7 @@ export default function Profile() {
 
             {/* 등록하기 버튼 */}
             {/* 비밀번호 0000일 경우 고려하기!! */}
-            <Button onClick={handleClick} $valid={true}>등록하기</Button>
+            <Button onClick={handleClick} $valid={true} $position="relative">등록하기</Button>
         </ProfileWrapper>
     )
 };
@@ -620,6 +620,7 @@ const ProfileWrapper = styled.div`
     display: flex;
     flex-direction: column;
     width: 100vw;
+    height: auto;
     align-items: center;
     background: #F9DBDD;
 `
@@ -647,6 +648,8 @@ const InputWrapper = styled.form`
     flex-direction: column;
     align-items: flex-start;
     width: 75vw;
+    height: auto;
+    min-height: 83vh;
     padding: 10px;
     min-width: calc(230px - 5vw);
     max-width: calc(480px - 5vw);
