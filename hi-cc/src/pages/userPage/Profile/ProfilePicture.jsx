@@ -21,19 +21,27 @@ export default function ProfilePicture() {
         })
             .then((res) => {
                 if(!res.ok) {
-                    throw new Error();
+                    const error = new Error();
+                    error.status = res.status;
+                    throw error;
                 }
-                return res.json();
+                return res.blob();
             })
-            .then((json) => {
-                if (json.data) {
-                    const profileText = Object.entries(json.data)
-                        .map(([key, value]) => `${key}: ${typeof value === 'string' ? value : JSON.stringify(value)}`)
-                        .join('\n');
-                    setImageSrc(profileText);
+            .then((blob) => {
+                const imageUrl = URL.createObjectURL(blob);
+                setImageSrc(imageUrl);
+            })
+            .catch((error) => {
+                if (error.status === 403) {
+                    alert("접근 권한이 없습니다. 올바른 경로로 접속했는지 확인해주세요.");
+                } else if (error.status === 404) {
+                    alert("프로필 정보를 찾을 수 없습니다.");
+                } else if (error.status === 500) {
+                    navigate("/500");
+                } else {
+                    alert('알 수 없는 오류가 발생했습니다.');
                 }
-            })
-            .catch((error) => console.log(error));
+            });
     }, []);
 
     function handleRegister() {
@@ -52,20 +60,25 @@ export default function ProfilePicture() {
         })
             .then((res) => {
                 if(!res.ok) {
-                    throw new Error(error);
-                }
-                return res.json();
-            })
-            .then((data) => {
-                if (data.success) {
-                    navigate('/recommends');
+                    const error = new Error();
+                    error.status = res.status;
+                    throw error;
                 } else {
-                    alert('업로드 실패');
+                    navigate('/recommends');
                 }
             })
             .catch((error) => {
-                console.log(error);
-                alert('업로드 실패');
+                if (error.status === 403) {
+                    alert("접근 권한이 없습니다. 올바른 경로로 접속했는지 확인해주세요.");
+                } else if (error.status === 404) {
+                    alert("프로필 정보를 찾을 수 없습니다.");
+                } else if (error.status === 400) {
+                    console.error("필수가 필드 누락되었습니다.");
+                } else if (error.status === 500) {
+                    navigate("/500");
+                } else {
+                    alert('알 수 없는 오류가 발생했습니다.');
+                }
             });
     }
 
@@ -195,7 +208,7 @@ const IconWrapper = styled.div`
     max-height: 300px;
 
     border: solid 7px;
-    border-radius: 50%;
+    border-radius: 20%;
 
     background-color: #FAA8B1;
 
@@ -212,7 +225,7 @@ const ImgPreview = styled.img`
     max-width: 300px;
     max-height: 300px;
 
-    border-radius: 50%;
+    border-radius: 20%;
     object-fit: cover;
     
     z-index: 100;
@@ -229,8 +242,8 @@ const Icon = styled.img`
 
 const AddButtonWrapper = styled.img`
     position: absolute;
-    right: -6px;
-    bottom: -6px;
+    right: -10px;
+    bottom: -14px;
 
     width: 8vw;
     min-width: 40px;
