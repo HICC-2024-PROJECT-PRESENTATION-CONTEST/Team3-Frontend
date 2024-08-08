@@ -224,14 +224,25 @@ export default function Profile() {
                 },
                 body: JSON.stringify(data),
             });
-
-            if (response.ok) {
-                navigate('/profilepicture');
-            } else {
-                alert('이미 가입한 적 있거나 올바른 경로로 접속했는지 확인해주세요.');
+            if(!response.ok) {
+                const error = new Error();
+                error.status = response.status;
+                throw error;
             }
+            navigate('/profilepicture');
         } catch (error) {
-            console.error('Error:', error);
+            if (error.status === 403) {
+                alert("접근 권한이 없습니다. 올바른 경로로 접속했는지 확인해주세요.");
+            } else if (error.status === 409) {
+                alert("이미 가입된 계정이 있습니다. 로그인 후 이용해주세요.");
+            } else if (error.status === 400) {
+                console.error("필수 필드 누락 혹은 잘못된 필드 형식입니다.");
+            } else if (error.status === 500) {
+                navigate("/500");
+            } else {
+                alert('알 수 없는 오류가 발생했습니다.');
+            }
+            console.error(error);
         }
     };
 
