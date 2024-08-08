@@ -4,11 +4,11 @@ import styled from "styled-components";
 import BasicButton from "../assets/BasicButton.png";
 import BasicButtonInactive from "../assets/BasicButtonInactive.png";
 
-export default function MainButton ({ onClick, $valid, children }) {
+export default function MainButton ({ onClick, $valid, children, $position }) {
     useEffect(() => {
     }, [$valid])
     return (
-        <ButtonWrapper>
+        <ButtonWrapper $position={$position}>
             <ButtonImg src={$valid === true ? BasicButton : BasicButtonInactive} onClick={$valid ? onClick : null} $valid={$valid ? "true" : "false"}></ButtonImg>
             <ButtonText onClick={$valid ? onClick : null} $valid={$valid ? "true" : "false"}>{children}</ButtonText>
         </ButtonWrapper>
@@ -16,32 +16,38 @@ export default function MainButton ({ onClick, $valid, children }) {
 };
 
 const ButtonWrapper = styled.div`
+    position: ${props => props.$position === "fixed" ? "fixed" : "relative"};
     display: flex;
     justify-content: center;
     align-items: center;
     width: fit-content;
     cursor: ${props => props.$valid === "true" ? "pointer" : "default"};
+
+    bottom: 60px;
     z-index: 100000;
 `
 
 const ButtonImg = styled.img`
-    position: fixed;
+    position: absolute;
+    min-width: 225px;
+    width: 75vw;
+    max-width: 300px;
     justify-content: center;
     align-items: center;
-    bottom: 43px;
-    @media screen and (max-width: 360px) {
-        width: 200px;
-        height: auto;
-    }
 `
 
 const ButtonText = styled.span`
-    position: fixed;
-    font-size: 30px;
-    color: url(${props => props.$valid === "true" ? "#000000" : "#FFFFFF"});
-    bottom: 59px;
-    @media screen and (max-width: 360px) {
-        font-size: 23px;
-        bottom: 53px;
+    position: absolute;
+    min-width: 225px;
+    width: 30vw;
+    max-width: 300px;
+    text-align: center;
+    font-size: 8vw;
+    color: ${props => props.$valid === "true" ? "#000000" : "#FFFFFF"};
+    @media screen and (max-width: 300px) {
+        font-size: 25px;
+    }
+    @media screen and (min-width: 450px) {
+        font-size: 35px;
     }
 `
