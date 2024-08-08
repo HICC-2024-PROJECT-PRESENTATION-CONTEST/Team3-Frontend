@@ -22,8 +22,7 @@ const ButtonWrapper = styled.div`
     align-items: center;
     width: fit-content;
     cursor: ${props => props.$valid === "true" ? "pointer" : "default"};
-
-    bottom: 60px;
+    bottom: ${props => props.$position === "fixed" ? "60px" : "none"};
     z-index: 100000;
 `
 
