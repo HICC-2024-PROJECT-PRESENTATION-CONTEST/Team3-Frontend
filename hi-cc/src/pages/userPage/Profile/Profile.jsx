@@ -75,7 +75,6 @@ export default function Profile() {
                 [name]: value,
             }
         });
-        console.log(inputs);
     }
 
     function handleBlur(e) {
@@ -140,12 +139,9 @@ export default function Profile() {
         // 유효성 체크
         Object.keys(refs).forEach((key) => {
             if (refs[key].current) {
-                let name = refs[key].current.name;
-                let value = refs[key].current.value;
-                if(name === undefined) {
-                    name = refs[key].current.getAttribute("name");
-                    value = refs[key].current.getAttribute("value");
-                }
+                let name = refs[key].current.name || refs[key].current.getAttribute("name");
+                let value = refs[key].current.value || refs[key].current.getAttribute("value");
+                
                 let isValid = false;
 
                 switch (name) {
@@ -176,7 +172,6 @@ export default function Profile() {
                         break;
                     case 'height':
                         isValid = (value === "" || (value >= 140 && value <= 220));
-                        console.log(inputs);
                         break;
                     case 'smoking':
                         isValid = value !== "";
@@ -199,7 +194,6 @@ export default function Profile() {
         }));
 
         if (firstInvalidRef) {
-            console.log(firstInvalidRef);
             return firstInvalidRef.current.focus();
         }
 
@@ -214,7 +208,7 @@ export default function Profile() {
                 plus: parseInt(inputs.ageDifferenceUp, 10),
                 minus: parseInt(inputs.ageDifferenceDown, 10),
             },
-            height: parseInt(inputs.height, 10),
+            height: (parseInt(inputs.height, 10) || null),
             major: inputs.major,
             mbti: inputs.MBTI,
             looklike: inputs.looklike,
@@ -234,7 +228,7 @@ export default function Profile() {
             if (response.ok) {
                 navigate('/profilepicture');
             } else {
-                alert('서버 응답에 문제가 있습니다.');
+                alert('이미 가입한 적 있거나 올바른 경로로 접속했는지 확인해주세요.');
             }
         } catch (error) {
             console.error('Error:', error);
