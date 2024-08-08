@@ -23,17 +23,13 @@ export default function ProfilePicture() {
                 if(!res.ok) {
                     throw new Error();
                 }
-                return res.json();
+                return res.blob();
             })
-            .then((json) => {
-                if (json.data) {
-                    const profileText = Object.entries(json.data)
-                        .map(([key, value]) => `${key}: ${typeof value === 'string' ? value : JSON.stringify(value)}`)
-                        .join('\n');
-                    setImageSrc(profileText);
-                }
+            .then((blob) => {
+                const imageUrl = URL.createObjectURL(blob);
+                setImageSrc(imageUrl);
             })
-            .catch((error) => console.log(error));
+            .catch((error) => console.error(error));
     }, []);
 
     function handleRegister() {
@@ -53,14 +49,8 @@ export default function ProfilePicture() {
             .then((res) => {
                 if(!res.ok) {
                     throw new Error(error);
-                }
-                return res.json();
-            })
-            .then((data) => {
-                if (data.success) {
-                    navigate('/recommends');
                 } else {
-                    alert('업로드 실패');
+                    navigate('/recommends');
                 }
             })
             .catch((error) => {
