@@ -35,7 +35,8 @@ export default function ProfilePicture() {
                 if (error.status === 403) {
                     alert("접근 권한이 없습니다. 올바른 경로로 접속했는지 확인해주세요.");
                 } else if (error.status === 404) {
-                    alert("프로필 정보를 찾을 수 없습니다.");
+                    // 프로필 사진 등록 안한 경우
+                    return;
                 } else if (error.status === 500) {
                     navigate("/500");
                 } else {
