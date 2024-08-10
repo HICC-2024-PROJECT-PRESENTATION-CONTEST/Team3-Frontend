@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 
 import styled from "styled-components";
 
@@ -12,6 +12,101 @@ const API_URL = import.meta.env.VITE_API_URL;
 
 export default function MyPage() {
     const [activeTab, setActiveTab] = useState('BasicInfo');
+    const [imageSrc, setImageSrc] = useState(null);
+    const canvasRef = useRef(null);
+    const [name, setName] = useState(null);
+
+    // 프로필 사진 가져오기
+    useEffect(() => {
+        fetch(`${API_URL}/profiles/@me/image?size=200`, {
+            method: 'GET',
+            credentials: 'include',
+        })
+            .then((res) => {
+                if (!res.ok) {
+                    const error = new Error();
+                    error.status = res.status;
+                    throw error;
+                }
+                return res.blob();
+            })
+            .then((blob) => {
+                const imageUrl = URL.createObjectURL(blob);
+                setImageSrc(imageUrl);
+            })
+            .catch((error) => {
+                if (error.status === 403) {
+                    alert("접근 권한이 없습니다. 올바른 경로로 접속했는지 확인해주세요.");
+                } else if (error.status === 404) {
+                    // 프로필 사진 등록 안한 경우
+                    return;
+                } else if (error.status === 500 || error.status === 502) {
+                    navigate("/500");
+                } else {
+                    console.error(error);
+                    alert('알 수 없는 오류가 발생했습니다.');
+                }
+            });
+        
+            fetchMyProfile();
+    }, []);
+
+    useEffect(() => {
+        handleFileChange();
+    }, [imageSrc]);
+
+    async function fetchMyProfile(){
+        await fetch(`${API_URL}/profiles/@me`, {
+            method: 'GET',
+            credentials: 'include',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+        })
+        .then((response) => {
+            if(!response.ok){
+                throw new Error(`${response.status}: ${response.statusText}`);
+            } else {
+                return response.json();
+            }
+        })
+        .then((result) => {
+            return result.data;
+        })
+        .then((data) => {
+            setName(data.name);
+        })
+        .catch((error) => {
+            console.error(error);
+        });
+    }
+
+    // 백으로부터 받아온 프로필 사진 띄우기
+    function handleFileChange() {
+        if (imageSrc) {
+            const img = new Image;
+            img.src = imageSrc;
+            img.onload = () => {
+                const canvas = canvasRef.current;
+                const ctx = canvas.getContext('2d');
+
+                // vw 계산
+                const vw = Math.max(document.documentElement.clientWidth || 0, window.innerWidth || 0);
+                // 150px 이상, 300px 이하
+                let width = Math.min(Math.max(0.3 * vw, 150), 300);
+                let height = width;
+
+                const size = Math.min(img.width, img.height);
+                canvas.width = width;
+                canvas.height = height;
+
+                // 캔버스를 정사각형으로 자름
+                // img 객체, x 자르기 시작할 위치, y 자르기 시작할 위치,이미지 내의 x, y 중심으로 그려질 높이, 캔버스의 x, y 좌표, 캔버스에 그릴 x 크기, 캔버스에 그릴 y 크기
+                ctx.drawImage(img, (img.width - size) / 2, (img.height - size) / 2, size, size, 0, 0, width, height);
+
+            };
+        }
+    }
 
     function renderContent() {
         switch (activeTab) {
@@ -42,14 +137,15 @@ export default function MyPage() {
                 {/* 프로필 사진 */}
                 <ProfilePictureWrapper>
                     <ProfilePicture>
-
+                        {imageSrc ? <ProfilePicturePreview src={imageSrc} /> : ""}
                     </ProfilePicture>
                     <ProfilePictureEditButton src={pfpEditButton} onClick={handlePictureEdit} />
+                    <canvas ref={canvasRef} style={{ display: 'none' }} />
                 </ProfilePictureWrapper>
 
                 {/* 이름 */}
                 <NameWrapper>
-                    <Name>홍길동</Name><Sir> 님</Sir>
+                    <Name>{name}</Name><Sir> 님</Sir>
                 </NameWrapper>
 
                 {/* 내 정보 수정 버튼 */}
@@ -59,14 +155,14 @@ export default function MyPage() {
                 <Tabs>
                     <TabWrapper>
                         <Tab onClick={() => setActiveTab('BasicInfo')} $active={activeTab === 'BasicInfo'} />
-                        <Text  onClick={() => setActiveTab('BasicInfo')}>기본 정보</Text>
+                        <Text onClick={() => setActiveTab('BasicInfo')}>기본 정보</Text>
                     </TabWrapper>
                     <TabWrapper>
-                        <Tab onClick={() => setActiveTab('MyChoice')} $active={activeTab === 'MyChoice'}/>
+                        <Tab onClick={() => setActiveTab('MyChoice')} $active={activeTab === 'MyChoice'} />
                         <Text onClick={() => setActiveTab('MyChoice')}>나의 선택</Text>
                     </TabWrapper>
                     <TabWrapper>
-                        <Tab onClick={() => setActiveTab('OthersChoice')} $active={activeTab === 'OthersChoice'}/>
+                        <Tab onClick={() => setActiveTab('OthersChoice')} $active={activeTab === 'OthersChoice'} />
                         <Text onClick={() => setActiveTab('OthersChoice')}>상대방의 선택</Text>
                     </TabWrapper>
                 </Tabs>
@@ -125,7 +221,23 @@ const ProfilePicture = styled.div`
     max-height: 140px;
 
     border: solid 5px;
-    border-radius: 15px;
+    border-radius: 20%;
+`
+
+const ProfilePicturePreview = styled.img`
+    position: absolute;
+    
+    width: 26vw;
+    height: 26vw;
+    min-width: 80px;
+    max-width: 140px;
+    min-height: 80px;
+    max-height: 140px;
+
+    border-radius: 20%;
+    object-fit: cover;
+    
+    z-index: 100;
 `
 
 const ProfilePictureEditButton = styled.img`
@@ -139,6 +251,8 @@ const ProfilePictureEditButton = styled.img`
 
     right: 0px;
     bottom: 0px;
+
+    z-index: 100;
 
     cursor: pointer;
 `
@@ -197,10 +311,11 @@ const Tab = styled.div`
     transform-origin: bottom left;
     transition: background-color 0.3s ease;
 
-    background-color: ${props => props.$active ? "#FAA8B1" :"#FFFFFF"};
+    background-color: ${props => props.$active ? "#FAA8B1" : "#FFFFFF"};
 
     border: solid 3px;
     border-left: none;
+    // border-bottom: ${props => props.$active ? "solid 3px #FAA8B1" : "solid 3px"};
     border-radius: 0 10px 0 0;
     
     cursor: pointer;
