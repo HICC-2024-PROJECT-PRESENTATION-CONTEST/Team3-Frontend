@@ -8,6 +8,18 @@ import MyChoice from "./MyChoice";
 import OthersChoice from "./OthersChoice";
 
 import pfpEditButton from "../../../assets/pfpEditButton.png";
+import Bear from "../../../assets/bear.png";
+import Deer from "../../../assets/deer.png";
+import Dino from "../../../assets/dino.png";
+import Dog from "../../../assets/dog.png";
+import Cat from "../../../assets/cat.png";
+import Rabbit from "../../../assets/rabbit.png";
+import Fox from "../../../assets/fox.png";
+import Fish from "../../../assets/fish.png";
+import Penguin from "../../../assets/penguin.png";
+import Squirrel from "../../../assets/squirrel.png";
+import Tiger from "../../../assets/tiger.png";
+import Hourse from "../../../assets/hourse.png";
 
 const API_URL = import.meta.env.VITE_API_URL;
 
@@ -15,6 +27,7 @@ export default function MyPage() {
     const navigate = useNavigate();
     const [activeTab, setActiveTab] = useState('BasicInfo');
     const [imageSrc, setImageSrc] = useState(null);
+    const [lookLikeImageSrc, setLookLikeImageSrc] = useState(null);
     const canvasRef = useRef(null);
     const [name, setName] = useState(null);
 
@@ -49,15 +62,15 @@ export default function MyPage() {
                     alert('알 수 없는 오류가 발생했습니다.');
                 }
             });
-        
-            fetchMyProfile();
+
+        fetchMyProfile();
     }, []);
 
     useEffect(() => {
         handleFileChange();
     }, [imageSrc]);
 
-    async function fetchMyProfile(){
+    async function fetchMyProfile() {
         await fetch(`${API_URL}/profiles/@me`, {
             method: 'GET',
             credentials: 'include',
@@ -65,22 +78,67 @@ export default function MyPage() {
                 'Content-Type': 'application/json',
             },
         })
-        .then((response) => {
-            if(!response.ok){
-                throw new Error(`${response.status}: ${response.statusText}`);
-            } else {
-                return response.json();
-            }
-        })
-        .then((result) => {
-            return result.data;
-        })
-        .then((data) => {
-            setName(data.name);
-        })
-        .catch((error) => {
-            console.error(error);
-        });
+            .then((response) => {
+                if (!response.ok) {
+                    throw new Error(`${response.status}: ${response.statusText}`);
+                } else {
+                    return response.json();
+                }
+            })
+            .then((result) => {
+                return result.data;
+            })
+            .then((data) => {
+                setName(data.name);
+                console.log(data.looklike);
+                if (!imageSrc) {
+                    let image = null;
+                    switch (data.looklike) {
+                        case '강아지상':
+                            image = Dog;
+                            break;
+                        case '말상':
+                            image = Hourse;
+                            break;
+                        case '토끼상':
+                            image = Rabbit;
+                            break;
+                        case '공룡상':
+                            image = Dino;
+                            break;
+                        case '펭귄상':
+                            image = Penguin;
+                            break;
+                        case '곰상':
+                            image = Bear;
+                            break;
+                        case '사슴상':
+                            image = Deer;
+                            break;
+                        case '고양이상':
+                            image = Cat;
+                            break;
+                        case '물고기상':
+                            image = Fish;
+                            break;
+                        case '호랑이상':
+                            image = Tiger;
+                            break;
+                        case '다람쥐상':
+                            image = Squirrel;
+                            break;
+                        case '여우상':
+                            image = Fox;
+                            break;
+                        default:
+                            break;
+                    }
+                    setLookLikeImageSrc(image);
+                }
+            })
+            .catch((error) => {
+                console.error(error);
+            });
     }
 
     // 백으로부터 받아온 프로필 사진 띄우기
@@ -139,7 +197,7 @@ export default function MyPage() {
                 {/* 프로필 사진 */}
                 <ProfilePictureWrapper>
                     <ProfilePicture>
-                        {imageSrc ? <ProfilePicturePreview src={imageSrc} /> : ""}
+                        {imageSrc ? <ProfilePicturePreview src={imageSrc}/> : <LookLike src={lookLikeImageSrc} />}
                     </ProfilePicture>
                     <ProfilePictureEditButton src={pfpEditButton} onClick={handlePictureEdit} />
                     <canvas ref={canvasRef} style={{ display: 'none' }} />
@@ -216,6 +274,7 @@ const ProfilePictureWrapper = styled.div`
 
 const ProfilePicture = styled.div`
     position: relative;
+    display: flex;
     width: 26vw;
     height: 26vw;
     min-width: 80px;
@@ -225,6 +284,11 @@ const ProfilePicture = styled.div`
 
     border: solid 5px;
     border-radius: 20%;
+
+    justify-content: center;
+    align-items: center;
+
+    background-color: #FFFFFF;
 `
 
 const ProfilePicturePreview = styled.img`
@@ -239,6 +303,17 @@ const ProfilePicturePreview = styled.img`
 
     border-radius: 20%;
     object-fit: cover;
+    
+    z-index: 100;
+`
+
+const LookLike = styled.img`
+    width: calc(26vw - 30px);
+    height: calc(26vw - 30px);
+    min-width: 50px;
+    max-width: 110px;
+    min-height: 50px;
+    max-height: 110px;
     
     z-index: 100;
 `
