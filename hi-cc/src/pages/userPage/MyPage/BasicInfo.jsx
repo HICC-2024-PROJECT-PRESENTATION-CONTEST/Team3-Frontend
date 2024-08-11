@@ -1,10 +1,12 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect, useRef } from "react";
 import styled from "styled-components";
+import Modal from "../../../components/BasicModal";
 
 const API_URL = import.meta.env.VITE_API_URL;
 
 export default function BasicInfo() {
     const [data, setData] = useState(null);
+    const dialog = useRef();
 
     useEffect(() => {
         fetchMyProfile();
@@ -37,52 +39,64 @@ export default function BasicInfo() {
         return (
             <DataWrapper>
                 <Data>
-                    <DataKey>이름:</DataKey>
+                    <DataKey>이름</DataKey>
                     <DataValue>{data.name}</DataValue>
                 </Data>
                 <Data>
-                    <DataKey>성별:</DataKey>
+                    <DataKey>성별</DataKey>
                     <DataValue>{data.gender === 'F' ? "여" : "남"}</DataValue>
                 </Data>
                 <Data>
-                    <DataKey>전화번호:</DataKey>
+                    <DataKey>전화번호</DataKey>
                     <DataValue>{data.phone}</DataValue>
                 </Data>
                 {data.major ?
                     <Data>
-                        <DataKey>학과:</DataKey>
+                        <DataKey>학과</DataKey>
                         <DataValue>{data.major}</DataValue>
                     </Data> : ""}
                 <Data>
-                    <DataKey>나이:</DataKey>
+                    <DataKey>나이</DataKey>
                     <DataValue>{data.birthyear}년생</DataValue></Data>
                 <Data>
-                    <DataKey>상대방 나이차:</DataKey>
+                    <DataKey>상대 나이차</DataKey>
                     <DataValue>위로 {data.birthyear_offset.plus} 아래로 {data.birthyear_offset.minus}</DataValue>
                 </Data>
                 {data.mbti ?
                     <Data>
-                        <DataKey>MBTI:</DataKey>
+                        <DataKey>MBTI</DataKey>
                         <DataValue>{data.mbti}</DataValue>
                     </Data> : ""}
                 <Data>
-                    <DataKey>닮은꼴:</DataKey>
+                    <DataKey>닮은꼴</DataKey>
                     <DataValue>{data.looklike}</DataValue>
                 </Data>
                 <Data>
-                    <DataKey>흡연여부:</DataKey>
+                    <DataKey>흡연여부</DataKey>
                     <DataValue>{data.smoking ? "예" : "아니오"}</DataValue>
                 </Data>
             </DataWrapper>
         )
     }
 
+    // 탈퇴 버튼 클릭 시
+    function handleQuit() {
+        dialog.current.showModal();
+    }
+
     return (
         <BasicInfoWrapper>
+            {/* 기본 정보 표시 */}
             <BasicInfoInnerWrapper>
                 {data ? renderData(data) : <div>로딩중</div>}
             </BasicInfoInnerWrapper>
-            <QuitButton>탈퇴하기</QuitButton>
+
+            <ButtonWrapper>
+                <QuitButton onClick={handleQuit}>탈퇴하기</QuitButton>
+            </ButtonWrapper>
+
+            {/* 탈퇴 버튼 클릭 시 모달 열림 */}
+            <Modal ref={dialog} />
         </BasicInfoWrapper>
     )
 };
@@ -92,10 +106,12 @@ const BasicInfoWrapper = styled.div`
     flex-direction: column;
     align-items: center;
     width: 100%;
-    height: auto;
+    flex-grow: 1;
 `
 
 const BasicInfoInnerWrapper = styled.div`
+    
+    box-sizing: border-box;
     width: calc(100% - 30px);
     height: auto;
     margin-top: 20px;
@@ -104,6 +120,12 @@ const BasicInfoInnerWrapper = styled.div`
 
     border: solid 3px #000000;
     border-radius: 10px;
+`
+
+const ButtonWrapper = styled.div`
+    display: flex;
+    width: calc(100% - 15px);
+    justify-content: end;
 `
 
 const QuitButton = styled.button`
@@ -126,7 +148,7 @@ const QuitButton = styled.button`
 `
 
 const DataWrapper = styled.div`
-    margin: 10px;
+    margin: 19px;
 `
 
 const Data = styled.div`
