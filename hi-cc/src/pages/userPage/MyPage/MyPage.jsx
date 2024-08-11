@@ -185,6 +185,7 @@ const MyPageWrapper = styled.div`
     height: 100vh;
     background: #F9DBDD;
     overflow: auto;
+    overflow-x: hidden;
 `
 
 const MyProfileWrapper = styled.div`
@@ -192,7 +193,7 @@ const MyProfileWrapper = styled.div`
     flex-direction: column;
     width: 100vw;
     height: auto;
-    min-height: 30vh;
+    min-height: Math.max(300px, 30vh);
     margin-bottom: 10px;
     align-items: center;
 `
@@ -200,8 +201,8 @@ const MyProfileWrapper = styled.div`
 const ProfilePictureWrapper = styled.div`
     position: relative;
     display: flex;
-    margin-top: 5vh;
-
+    margin: 4vh;
+    
     width: calc(32vw + 1px);
     height: 32vw;
     min-width: 103px;
@@ -286,9 +287,12 @@ const EditButton = styled.button`
 `
 
 const ContentWrapper = styled.div`
+    display: flex;
+    flex-direction: column;
     width: 100vw;
-    min-width: calc(230px -5vw);
+    min-width: calc(230px - 5vw);
     max-width: calc(480px - 5vw);
+    flex-grow: 1;
 `
 
 const Tabs = styled.div`
@@ -305,10 +309,11 @@ const TabWrapper = styled.div`
     height: 37.8px;
     overflow: hidden;
     border-left: solid 3px;
+    border-bottom: solid 3px;
 `
 
 const Tab = styled.div`
-    height: 33px;
+    height: 100%;
     transform: skew(20deg);
     transform-origin: bottom left;
     transition: background-color 0.3s ease;
@@ -317,6 +322,7 @@ const Tab = styled.div`
 
     border: solid 3px;
     border-left: none;
+    border-bottom: none;
     // border-bottom: ${props => props.$active ? "solid 3px #FAA8B1" : "solid 3px"};
     border-radius: 0 10px 0 0;
     
@@ -325,6 +331,7 @@ const Tab = styled.div`
 
 const Text = styled.div`
     position: absolute;
+    word-break: keep-all;
     width: 90%;
     top: 9px;
     font-size: 15px;
@@ -340,6 +347,7 @@ const Content = styled.div`
     align-items: center;
     width: 100%;
     height: auto;
+    flex-grow: 1;
 
     background-color: #FAA8B1;
 `
