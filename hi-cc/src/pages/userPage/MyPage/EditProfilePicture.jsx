@@ -7,7 +7,7 @@ import AddButton from "../../../assets/AddButton.png";
 
 const API_URL = import.meta.env.VITE_API_URL;
 
-export default function ProfilePicture() {
+export default function EditProfilePicture() {
     const navigate = useNavigate();
 
     const [imageSrc, setImageSrc] = useState(null);
@@ -65,7 +65,7 @@ export default function ProfilePicture() {
                     error.status = res.status;
                     throw error;
                 } else {
-                    navigate('/recommends');
+                    navigate(-1);
                 }
             })
             .catch((error) => {
@@ -123,8 +123,33 @@ export default function ProfilePicture() {
         }
     }
 
-    function handleSkip() {
-        navigate('/recommends');
+    function handleDelete() {
+        fetch(`${API_URL}/profiles/@me/image`, {
+            method: 'DELETE',
+            credentials: 'include',
+        })
+            .then((res) => {
+                if(!res.ok) {
+                    const error = new Error();
+                    error.status = res.status;
+                    throw error;
+                } else {
+                    setImageSrc(null);
+                    navigate(-1);
+                };
+            })
+            .catch((error) => {
+                if (error.status === 403) {
+                    alert("접근 권한이 없습니다. 올바른 경로로 접속했는지 확인해주세요.");
+                } else if (error.status === 404) {
+                    // 프로필 사진 등록 안한 경우
+                    return;
+                } else if (error.status === 500) {
+                    navigate("/500");
+                } else {
+                    alert('알 수 없는 오류가 발생했습니다.');
+                }
+            });
     }
 
     return (
@@ -153,7 +178,7 @@ export default function ProfilePicture() {
                 </DescriptionWrapper>
             </ProfilePictureInnerWrapper>
             <ButtonWrapper>
-                <Button onClick={handleSkip}>건너뛰기</Button>
+                <Button onClick={handleDelete}>삭제하기</Button>
                 <Button
                     onClick={handleRegister}
                     style={{ color: "#000000", backgroundColor: "#F94364", border: "solid 4px #000000" }}

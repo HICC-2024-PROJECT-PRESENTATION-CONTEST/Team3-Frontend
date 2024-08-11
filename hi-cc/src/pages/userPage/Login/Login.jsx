@@ -51,6 +51,7 @@ export default function Login() {
         }
         await fetch(`${API_URL}/auth/login`, {
             method: 'POST',
+            credentials: 'include',
             headers: {
                 'Content-Type': 'application/json',
             },
