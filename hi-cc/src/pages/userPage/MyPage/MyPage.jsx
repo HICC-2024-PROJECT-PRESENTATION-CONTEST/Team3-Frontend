@@ -259,7 +259,7 @@ const MyProfileWrapper = styled.div`
 const ProfilePictureWrapper = styled.div`
     position: relative;
     display: flex;
-    margin: 4vh;
+    margin-top: 7vh;
     
     width: calc(32vw + 1px);
     height: 32vw;
