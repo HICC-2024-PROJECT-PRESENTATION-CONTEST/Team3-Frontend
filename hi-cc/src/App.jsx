@@ -9,6 +9,7 @@ import QR from './pages/adminPage/QR/QR';
 import Users from './pages/adminPage/Users/Users';
 
 import Start from './pages/userPage/Start/Start';
+import Login from './pages/userPage/Login/Login';
 import Agreement from './pages/userPage/Agreement/Agreement';
 import Agreement1 from "./pages/userPage/Agreement/Agreement1";
 import Agreement2 from "./pages/userPage/Agreement/Agreement2";
@@ -17,7 +18,7 @@ import ProfilePicture from './pages/userPage/Profile/ProfilePicture';
 import Recommends from './pages/userPage/Recommends/Recommends';
 import Message from './pages/userPage/Message/Message';
 import MyPage from './pages/userPage/MyPage/MyPage';
-import Login from './pages/userPage/Login/Login';
+import EditProfilePicture from "./pages/userPage/MyPage/EditProfilePicture";
 import Error404 from './pages/Error/Error404';
 import Error500 from './pages/Error/Error500';
 
@@ -41,6 +42,7 @@ function App() {
         <Route path="/recommends" element={<Recommends />} />
         <Route path="/message" element={<Message />} />
         <Route path="/mypage" element={<MyPage />} />
+        <Route path="/mypage/profilepicture" element={<EditProfilePicture />} />
         <Route path="*" element={<Error404 />} />
         <Route path="/500" element={<Error500 />} />
       </Routes>

@@ -1,4 +1,5 @@
 import React, { useState, useEffect, useRef } from 'react';
+import { useNavigate } from 'react-router-dom';
 
 import styled from "styled-components";
 
@@ -11,6 +12,7 @@ import pfpEditButton from "../../../assets/pfpEditButton.png";
 const API_URL = import.meta.env.VITE_API_URL;
 
 export default function MyPage() {
+    const navigate = useNavigate();
     const [activeTab, setActiveTab] = useState('BasicInfo');
     const [imageSrc, setImageSrc] = useState(null);
     const canvasRef = useRef(null);
@@ -123,7 +125,7 @@ export default function MyPage() {
 
     // 프로필 사진 수정 페이지로 이동
     function handlePictureEdit() {
-
+        navigate('/mypage/profilepicture');
     }
 
     // 내 정보 수정 페이지로 이동
