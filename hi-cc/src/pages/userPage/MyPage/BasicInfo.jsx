@@ -1,6 +1,6 @@
 import { useState, useEffect, useRef } from "react";
 import styled from "styled-components";
-import Modal from "../../../components/BasicModal";
+import Modal from "../../../components/QuitModal";
 
 const API_URL = import.meta.env.VITE_API_URL;
 
@@ -110,7 +110,6 @@ const BasicInfoWrapper = styled.div`
 `
 
 const BasicInfoInnerWrapper = styled.div`
-    
     box-sizing: border-box;
     width: calc(100% - 30px);
     height: auto;
