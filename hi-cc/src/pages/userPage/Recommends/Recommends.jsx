@@ -6,8 +6,22 @@ import ProfileCard from "../../../components/ProfileCard";
 import Button from "../../../components/MainButton";
 import Bear from "../../../assets/bear.png";
 import Deer from "../../../assets/deer.png";
-import Rabbit from "../../../assets/rabbit.png";
+import Dino from "../../../assets/dino.png";
 import Dog from "../../../assets/dog.png";
+import Cat from "../../../assets/cat.png";
+import Rabbit from "../../../assets/rabbit.png";
+import Fox from "../../../assets/fox.png";
+import Fish from "../../../assets/fish.png";
+import Penguin from "../../../assets/penguin.png";
+import Squirrel from "../../../assets/squirrel.png";
+import Tiger from "../../../assets/tiger.png";
+import Hourse from "../../../assets/hourse.png";
+import Snake from "../../../assets/snake.png";
+import Duck from "../../../assets/duck.png";
+import Raccoon from "../../../assets/raccoon.png";
+import Wolf from "../../../assets/wolf.png";
+import Sheep from "../../../assets/sheep.png";
+import Frog from "../../../assets/frog.png";
 
 export default function Recommends() {
     const navigate = useNavigate();
@@ -58,10 +72,9 @@ const ProfileCardWrapper = styled.div`
     display: grid;
     grid-template-columns: repeat(2, 1fr);
     grid-template-rows: repeat(4, 350px);
-    margin: 30px 0 100px 0;
+    margin: 30px 0 150px 0;
     column-gap: 2vw;
 `
-
 
 const DescriptionText = styled.div`
     font-size: 13px;

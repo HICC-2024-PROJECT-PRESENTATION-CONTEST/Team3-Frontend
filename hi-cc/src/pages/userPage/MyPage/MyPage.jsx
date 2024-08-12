@@ -20,6 +20,12 @@ import Penguin from "../../../assets/penguin.png";
 import Squirrel from "../../../assets/squirrel.png";
 import Tiger from "../../../assets/tiger.png";
 import Hourse from "../../../assets/hourse.png";
+import Snake from "../../../assets/snake.png";
+import Duck from "../../../assets/duck.png";
+import Raccoon from "../../../assets/raccoon.png";
+import Wolf from "../../../assets/wolf.png";
+import Sheep from "../../../assets/sheep.png";
+import Frog from "../../../assets/frog.png";
 
 const API_URL = import.meta.env.VITE_API_URL;
 
@@ -70,6 +76,7 @@ export default function MyPage() {
         handleFileChange();
     }, [imageSrc]);
 
+    {/* 사진 없을 경우 닮은꼴로 대체 */ }
     async function fetchMyProfile() {
         await fetch(`${API_URL}/profiles/@me`, {
             method: 'GET',
@@ -129,6 +136,24 @@ export default function MyPage() {
                             break;
                         case '여우상':
                             image = Fox;
+                            break;
+                        case '뱀상':
+                            image = Snake;
+                            break;
+                        case '오리상':
+                            image = Duck;
+                            break;
+                        case '너구리상':
+                            image = Raccoon;
+                            break;
+                        case '늑대상':
+                            image = Wolf;
+                            break;
+                        case '양상':
+                            image = Sheep;
+                            break;
+                        case '개구리상':
+                            image = Frog;
                             break;
                         default:
                             break;
@@ -197,7 +222,7 @@ export default function MyPage() {
                 {/* 프로필 사진 */}
                 <ProfilePictureWrapper>
                     <ProfilePicture>
-                        {imageSrc ? <ProfilePicturePreview src={imageSrc}/> : <LookLike src={lookLikeImageSrc} />}
+                        {imageSrc ? <ProfilePicturePreview src={imageSrc} /> : <LookLike src={lookLikeImageSrc} />}
                     </ProfilePicture>
                     <ProfilePictureEditButton src={pfpEditButton} onClick={handlePictureEdit} />
                     <canvas ref={canvasRef} style={{ display: 'none' }} />
