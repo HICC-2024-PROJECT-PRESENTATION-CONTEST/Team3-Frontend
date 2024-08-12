@@ -5,28 +5,13 @@ import styled from "styled-components";
 import Logo from "../../../assets/Logo.png";
 import ProfileCard from "../../../components/ProfileCard";
 import Button from "../../../components/MainButton";
-import Bear from "../../../assets/bear.png";
-import Deer from "../../../assets/deer.png";
-import Dino from "../../../assets/dino.png";
-import Dog from "../../../assets/dog.png";
-import Cat from "../../../assets/cat.png";
-import Rabbit from "../../../assets/rabbit.png";
-import Fox from "../../../assets/fox.png";
-import Fish from "../../../assets/fish.png";
-import Penguin from "../../../assets/penguin.png";
-import Squirrel from "../../../assets/squirrel.png";
-import Tiger from "../../../assets/tiger.png";
-import Hourse from "../../../assets/hourse.png";
-import Snake from "../../../assets/snake.png";
-import Duck from "../../../assets/duck.png";
-import Raccoon from "../../../assets/raccoon.png";
-import Wolf from "../../../assets/wolf.png";
-import Sheep from "../../../assets/sheep.png";
-import Frog from "../../../assets/frog.png";
+
+const API_URL = import.meta.env.VITE_API_URL;
 
 export default function Recommends() {
     const navigate = useNavigate();
     const [selectedId, setSelectedId] = useState(null);
+    const [data, setData] = useState(null);
 
     function handleClick(id) {
         setSelectedId(id);
@@ -36,6 +21,29 @@ export default function Recommends() {
         navigate('/message');
     }
 
+    useEffect(() => {
+        fetchRecommends();
+    }, []);
+
+    async function fetchRecommends() {
+        await fetch(`${API_URL}/profiles/@me/recommands`, {
+            method: 'GET',
+            credentials: 'include',
+        })
+            .then((response) => {
+                if (!response.ok) {
+                    throw new Error(`${response.status}: ${response.statusText}`);
+                } else {
+                    return response.json();
+                }
+            })
+            .then((result) => {
+                setData(result.data);
+            })
+            .catch((error) => {
+                console.error(error);
+            });
+    }
 
     return (
         <RecommendsWrapper>
@@ -46,13 +54,9 @@ export default function Recommends() {
                 </DescriptionText>
             </DescriptionWrapper>
             <ProfileCardWrapper>
-                <ProfileCard id={1} src={Bear} onClick={() => handleClick(1)} $selected={selectedId === 1} />
-                <ProfileCard id={2} src={Deer} onClick={() => handleClick(2)} $selected={selectedId === 2} />
-                <ProfileCard id={3} src={Deer} onClick={() => handleClick(3)} $selected={selectedId === 3} />
-                <ProfileCard id={4} src={Deer} onClick={() => handleClick(4)} $selected={selectedId === 4} />
-                <ProfileCard id={5} src={Rabbit} onClick={() => handleClick(5)} $selected={selectedId === 5} />
-                <ProfileCard id={6} src={Deer} onClick={() => handleClick(6)} $selected={selectedId === 6} />
-                <ProfileCard id={7} src={Dog} onClick={() => handleClick(7)} $selected={selectedId === 7} />
+                {data ? data.map((data) => {
+                    return <ProfileCard id={data.uid} key={data.uid} data={data} onClick={() => handleClick(data.uid)} $selected={selectedId === data.uid} />
+                }) : <div>추천 상대 목록을 가져오지 못했습니다.</div>}
             </ProfileCardWrapper>
 
             <Button onClick={handleSelect} $valid={selectedId !== null} $position="fixed">선택하기</Button>
@@ -73,17 +77,17 @@ const RecommendsWrapper = styled.div`
 const ProfileCardWrapper = styled.div`
     display: grid;
     grid-template-columns: 1fr 1fr;
-    grid-template-rows: repeat(4, 350px);
+    grid-template-rows: repeat(4, 450px);
     margin: 30px 0 150px 0;
     column-gap: 20px;
 
     & > :nth-child(2n) {
-        transform: translateY(50px);
+        transform: translateY(80px);
     }
     
     @media screen and (max-width: 420px) {
         grid-template-columns: 1fr;
-        grid-template-rows: repeat(4, 350px);
+        grid-template-rows: repeat(7, 450px);
 
         & > :nth-child(2n) {
         transform: none;
