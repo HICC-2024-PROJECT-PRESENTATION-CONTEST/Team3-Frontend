@@ -21,7 +21,6 @@ const ButtonWrapper = styled.div`
     justify-content: center;
     align-items: center;
     width: fit-content;
-    cursor: ${props => props.$valid === "true" ? "pointer" : "default"};
     top: ${props => props.$position === "fixed" ? "79vh" : "none"};
     margin: 8vh 0;
     z-index: 100000;
@@ -34,6 +33,7 @@ const ButtonImg = styled.img`
     max-width: 300px;
     justify-content: center;
     align-items: center;
+    cursor: ${props => props.$valid === "true" ? "pointer" : "default"};
 `
 
 const ButtonText = styled.span`
@@ -43,6 +43,7 @@ const ButtonText = styled.span`
     max-width: 300px;
     text-align: center;
     font-size: 8vw;
+    cursor: ${props => props.$valid === "true" ? "pointer" : "default"};
     color: ${props => props.$valid === "true" ? "#000000" : "#FFFFFF"};
     @media screen and (max-width: 300px) {
         font-size: 25px;
