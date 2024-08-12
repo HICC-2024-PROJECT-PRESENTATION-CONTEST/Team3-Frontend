@@ -173,7 +173,8 @@ export default function EditProfilePicture() {
                         유의사항
                     </DescriptionTitle>
                     <DescriptionText>
-                        사진을 등록한 경우 프로필 사진을 등록한 사람끼리는 사진을 볼 수 있지만, 사진을 등록하지 않은 경우 상대방의 프로필 사진을 볼 수 없습니다.
+                        사진을 등록한 경우 프로필 사진을 등록한 사람끼리는 사진을 볼 수 있지만, 사진을 등록하지 않은 경우 상대방의 프로필 사진을 볼 수 없습니다. <br />
+                        사진을 등록하지 않을 경우 프로필 사진이 닮은꼴 동물상으로 대체될 수 있습니다.
                     </DescriptionText>
                 </DescriptionWrapper>
             </ProfilePictureInnerWrapper>
