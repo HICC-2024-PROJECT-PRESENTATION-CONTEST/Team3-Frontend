@@ -72,14 +72,22 @@ const RecommendsWrapper = styled.div`
 `
 const ProfileCardWrapper = styled.div`
     display: grid;
-    grid-template-columns: repeat(2, 1fr);
+    grid-template-columns: 1fr 1fr;
     grid-template-rows: repeat(4, 350px);
     margin: 30px 0 150px 0;
     column-gap: 20px;
+
+    & > :nth-child(2n) {
+        transform: translateY(50px);
+    }
     
     @media screen and (max-width: 420px) {
-        grid-template-columns: repeat(1, 1fr);
-        grid-template-rows: repeat(7, 350px);
+        grid-template-columns: 1fr;
+        grid-template-rows: repeat(4, 350px);
+
+        & > :nth-child(2n) {
+        transform: none;
+    }
     }
 `
 
@@ -87,7 +95,7 @@ const DescriptionWrapper = styled.div`
     display: flex;
     flex-direction: column;
     justify-content: start;
-    margin-top: 100px;
+    margin: 100px 0 30px 0;
     width: calc(80vw + 10px); // -30px 한 상태
     max-width: 620px; // -30px 한 상태
 
