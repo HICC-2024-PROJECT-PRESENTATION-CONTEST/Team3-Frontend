@@ -24,14 +24,14 @@ export default function ProfileCard(props, {children}) {
 
 const ProfileCardWrapper = styled.div`
     position: relative;
-    width: calc(40vw + 13px);
-    max-width: 313px;
+    width: calc(40vw + 10px);
+    max-width: 310px;
     height: auto;
     cursor: pointer;
 
     @media screen and (max-width: 420px) {
-        width: calc(65vw + 13px);
-        min-width: 228px;
+        width: calc(75vw + 10px);
+        min-width: 260px;
     }
 `
 
@@ -51,8 +51,8 @@ const Top = styled.div`
     z-index: 150;
 
     @media screen and (max-width: 420px) {
-        width: 65vw;
-        min-width: 215px;
+        width: 75vw;
+        min-width: 250px;
     }
 `
 
@@ -74,11 +74,11 @@ const WriteHere = styled.div`
     border-radius: 20px;
     z-index: 100;
 
-    box-shadow: 13px 13px 0px rgba(0, 0, 0);
+    box-shadow: 10px 10px 0px rgba(0, 0, 0);
 
     @media screen and (max-width: 420px) {
-        width: 65vw;
-        min-width: 215px;
+        width: 75vw;
+        min-width: 250px;
     }
 `
 

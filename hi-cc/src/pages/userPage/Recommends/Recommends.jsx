@@ -88,18 +88,22 @@ const DescriptionWrapper = styled.div`
     flex-direction: column;
     justify-content: start;
     margin-top: 100px;
-    width: calc(80vw + 20px); // -30px 한 상태
-    max-width: 620px; // -20px 한 상태
+    width: calc(80vw + 10px); // -30px 한 상태
+    max-width: 620px; // -30px 한 상태
 
     @media screen and (max-width: 420px) {
-        width: calc(65vw - 7px); // -20px 한 상태
-        min-width: 208px; // -20px 한 상태
+        width: calc(75vw - 15px); // -25px 한 상태
+        min-width: 235px; // -25px 한 상태
     }
 `
 
 const DescriptionText = styled.div`
     font-size: 13px;
     color: #464646;
+
+    width: 30vw;
+    min-width: 115px;
+    word-break: keep-all;
 `
 
 const LogoWrapper = styled.img`
