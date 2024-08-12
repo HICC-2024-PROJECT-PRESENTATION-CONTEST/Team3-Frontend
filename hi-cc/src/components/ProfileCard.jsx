@@ -24,10 +24,15 @@ export default function ProfileCard(props, {children}) {
 
 const ProfileCardWrapper = styled.div`
     position: relative;
-    width: calc(40vw + 10px);
-    max-width: 310px;
-    height: 80px;
+    width: calc(40vw + 13px);
+    max-width: 313px;
+    height: auto;
     cursor: pointer;
+
+    @media screen and (max-width: 420px) {
+        width: calc(65vw + 13px);
+        min-width: 228px;
+    }
 `
 
 const Top = styled.div`
@@ -44,6 +49,11 @@ const Top = styled.div`
     border: 3px solid #000000;
     border-radius: 20px 20px 0px 0px;
     z-index: 150;
+
+    @media screen and (max-width: 420px) {
+        width: 65vw;
+        min-width: 215px;
+    }
 `
 
 const WriteHere = styled.div`
@@ -55,8 +65,8 @@ const WriteHere = styled.div`
 
     top: 0px;
     left: 0px;
-    padding: 36px 9px 15px 9px;
-    font-size: 12px;
+    padding: 36px 15px 15px 15px;
+    font-size: 13px;
     line-height: 30px;
 
     background: ${props => props.$selected? "#FAA8B1" : "#FFFFFF"};
@@ -65,9 +75,15 @@ const WriteHere = styled.div`
     z-index: 100;
 
     box-shadow: 13px 13px 0px rgba(0, 0, 0);
+
+    @media screen and (max-width: 420px) {
+        width: 65vw;
+        min-width: 215px;
+    }
 `
 
 const Image = styled.img`
+    padding: 5px;
     width: 70px;
     height: 70px;
 `
@@ -78,16 +94,12 @@ const Icon1 = styled.div`
     height: 13px;
 
     top: 7px;
-    right: 23px;
+    right: 25px;
     
     border: 3px solid #000000;
-    border-radius: 30px;
+    border-radius: 50%;
     background-color: #FFFFFF;
     z-index: 160;
-
-    @media screen and (max-width: 750px) {
-        left: calc(40vw - 30px);
-    }
 `
 
 const Icon2 = styled.div`
@@ -96,14 +108,10 @@ const Icon2 = styled.div`
     height: 13px;
 
     top: 7px;
-    right: 47px;
+    right: 48px;
     
     border: 3px solid #000000;
-    border-radius: 30px;
+    border-radius: 50%;
     background-color: #F94364;
     z-index: 160;
-
-    @media screen and (max-width: 750px) {
-        left: calc(40vw - 53px);
-    }
 `

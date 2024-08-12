@@ -2,6 +2,7 @@ import React, { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import styled from "styled-components";
 
+import Logo from "../../../assets/Logo.png";
 import ProfileCard from "../../../components/ProfileCard";
 import Button from "../../../components/MainButton";
 import Bear from "../../../assets/bear.png";
@@ -36,13 +37,14 @@ export default function Recommends() {
     }
 
 
-    return(
+    return (
         <RecommendsWrapper>
-            <DescriptionText>
-                    상대에게 한번,<br/>
-                    추가로 문자를 보낼 수 있어요.
-            </DescriptionText>
-            
+            <DescriptionWrapper>
+                <LogoWrapper src={Logo} />
+                <DescriptionText>
+                    알아가고 싶은 상대를 골라주세요.
+                </DescriptionText>
+            </DescriptionWrapper>
             <ProfileCardWrapper>
                 <ProfileCard id={1} src={Bear} onClick={() => handleClick(1)} $selected={selectedId === 1} />
                 <ProfileCard id={2} src={Deer} onClick={() => handleClick(2)} $selected={selectedId === 2} />
@@ -73,10 +75,35 @@ const ProfileCardWrapper = styled.div`
     grid-template-columns: repeat(2, 1fr);
     grid-template-rows: repeat(4, 350px);
     margin: 30px 0 150px 0;
-    column-gap: 2vw;
+    column-gap: 20px;
+    
+    @media screen and (max-width: 420px) {
+        grid-template-columns: repeat(1, 1fr);
+        grid-template-rows: repeat(7, 350px);
+    }
+`
+
+const DescriptionWrapper = styled.div`
+    display: flex;
+    flex-direction: column;
+    justify-content: start;
+    margin-top: 100px;
+    width: calc(80vw + 20px); // -30px 한 상태
+    max-width: 620px; // -20px 한 상태
+
+    @media screen and (max-width: 420px) {
+        width: calc(65vw - 7px); // -20px 한 상태
+        min-width: 208px; // -20px 한 상태
+    }
 `
 
 const DescriptionText = styled.div`
     font-size: 13px;
     color: #464646;
+`
+
+const LogoWrapper = styled.img`
+    width: 35vw;
+    min-width: 115px;
+    max-width: 259px;
 `
