@@ -23,7 +23,7 @@ export default function Qr() {
         }).then((response) => {
             if(!response.ok){
                 setIsAuthenticated(false);
-                throw new Error('error');
+                throw { status: response.status, message: response.statusText };
             } else {
                 setIsAuthenticated(true);
                 return response.json();
@@ -32,7 +32,13 @@ export default function Qr() {
             const qrResponseUrl = `https://api.qrserver.com/v1/create-qr-code/?data=${VITE_LOCAL_URL}/qr/${response.data.key}&size=200x200`;
             setQrImage(qrResponseUrl);
         }).catch((error) => {
-            console.error(error.message);
+            if(error.status === 403) {
+                alert('접근 권한이 없습니다.');
+            } else if(error.status === 500 || error.status === 502) {
+                navigate('/500');
+            } else {
+                console.error(error);
+            }
         });
     }
 
@@ -48,6 +54,7 @@ export default function Qr() {
 
     return(
         <QRPageWrapper>
+            <QRPageInnerWrapper>
             <TextWrapper>
                 <TitleText>
                     QR코드를 스캔하세요.
@@ -60,10 +67,11 @@ export default function Qr() {
             <QRWrapper>
                 <QRInnerWrapper>
                     {isAuthenticated ? (<>
-                        <img src={qrImage} alt="QR 코드" style={{ width: '25vw' }}/>
+                        <img src={qrImage} alt="QR 코드" style={{ width: '25vw', maxWidth: '200px', minWidth: '150px' }}/>
                     </>) : <div>Loading...</div>}
                 </QRInnerWrapper>
             </QRWrapper>
+            </QRPageInnerWrapper>
             <Button onClick={handleClick} $valid={true}>QR 코드 생성</Button>
         </QRPageWrapper>
     )
@@ -76,7 +84,15 @@ const QRPageWrapper = styled.div`
     width: 100vw;
     height: 100vh;
     background: #F9DBDD;
-    overflow: auto;
+`
+
+const QRPageInnerWrapper = styled.div`
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    width: 80vw;
+    height: auto;
+    min-height: 79vh;
 `
 
 const TextWrapper = styled.div`
@@ -88,9 +104,10 @@ const TextWrapper = styled.div`
 `
 
 const TitleText = styled.div`
-    margin: 17vw 0 10px 0;
-    
+    margin: 100px 0 10px 0;
     font-size: 32px;
+    word-break: keep-all;
+    text-align: center;
 `
 const DescriptionText = styled.div`
     display: flex;
@@ -98,6 +115,7 @@ const DescriptionText = styled.div`
     white-space: normal;
     font-size: 17px;
     color: #8F8F8F;
+    word-break: keep-all;
 `
 
 const QRWrapper = styled.div`
@@ -105,8 +123,12 @@ const QRWrapper = styled.div`
     justify-content: center;
     align-items: center;
 
+    min-width: 210px;
     width: 35vw;
+    max-width: 280px;
+    min-height: 210px;
     height: 35vw;
+    max-height: 280px;
 
     background-color: #FFFFFF;
     border-radius: 10px;
@@ -117,8 +139,12 @@ const QRInnerWrapper = styled.div`
     justify-content: center;
     align-items: center;
 
+    min-width: 180px;
     width: 30vw;
+    max-width: 240px;
+    min-height: 180px;
     height: 30vw;
+    max-height: 240px;
     
     border: solid 1px #D5D4D4;
     border-radius: 20px;
