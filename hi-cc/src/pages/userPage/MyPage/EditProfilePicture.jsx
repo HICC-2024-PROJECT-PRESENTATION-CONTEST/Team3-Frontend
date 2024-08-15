@@ -47,6 +47,7 @@ export default function EditProfilePicture() {
 
     function handleRegister() {
         if (!selectedFile) {
+            alert('새로운 사진을 등록해주세요.');
             document.getElementById('fileInput').click();
             return;
         }
@@ -59,11 +60,9 @@ export default function EditProfilePicture() {
             credentials: 'include',
             body: formData,
         })
-            .then((res) => {
-                if(!res.ok) {
-                    const error = new Error();
-                    error.status = res.status;
-                    throw error;
+            .then((response) => {
+                if(!response.ok) {
+                    throw { status: response.status, message: response.statusText }
                 } else {
                     navigate(-1);
                 }
@@ -128,11 +127,9 @@ export default function EditProfilePicture() {
             method: 'DELETE',
             credentials: 'include',
         })
-            .then((res) => {
-                if(!res.ok) {
-                    const error = new Error();
-                    error.status = res.status;
-                    throw error;
+            .then((response) => {
+                if(!response.ok) {
+                    throw { status: response.status, message: response.statusText }
                 } else {
                     setImageSrc(null);
                     navigate(-1);
@@ -144,7 +141,7 @@ export default function EditProfilePicture() {
                 } else if (error.status === 404) {
                     // 프로필 사진 등록 안한 경우
                     return;
-                } else if (error.status === 500) {
+                } else if (error.status === 500 || error.status === 502) {
                     navigate("/500");
                 } else {
                     alert('알 수 없는 오류가 발생했습니다.');
