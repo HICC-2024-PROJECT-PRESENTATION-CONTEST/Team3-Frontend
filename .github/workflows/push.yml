@@ -18,21 +18,32 @@ jobs:
     needs: [checkout]
     runs-on:
       labels: [self-hosted, oracle]
+    env:
+      working-directory: ./hi-cc
     steps:
       - uses: actions/cache@master
         with:
-          path: node_modules
+          path: hi-cc/node_modules
           key: ${{ runner.os }}-node-modules-${{ hashFiles('**/package-lock.json') }}
           restore-keys: |
             ${{ runner.os }}-node-modules-
+
       - run: npm cache verify
+        working-directory: ${{ env.working-directory }}
+
       - run: npm ci
+        working-directory: ${{ env.working-directory }}
 
   deploy:
     name: 'Deploy'
     needs: [checkout, install_dependancy]
     runs-on:
       labels: [self-hosted, sangsu]
+    env:
+      working-directory: ./hi-cc
     steps:
       - run: chmod 777 ./start.sh
+        working-directory: ${{ env.working-directory }}
+
       - run: RUNNER_TRACKING_ID="" && ./start.sh
+        working-directory: ${{ env.working-directory }}
