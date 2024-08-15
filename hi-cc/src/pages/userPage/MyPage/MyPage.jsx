@@ -19,7 +19,7 @@ import Fish from "../../../assets/fish.png";
 import Penguin from "../../../assets/penguin.png";
 import Squirrel from "../../../assets/squirrel.png";
 import Tiger from "../../../assets/tiger.png";
-import Hourse from "../../../assets/hourse.png";
+import Horse from "../../../assets/horse.png";
 import Snake from "../../../assets/snake.png";
 import Duck from "../../../assets/duck.png";
 import Raccoon from "../../../assets/raccoon.png";
@@ -105,7 +105,7 @@ export default function MyPage() {
                             image = Dog;
                             break;
                         case '말상':
-                            image = Hourse;
+                            image = Horse;
                             break;
                         case '토끼상':
                             image = Rabbit;
