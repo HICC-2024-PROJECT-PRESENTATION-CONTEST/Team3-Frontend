@@ -1,7 +1,7 @@
 import { useNavigate } from "react-router-dom";
 import { styled } from "styled-components";
-import Square1 from '../../../assets/Square1.png';
-import Square2 from '../../../assets/Square2.png';
+import StartLogo from "../../../assets/StartLogo.png";
+import StartButtonImg from "../../../assets/StartButton.png";
 
 export default function Start() {
     const navigate = useNavigate();
@@ -15,10 +15,9 @@ export default function Start() {
 
     return (
         <StartWrapper>
-            <SmallSquare src={Square1} alt="" />
-            <BigSquare src={Square2} alt="" />
+            <Logo src={StartLogo} />
             <LoginWrapper>
-                <StartButton onClick={handleStartClick}>시작하기</StartButton>
+                <StartButton src={StartButtonImg} onClick={handleStartClick} />
                 <Text>이미 등록한 적 있나요?</Text>
                 <LoginButton onClick={handleLoginClick}>로그인하기</LoginButton>
             </LoginWrapper>
@@ -37,52 +36,35 @@ const StartWrapper = styled.div`
     overflow: hidden;
 `
 
-// const Heart = styled.img`
-//     position: absolute;
-//     top: 45px;
-//     width: 57px;
-//     height: auto;
-//     z-index: 1;
-// `
-
-const SmallSquare = styled.img`
-    position: absolute;
-    top: 33%;
-    right: 59px;
-    width: 20px;
+const Logo = styled.img`
+    margin: max(25vh, 130px);
+    min-width: 200px;
+    width: 50vw;
+    max-width: 270px;
     height: auto;
-    z-index: 0;
-`
-
-const BigSquare = styled.img`
-    position: absolute;
-    top: 25%;
-    right: 28px;
-    width: 31px;
-    height: auto;
-    z-index: 0;
+    z-index: 1;
 `
 
 const LoginWrapper = styled.div`
     display: flex;
     position: absolute;
-    bottom: 10%;
+    top: max(70vh, 450px);
     flex-direction: column;
     justify-content: center;
     align-items: center;
     z-index: 100;
 `
 
-const StartButton = styled.button`
-    width: 267px;
-    height: 61px;
-    background-color: #000000;
+const StartButton = styled.img`
+    min-width: 220px;
+    width: 55vw;
+    max-width: 297px;
+    height: auto;
     color: #FFFFFF;
     font-size: 30px;
     z-index: 100;
     border-width: 0px;
-    border-radius: 20px;
-    margin: 10px 0;
+    margin: 20px 0 10px 0;
 `
 const LoginButton = styled.button`
     width: 100px;
