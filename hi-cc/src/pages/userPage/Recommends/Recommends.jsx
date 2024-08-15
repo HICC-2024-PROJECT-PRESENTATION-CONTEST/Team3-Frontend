@@ -12,6 +12,7 @@ const API_URL = import.meta.env.VITE_API_URL;
 export default function Recommends() {
     const navigate = useNavigate();
     const [selectedId, setSelectedId] = useState(null);
+    const [selectedData, setSelectedData] = useState(null);
     const [data, setData] = useState(null);
     const [isModalOpen, setIsModalOpen] = useState(false);
     const modal = useRef();
@@ -20,8 +21,9 @@ export default function Recommends() {
         fetchRecommends();
     }, []);
 
-    function handleClick(id) { // 상대 클릭 시
+    function handleClick(id, data) { // 상대 클릭 시
         setSelectedId(id);
+        setSelectedData(data);
     }
 
     function handleSelect() { // 하단의 선택하기 버튼
@@ -29,7 +31,7 @@ export default function Recommends() {
     }
 
     function handleSend() {
-        sendMessage(selectedId); // 즉시 문자 보내고 다음 페이지로 이동
+        sendMessage(selectedId, selectedData); // 즉시 문자 보내고 다음 페이지로 이동
     }
 
     function handleStopSend() {
@@ -56,7 +58,7 @@ export default function Recommends() {
             });
     }
 
-    async function sendMessage(id) {
+    async function sendMessage(id, data) {
         await fetch(`${API_URL}/profiles/@me/choices`, {
             method: 'POST',
             credentials: 'include',
@@ -69,7 +71,7 @@ export default function Recommends() {
                 if (!response.ok) {
                     throw { status: response.status, message: response.statusText };
                 } else {
-                    navigate('/message', { state: `${id}` }); // id도 전달
+                    navigate('/message', { state: {data} }); // 선택한 상대의 data 전달
                 }
             })
             .catch((error) => {
@@ -99,7 +101,7 @@ export default function Recommends() {
             </DescriptionWrapper>
             <ProfileCardWrapper>
                 {data ? data.map((data) => {
-                    return <ProfileCard id={data.uid} key={data.uid} data={data} onClick={() => handleClick(data.uid)} $selected={selectedId === data.uid} />
+                    return <ProfileCard id={data.uid} key={data.uid} data={data} onClick={() => handleClick(data.uid, data)} $selected={selectedId === data.uid} />
                 }) : <div>추천 상대 목록을 가져오지 못했습니다.</div>}
             </ProfileCardWrapper>
 

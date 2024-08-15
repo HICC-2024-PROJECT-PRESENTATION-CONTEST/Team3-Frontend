@@ -9,7 +9,7 @@ export default function MainButton ({ onClick, $valid, children, $position }) {
     }, [$valid])
     return (
         <ButtonWrapper $position={$position}>
-            <ButtonImg src={$valid === true ? BasicButton : BasicButtonInactive} onClick={$valid ? onClick : null} $valid={$valid ? "true" : "false"}></ButtonImg>
+            <ButtonImg src={$valid ? BasicButton : BasicButtonInactive} onClick={$valid ? onClick : null} $valid={$valid ? "true" : "false"}></ButtonImg>
             <ButtonText onClick={$valid ? onClick : null} $valid={$valid ? "true" : "false"}>{children}</ButtonText>
         </ButtonWrapper>
     )
