@@ -39,11 +39,7 @@ jobs:
     needs: [checkout, install_dependancy]
     runs-on:
       labels: [self-hosted, sangsu]
-    env:
-      working-directory: ./hi-cc
     steps:
-      - run: chmod 777 ./start.sh
-        working-directory: ${{ env.working-directory }}
+      - run: chmod 777 ./hi-cc/start.sh
 
-      - run: RUNNER_TRACKING_ID="" && ./start.sh
-        working-directory: ${{ env.working-directory }}
+      - run: RUNNER_TRACKING_ID="" && ./hi-cc/start.sh
