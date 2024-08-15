@@ -92,7 +92,7 @@ const QRPageInnerWrapper = styled.div`
     align-items: center;
     width: 80vw;
     height: auto;
-    min-height: 79vh;
+    min-height: max(80vh, 400px);
 `
 
 const TextWrapper = styled.div`

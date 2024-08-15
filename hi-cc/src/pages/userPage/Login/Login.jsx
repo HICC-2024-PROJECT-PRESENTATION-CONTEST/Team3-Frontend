@@ -126,26 +126,28 @@ const LoginInnerWrapper = styled.div`
     flex-direction: column;
     align-items: center;
     width: 75vw;
-    min-width: calc(230px -5vw);
-    max-width: calc(480px - 5vw);
+    min-width: 250px;
+    max-width: 400px;
     height: auto;
-    min-height: 60vh;
+    min-height: max(60vh, 400px);
 `
 
 const Title = styled.span`
     width: 100%;
-    margin: 11vh 0 3vh 0;
+    margin: max(11vh, 80px) 0 max(3vh, 22px) 0;
     top: 100px;
 `
 
 const TitleText = styled.div`
-    margin: 1vh 0;
+    margin: max(1vh, 7px) 0;
     font-size: 25px;
+    word-break: keep-all;
 `
 
 const DescriptionText = styled.div`
     font-size: 13px;
     color: #464646;
+    word-break: keep-all;
 `
 
 const Input = styled.input`
@@ -179,4 +181,5 @@ const DescriptionText2 = styled.div`
     width: calc(100% - 20px);
     font-size: 12px;
     color: #8F8F8F;
+    word-break: keep-all;
 `
