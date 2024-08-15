@@ -50,6 +50,11 @@ export default function BasicInfo() {
                     <DataKey>전화번호</DataKey>
                     <DataValue>{data.phone}</DataValue>
                 </Data>
+                {data.instagram ?
+                    <Data>
+                        <DataKey>인스타그램</DataKey>
+                        <DataValue>{data.instagram}</DataValue>
+                    </Data> : ""}
                 {data.major ?
                     <Data>
                         <DataKey>학과</DataKey>
@@ -86,9 +91,12 @@ export default function BasicInfo() {
 
     return (
         <BasicInfoWrapper>
+            <Icon1 />
+            <Icon2 />
+            <Icon3 />
             {/* 기본 정보 표시 */}
             <BasicInfoInnerWrapper>
-                {data ? renderData(data) : <div>로딩중</div>}
+                {data ? renderData(data) : <Error>로딩중...</Error>}
             </BasicInfoInnerWrapper>
 
             <ButtonWrapper>
@@ -103,17 +111,60 @@ export default function BasicInfo() {
 
 const BasicInfoWrapper = styled.div`
     display: flex;
+    position: relative;
     flex-direction: column;
     align-items: center;
     width: 100%;
     flex-grow: 1;
 `
 
+const Icon1 = styled.div`
+    position: absolute;
+    width: 11px;
+    height: 11px;
+
+    top: 9px;
+    right: 20px;
+    
+    border: 3px solid #000000;
+    border-radius: 50%;
+    background-color: #FFFFFF;
+    z-index: 160;
+`
+
+const Icon2 = styled.div`
+    position: absolute;
+    width: 11px;
+    height: 11px;
+
+    top: 9px;
+    right: 45px;
+    
+    border: 3px solid #000000;
+    border-radius: 50%;
+    background-color: #F94364;
+    z-index: 160;
+`
+
+const Icon3 = styled.div`
+    position: absolute;
+    width: 11px;
+    height: 11px;
+
+    top: 9px;
+    right: 70px;
+    
+    border: 3px solid #000000;
+    border-radius: 50%;
+    background-color: #FF7D95;
+    z-index: 160;
+`
+
 const BasicInfoInnerWrapper = styled.div`
     box-sizing: border-box;
     width: calc(100% - 30px);
     height: auto;
-    margin-top: 20px;
+    margin-top: 30px;
 
     background-color: #FFDEE2;
 
@@ -164,4 +215,10 @@ const DataKey = styled.div`
 
 const DataValue = styled.div`
     
+`
+
+const Error = styled.div`
+    display: flex;
+    align-items: center;
+    justify-content: center;
 `
