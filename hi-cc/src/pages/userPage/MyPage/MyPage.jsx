@@ -97,7 +97,6 @@ export default function MyPage() {
             })
             .then((data) => {
                 setName(data.name);
-                console.log(data.looklike);
                 if (!imageSrc) {
                     let image = null;
                     switch (data.looklike) {
