@@ -184,8 +184,7 @@ const QuitButton = styled.button`
     align-items: center;
     text-align: center;
     
-    width: 62px;
-    height: 22px;
+    padding: 3px 8px;
     margin: 10px;
 
     background: #F94364;
@@ -221,4 +220,5 @@ const Error = styled.div`
     display: flex;
     align-items: center;
     justify-content: center;
+    padding: 30px 0px;
 `

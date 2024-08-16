@@ -374,11 +374,10 @@ const Sir = styled.span`
 `
 
 const EditButton = styled.button`
-    width: 72px;
-    height: 22px;
     border: solid 2px;
     border-radius: 5px;
     font-size: 10px;
+    padding: 3px 8px;
 
     background-color: #F94364;
 
