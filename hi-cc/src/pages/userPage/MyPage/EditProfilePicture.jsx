@@ -329,6 +329,6 @@ const Button = styled.button`
     cursor: pointer;
 
     @media screen and (max-width: 360px) {
-        font-size: 23px;
+        font-size: 18px;
     }
 `
