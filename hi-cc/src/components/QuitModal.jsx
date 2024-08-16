@@ -154,6 +154,7 @@ const CancelButton = styled.button`
     font-size: 18px;
     padding: 3px 10px;
 
+    color: #000000;
     border: solid 3px #000000;
     border-radius: 10px;
     margin-right: 15px;
@@ -167,6 +168,7 @@ const QuitButton = styled.button`
     font-size: 18px;
     padding: 3px 10px;
 
+    color: #000000;
     border: solid 3px #000000;
     border-radius: 10px;
     box-shadow: 3px 3px 0px rgba(0, 0, 0);
