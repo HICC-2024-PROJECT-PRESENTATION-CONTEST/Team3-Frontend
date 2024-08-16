@@ -68,7 +68,7 @@ const StartButton = styled.img`
     cursor: pointer;
 `
 const LoginButton = styled.button`
-    width: 100px;
+    width: auto;
     height: 30px;
     background-color: transparent;
     text-decoration: underline;

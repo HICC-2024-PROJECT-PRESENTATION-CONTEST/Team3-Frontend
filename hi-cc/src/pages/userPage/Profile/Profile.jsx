@@ -780,7 +780,7 @@ const EssentialMark = styled.span`
 const TextInput = styled.input`
     width: calc(100% - 10px);
     height: 18px;
-    padding: 5px 5px;
+    padding: 5px;
     font-size: 13px;
     
     border-color: ${(props) => props.$valid ? "#000000" : "#F94364"};
@@ -819,8 +819,10 @@ const TextInput = styled.input`
 
 const SelectInput = styled.select`
     width: 100%;
+    height: 31px;
     padding: 5px;
 
+    background-color: #FFFFFF;
     border-color: ${(props) => props.$valid ? "#000000" : "#F94364"};
     border-width: 2px;
     border-radius: 5px;
@@ -850,6 +852,7 @@ const Checkbox = styled.div`
     border-radius: 5px;
     margin-right: 10px;
     padding: 3px 15px;
+    color: #000000;
 
     background-color: ${(props) => props.$selected ? "#FAA8B1" : "#FFFFFF"};
     @media screen and (max-width: 360px) {
@@ -869,6 +872,8 @@ const CountButton = styled.button`
     border: solid 2px;
     border-radius: 5px;
     margin: 0 10px;
+    color: #000000;
+    border-color: #000000;
 
     background-color: ${(props) => props.$valid ? "#FAA8B1" : "#D9D9D9"};
 

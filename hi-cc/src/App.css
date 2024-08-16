@@ -23,6 +23,7 @@ input:focus, textarea:focus{
 
 * {
   font-family: 'SpotLight', sans-serif;
+  -webkit-tap-highlight-color: transparent;
 }
 
 @font-face {

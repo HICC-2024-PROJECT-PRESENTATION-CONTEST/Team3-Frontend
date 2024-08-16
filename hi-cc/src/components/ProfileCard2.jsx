@@ -171,9 +171,11 @@ const Data = styled.div`
 `
 
 const DataKey = styled.div`
-    
+    word-break: keep-all;
+    margin-right: 10px;
 `
 
 const DataValue = styled.div`
-    
+    word-break: break-word;
+    text-align: end;
 `

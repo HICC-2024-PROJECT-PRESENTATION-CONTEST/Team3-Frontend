@@ -249,6 +249,7 @@ const ImgPreview = styled.img`
     max-width: 300px;
     max-height: 300px;
 
+    border: solid 7px #000000;
     border-radius: 20%;
     object-fit: cover;
     
@@ -313,9 +314,8 @@ const ButtonWrapper = styled.div`
 `
 
 const Button = styled.button`
-    width: 35vw;
-    min-width: 130px;
-    height: 60px;
+    width: auto;
+    padding: 10px 20px;
     margin: 0 1.5vw;
 
     border: solid 4px #5D5D5D;
@@ -326,9 +326,13 @@ const Button = styled.button`
     font-size: 25px;
     color: #FFFFFF;
 
+    word-break: keep-all;
+
     cursor: pointer;
 
     @media screen and (max-width: 360px) {
-        font-size: 23px;
+        font-size: 18px;
+        border-radius: 15px;
+        padding: 8px 16px;
     }
 `

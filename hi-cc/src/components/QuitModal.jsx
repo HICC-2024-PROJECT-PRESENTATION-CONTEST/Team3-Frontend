@@ -150,10 +150,9 @@ const ButtonWrapper = styled.div`
 `
 
 const CancelButton = styled.button`
-    width: 75px;
-    height: 35px;
     background-color: #FAA8B1;
     font-size: 18px;
+    padding: 3px 10px;
 
     border: solid 3px #000000;
     border-radius: 10px;
@@ -164,10 +163,9 @@ const CancelButton = styled.button`
 `
 
 const QuitButton = styled.button`
-    width: 110px;
-    height: 35px;
     background-color: #F94364;
     font-size: 18px;
+    padding: 3px 10px;
 
     border: solid 3px #000000;
     border-radius: 10px;

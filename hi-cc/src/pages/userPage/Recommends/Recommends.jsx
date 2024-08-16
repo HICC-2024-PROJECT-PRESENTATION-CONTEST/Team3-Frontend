@@ -107,7 +107,6 @@ export default function Recommends() {
                 {data ? data.map((data) => {
                     return <ProfileCard id={data.uid} key={data.uid} data={data} onClick={() => handleClick(data.uid, data)} $selected={selectedId === data.uid} />
                 }) : <div>추천 상대 목록을 가져오지 못했습니다.</div>}
-
             </ProfileCardWrapper>
 
             <Button onClick={handleSelect} $valid={selectedId !== null} $position="fixed">선택하기</Button>
@@ -130,7 +129,7 @@ const RecommendsWrapper = styled.div`
 const ProfileCardWrapper = styled.div`
     display: grid;
     grid-template-columns: 1fr 1fr;
-    grid-template-rows: repeat(4, auto);
+    grid-auto-rows: auto;
     margin: 30px 0 150px 0;
     column-gap: 20px;
 
@@ -140,7 +139,7 @@ const ProfileCardWrapper = styled.div`
     
     @media screen and (max-width: 420px) {
         grid-template-columns: 1fr;
-        grid-template-rows: repeat(4, auto);
+        grid-auto-rows: auto;
 
         & > :nth-child(2n) {
             transform: none;
