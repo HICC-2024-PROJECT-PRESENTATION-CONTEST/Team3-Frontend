@@ -227,6 +227,7 @@ const ImgPreview = styled.img`
     max-width: 300px;
     max-height: 300px;
 
+    border: solid 7px #000000;
     border-radius: 20%;
     object-fit: cover;
     
@@ -284,30 +285,31 @@ const DescriptionText = styled.div`
 `
 const ButtonWrapper = styled.div`
     display: flex;
-    width: 75vw;
     min-width: calc(230px - 5vw);
     max-width: calc(480px - 5vw);
     justify-content: center;
 `
 
 const Button = styled.button`
-    width: 35vw;
-    min-width: 130px;
-    height: 60px;
+    width: auto;
+    padding: 10px 20px;
     margin: 0 1.5vw;
 
     border: solid 4px #5D5D5D;
     border-radius: 20px;
 
     background-color: #9B9B9B;
-    border-color: #000000;
 
     font-size: 25px;
     color: #FFFFFF;
+
+    word-break: keep-all;
 
     cursor: pointer;
 
     @media screen and (max-width: 360px) {
         font-size: 18px;
+        border-radius: 15px;
+        padding: 8px 16px;
     }
 `
