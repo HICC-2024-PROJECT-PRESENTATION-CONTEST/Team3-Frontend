@@ -128,6 +128,8 @@ const ProfileCardWrapper = styled.div`
     position: relative;
     width: calc(40vw + 10px);
     max-width: 310px;
+    height: auto;
+    margin-bottom: 40px;
     cursor: pointer;
 
     @media screen and (max-width: 420px) {
@@ -159,7 +161,7 @@ const Top = styled.div`
 
 const WriteHere = styled.div`
     box-sizing: border-box;
-    position: absolute;
+    position: relative;
     width: 40vw;
     max-width: 300px;
 
@@ -225,9 +227,11 @@ const Data = styled.div`
 `
 
 const DataKey = styled.div`
-    
+    word-break: keep-all;
+    margin-right: 10px;
 `
 
 const DataValue = styled.div`
-    
+    word-break: break-word;
+    text-align: end;
 `
