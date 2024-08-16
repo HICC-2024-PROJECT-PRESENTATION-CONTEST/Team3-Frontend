@@ -21,6 +21,10 @@ export default function Recommends() {
         fetchRecommends();
     }, []);
 
+    useEffect(() => {
+
+    }, [data]);
+
     function handleClick(id, data) { // 상대 클릭 시
         setSelectedId(id);
         setSelectedData(data);
@@ -71,19 +75,19 @@ export default function Recommends() {
                 if (!response.ok) {
                     throw { status: response.status, message: response.statusText };
                 } else {
-                    navigate('/message', { state: {data} }); // 선택한 상대의 data 전달
+                    navigate('/message', { state: { data } }); // 선택한 상대의 data 전달
                 }
             })
             .catch((error) => {
-                if(error.status === 403) {
+                if (error.status === 403) {
                     alert('접근 권한이 없습니다.');
                     navigate('/');
-                } else if(error.status === 404) {
+                } else if (error.status === 404) {
                     alert('상대를 찾을 수 없습니다.');
-                } else if(error.status === 409) {
+                } else if (error.status === 409) {
                     alert('상대 선택 횟수가 없습니다. 상대 선택 횟수는 QR 당 한 번입니다.');
                     navigate('/mypage');
-                } else if(error.status === 500 || error.status === 502) {
+                } else if (error.status === 500 || error.status === 502) {
                     navigate('/500');
                 } else {
                     console.error(error);
@@ -103,6 +107,7 @@ export default function Recommends() {
                 {data ? data.map((data) => {
                     return <ProfileCard id={data.uid} key={data.uid} data={data} onClick={() => handleClick(data.uid, data)} $selected={selectedId === data.uid} />
                 }) : <div>추천 상대 목록을 가져오지 못했습니다.</div>}
+
             </ProfileCardWrapper>
 
             <Button onClick={handleSelect} $valid={selectedId !== null} $position="fixed">선택하기</Button>
@@ -125,7 +130,7 @@ const RecommendsWrapper = styled.div`
 const ProfileCardWrapper = styled.div`
     display: grid;
     grid-template-columns: 1fr 1fr;
-    grid-template-rows: repeat(4, 450px);
+    grid-template-rows: repeat(4, auto);
     margin: 30px 0 150px 0;
     column-gap: 20px;
 
@@ -135,10 +140,10 @@ const ProfileCardWrapper = styled.div`
     
     @media screen and (max-width: 420px) {
         grid-template-columns: 1fr;
-        grid-template-rows: repeat(7, 450px);
+        grid-template-rows: repeat(4, auto);
 
         & > :nth-child(2n) {
-        transform: none;
+            transform: none;
         }
     }
 `
