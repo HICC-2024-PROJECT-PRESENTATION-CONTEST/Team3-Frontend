@@ -378,6 +378,7 @@ const EditButton = styled.button`
     border-radius: 5px;
     font-size: 10px;
     padding: 3px 8px;
+    color: #000000;
 
     background-color: #F94364;
 

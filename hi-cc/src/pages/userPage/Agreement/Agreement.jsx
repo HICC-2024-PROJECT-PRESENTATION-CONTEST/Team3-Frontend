@@ -126,8 +126,9 @@ const Title = styled.span`
 `
 
 const TitleText = styled.div`
-    margin: 1vh 0;
+    margin: min(1vh, 5px) 0;
     font-size: 25px;
+    word-break: keep-all;
 `
 
 const DescriptionText = styled.div`
@@ -142,10 +143,10 @@ const AgreeAllButton = styled.div`
     min-width: 230px;
     max-width: 480px;
     height: 53px;
-    border: solid;
-    border-width: 3px;
+
+    margin-bottom: 5px;
+    border: solid 3px #000000;
     border-radius: 20px;
-    border-color: #000000;
     background-color: #FAA8B1;
     justify-content: center;
     cursor: pointer;
@@ -158,7 +159,7 @@ const CheckboxWrapper = styled.div`
     min-width: 200px;
     max-width: 460px;
     height: auto;
-    margin: 2vh 0;
+    margin: min(2vh, 5px) 0;
     font-size: 14px;
     align-items: center;
     cursor: pointer;

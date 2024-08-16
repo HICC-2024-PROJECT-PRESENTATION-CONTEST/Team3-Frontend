@@ -300,6 +300,7 @@ const Button = styled.button`
     border-radius: 20px;
 
     background-color: #9B9B9B;
+    border-color: #000000;
 
     font-size: 25px;
     color: #FFFFFF;

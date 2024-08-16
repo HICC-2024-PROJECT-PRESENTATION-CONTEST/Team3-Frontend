@@ -183,6 +183,7 @@ const QuitButton = styled.button`
     justify-content: center;
     align-items: center;
     text-align: center;
+    color: #000000;
     
     padding: 3px 8px;
     margin: 10px;
