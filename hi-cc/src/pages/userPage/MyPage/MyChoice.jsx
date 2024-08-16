@@ -74,6 +74,7 @@ const ProfileCardWrapper = styled.div`
     margin: 20px 0px;
     display: flex;
     justify-content: center;
+    flex-direction: column;
 `
 
 const Error = styled.div`
