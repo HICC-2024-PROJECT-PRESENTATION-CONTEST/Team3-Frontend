@@ -437,6 +437,10 @@ const Text = styled.div`
     text-align: center;
     
     cursor: pointer;
+
+    @media screen and (max-width: 360px) {
+        font-size: 13px;
+    }
 `
 
 const Content = styled.div`
