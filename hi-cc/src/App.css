@@ -4,6 +4,21 @@ body {
   height: 100vh;
   margin: 0;
   overflow-x: hidden;
+  color: #000000;
+  border-color: #000000;
+}
+
+input, textarea, button{
+  appearance: none; /* 브라우저 기본 스타일 제거 */
+  -moz-appearance: none;
+  -webkit-appearance: none;
+  border-radius: 0;
+  -moz-border-radius: 0;
+  -webkit-border-radius: 0;
+}
+
+input:focus, textarea:focus{
+  outline: none;
 }
 
 * {
