@@ -726,22 +726,33 @@ const AgeDifferenceWrapper = styled.div`
     flex-direction: column;
     align-items: flex-start;
     width: 100%;
+    @media screen and (max-width: 360px) {
+        font-size: 13px;
+    }
 `
 
 const AgeDifferenceInnerWrapper = styled.div`
     position: relative;
     display: flex;
     align-items: center;
+    flex-direction: row;
     width: 100%;
 `
 
 const AgeDifferenceInputWrapper = styled.div`
+    display: flex;
     position: relative;
     flex-direction: row;
     display: flex;
     align-items: center;
     margin: 0 10px;
     width: 110px;
+
+    @media screen and (max-width: 360px) {
+        margin: 0;
+        width: 80px;
+        font-size: 13px;
+    }
 `
 
 const BasicWrapper = styled.div`
@@ -755,6 +766,10 @@ const BasicWrapper = styled.div`
 const InputTitle = styled.div`
     font-size: 15px;
     padding: 25px 0 10px 0;
+
+    @media screen and (max-width: 360px) {
+        font-size: 13px;
+    }
 `
 
 const EssentialMark = styled.span`
@@ -764,6 +779,7 @@ const EssentialMark = styled.span`
 
 const TextInput = styled.input`
     width: calc(100% - 10px);
+    height: 18px;
     padding: 5px 5px;
     font-size: 13px;
     
@@ -836,9 +852,18 @@ const Checkbox = styled.div`
     padding: 3px 15px;
 
     background-color: ${(props) => props.$selected ? "#FAA8B1" : "#FFFFFF"};
+    @media screen and (max-width: 360px) {
+        margin-right: 10px;
+        padding: 1.5px 10px;
+        font-size: 13px;
+    }
 `
 
 const CountButton = styled.button`
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
     width: 27px;
     height: 27px;
     border: solid 2px;
@@ -846,4 +871,11 @@ const CountButton = styled.button`
     margin: 0 10px;
 
     background-color: ${(props) => props.$valid ? "#FAA8B1" : "#D9D9D9"};
+
+    @media screen and (max-width: 360px) {
+        width: 20px;
+        height: 20px;
+        margin: 0 5px;
+        font-size: 11px;
+    }
 `

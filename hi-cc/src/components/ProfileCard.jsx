@@ -128,7 +128,6 @@ const ProfileCardWrapper = styled.div`
     position: relative;
     width: calc(40vw + 10px);
     max-width: 310px;
-    height: auto;
     cursor: pointer;
 
     @media screen and (max-width: 420px) {
@@ -163,7 +162,6 @@ const WriteHere = styled.div`
     position: absolute;
     width: 40vw;
     max-width: 300px;
-    height: auto;
 
     top: 0px;
     left: 0px;

@@ -217,6 +217,7 @@ const CancelButton = styled.button`
     height: 35px;
     background-color: #FAA8B1;
     font-size: 18px;
+    color: #000000;
 
     border: solid 3px #000000;
     border-radius: 10px;
@@ -231,6 +232,7 @@ const SendButton = styled.button`
     height: 35px;
     background-color: #F94364;
     font-size: 18px;
+    color: #000000;
 
     border: solid 3px #000000;
     border-radius: 10px;

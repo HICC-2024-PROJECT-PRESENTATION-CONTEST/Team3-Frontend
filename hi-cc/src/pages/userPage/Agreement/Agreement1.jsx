@@ -155,7 +155,7 @@ const DisagreeButton = styled.div`
     font-size: 13px;
     text-decoration: underline;
     color: #353535;
-    top: 50px;
+    margin-top: -2vh;
     @media screen and (max-width: 360px) {
         font-size: 11px;
     }

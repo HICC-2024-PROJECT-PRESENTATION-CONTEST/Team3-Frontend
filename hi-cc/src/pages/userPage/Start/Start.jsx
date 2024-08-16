@@ -65,6 +65,7 @@ const StartButton = styled.img`
     z-index: 100;
     border-width: 0px;
     margin: 20px 0 10px 0;
+    cursor: pointer;
 `
 const LoginButton = styled.button`
     width: 100px;
@@ -75,6 +76,7 @@ const LoginButton = styled.button`
     font-size: 16px;
     border-width: 0px;
     z-index: 100;
+    cursor: pointer;
 `
 
 const Text = styled.div`
