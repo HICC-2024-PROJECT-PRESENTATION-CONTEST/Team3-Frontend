@@ -1,6 +1,7 @@
 import styled from 'styled-components';
 import Button from '../../../components/MainButton';
 import { useState, useEffect } from 'react';
+import { useNavigate } from 'react-router-dom';
 
 const API_URL = import.meta.env.VITE_API_URL;
 const VITE_LOCAL_URL = import.meta.env.VITE_LOCAL_URL;
@@ -8,6 +9,7 @@ const VITE_LOCAL_URL = import.meta.env.VITE_LOCAL_URL;
 export default function Qr() {
     const [isAuthenticated, setIsAuthenticated] = useState(null);
     const [qrImage, setQrImage] = useState(null);
+    const navigate = useNavigate();
 
     function handleClick() {
         fetchQr();
@@ -34,6 +36,7 @@ export default function Qr() {
         }).catch((error) => {
             if(error.status === 403) {
                 alert('접근 권한이 없습니다.');
+                navigate('/admin/login');
             } else if(error.status === 500 || error.status === 502) {
                 navigate('/500');
             } else {
@@ -48,7 +51,7 @@ export default function Qr() {
 
     if(isAuthenticated === null) {
         return (
-            <div>Loading...</div>
+            <QRPageWrapper>Loading...</QRPageWrapper>
         );
     }
 
@@ -82,7 +85,8 @@ const QRPageWrapper = styled.div`
     flex-direction: column;
     align-items: center;
     width: 100vw;
-    height: 100vh;
+    height: auto;
+    min-height: 100vh;
     background: #F9DBDD;
 `
 
@@ -104,8 +108,8 @@ const TextWrapper = styled.div`
 `
 
 const TitleText = styled.div`
-    margin: 100px 0 10px 0;
-    font-size: 32px;
+    margin: 50px 0 10px 0;
+    font-size: 30px;
     word-break: keep-all;
     text-align: center;
 `
