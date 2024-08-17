@@ -268,7 +268,7 @@ export default function Profile() {
                     <TextInput
                         type="text"
                         name="name"
-                        placeholder="이름은 상대 선택 화면에서 '홍*동'과 같이 표시됩니다."
+                        placeholder="이름을 입력해주세요."
                         onChange={handleChange}
                         onBlur={handleBlur}
                         value={inputs.name}
