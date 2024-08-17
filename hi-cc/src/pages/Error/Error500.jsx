@@ -25,8 +25,10 @@ const ServerErrorWrapper = styled.div`
     display: flex;
     flex-direction: column;
     position: relative;
-    width: 100vw;
-    height: 100vh;
+    min-width: 100vw;
+    width: auto;
+    min-height: 100vh;
+    height: auto;
     justify-content: center;
     align-items: center;
     background: url('/src/assets/ErrorBackground.png') center;

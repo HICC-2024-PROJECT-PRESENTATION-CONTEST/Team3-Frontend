@@ -3,7 +3,6 @@ import styled from "styled-components";
 export default function ErrorModal(props) {
     return (
         <ErrorModalWrapper>
-            <Shadow />
             <WriteHere>
                 <Title>{props.title}</Title>
                 <SubTitle>{props.subtitle}</SubTitle>
@@ -20,19 +19,8 @@ export default function ErrorModal(props) {
 
 const ErrorModalWrapper = styled.div`
     position: relative;
-    width: 347px;
+    width: 290px;
     height: 271px;
-`
-
-const Shadow = styled.div`
-    position: absolute;
-    width: 337px;
-    height: 261px;
-    left: 10px;
-    top: 10px;
-
-    background: #000000;
-    border-radius: 10px;
 `
 
 const WriteHere = styled.div`
@@ -40,7 +28,7 @@ const WriteHere = styled.div`
     position: absolute;
     text-align: center;
 
-    width: 337px;
+    width: 280px;
     height: 261px;
     left: 0px;
     top: 0px;
@@ -48,7 +36,8 @@ const WriteHere = styled.div`
     background: #FFFFFF;
     border: 3px solid #000000;
     border-radius: 10px;
-    padding: 50px 10px 25px 10px;
+    padding: 50px 15px 25px 15px;
+    box-shadow: 10px 10px 0px rgba(0, 0, 0);
 `
 
 const Title = styled.div`
@@ -66,13 +55,14 @@ const Description = styled.div`
     color: #000000;
     font-size: 12px;
     line-height: 23px;
+    word-break: keep-all;
 `
 
 const Top = styled.div`
     box-sizing: border-box;
 
     position: absolute;
-    width: 337px;
+    width: 280px;
     height: 33px;
     left: 0px;
     top: 0px;
@@ -86,7 +76,7 @@ const Bottom = styled.div`
     box-sizing: border-box;
 
     position: absolute;
-    width: 337px;
+    width: 280px;
     height: 19px;
     left: 0px;
     top: 242px;
