@@ -20,35 +20,48 @@ const ButtonWrapper = styled.div`
     display: flex;
     justify-content: center;
     align-items: center;
-    width: fit-content;
-    top: ${props => props.$position === "fixed" ? "79vh" : "none"};
-    margin: 55px 0;
+    width: 300px;
+    height: auto;
+    top: ${props => props.$position === "fixed" ? "79vh" : "0px"};
+    margin: 55px;
     z-index: 100000;
+    @media screen and (max-width: 450px) {
+        width: 250px;
+        margin: 50px;
+    }
+    @media screen and (max-width: 330px) {
+        width: 200px;
+        margin: 45px;
+    }
 `
 
 const ButtonImg = styled.img`
     position: absolute;
-    min-width: 225px;
-    width: 75vw;
-    max-width: 300px;
     justify-content: center;
     align-items: center;
     cursor: ${props => props.$valid === "true" ? "pointer" : "default"};
+    width: 300px;
+    @media screen and (max-width: 450px) {
+        width: 250px;
+    }
+    @media screen and (max-width: 330px) {
+        width: 200px;
+    }
 `
 
 const ButtonText = styled.span`
     position: absolute;
-    min-width: 225px;
-    width: 30vw;
-    max-width: 300px;
     text-align: center;
-    font-size: 8vw;
+    width: 300px;
     cursor: ${props => props.$valid === "true" ? "pointer" : "default"};
     color: ${props => props.$valid === "true" ? "#000000" : "#FFFFFF"};
-    @media screen and (max-width: 300px) {
-        font-size: 25px;
+    font-size: 35px;
+    @media screen and (max-width: 450px) {
+        width: 250px;
+        font-size: 30px;
     }
-    @media screen and (min-width: 450px) {
-        font-size: 35px;
+    @media screen and (max-width: 330px) {
+        width: 200px;
+        font-size: 23px;
     }
 `

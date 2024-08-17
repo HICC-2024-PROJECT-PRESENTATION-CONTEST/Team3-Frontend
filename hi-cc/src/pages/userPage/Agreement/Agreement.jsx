@@ -102,7 +102,8 @@ const AgreementWrapper = styled.div`
     display: flex;
     flex-direction: column;
     width: 100vw;
-    height: 100vh;
+    min-height: 100vh;
+    height: auto;
     align-items: center;
     background: #F9DBDD;
 `
@@ -113,7 +114,7 @@ const AgreementInnerWrapper = styled.div`
     flex-direction: column;
     width: 100vw;
     height: auto;
-    min-height: 79vh;
+    min-height: max(79vh, 400px);
     align-items: center;
 `
 
@@ -121,7 +122,7 @@ const Title = styled.span`
     width: 75vw;
     min-width: calc(230px -5vw);
     max-width: calc(480px - 5vw);
-    margin: 11vh 0 3vh 0;
+    margin: max(11vh, 80px) 0 max(3vh, 22px) 0;
     top: 100px;
 `
 
@@ -159,7 +160,7 @@ const CheckboxWrapper = styled.div`
     min-width: 200px;
     max-width: 460px;
     height: auto;
-    margin: min(2vh, 5px) 0;
+    margin: 7px 0;
     font-size: 14px;
     align-items: center;
     cursor: pointer;

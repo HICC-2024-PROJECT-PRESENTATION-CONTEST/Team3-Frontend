@@ -66,7 +66,8 @@ const AgreementWrapper = styled.div`
     display: flex;
     flex-direction: column;
     width: 100vw;
-    height: 100vh;
+    height: auto;
+    min-height: 100vh;
     align-items: center;
     background: #F9DBDD;
 `
@@ -75,16 +76,16 @@ const AgreementInnerWrapper = styled.div`
     position: relative;
     display: flex;
     flex-direction: column;
-    width: 100vw;
+    width: 75vw;
+    min-width: calc(230px -5vw);
+    max-width: calc(480px - 5vw);
     height: auto;
     min-height: 79vh;
     align-items: center;
 `
 
 const Title = styled.span`
-    width: 75vw;
-    min-width: calc(230px -5vw);
-    max-width: calc(480px - 5vw);
+    width: 100%;
     margin: 11vh 0 3vh 0;
     top: 100px;
 `
@@ -100,22 +101,17 @@ const DescriptionText = styled.pre`
 `
 
 const DetailsWrapper = styled.div`
-    width: 73vw;
-    min-width: calc(230px - 9vw);
-    max-width: calc(480px - 9vw);
-    height: calc(50vh - 95px);
+    width: 100%;
+    height: min(50vh, 300px);
     border: 2px solid #000000;
     border-radius: 5px;
     background-color: #FFFFFF;
     padding: 1vh 1.5vw;
     z-index: 5;
-    @media screen and (max-width: 360px) {
-        height: calc(50vh - 128px);
-    }
 `
 
 const DetailsInnerWrapper = styled.div`
-    width: calc(100% + 1vw);
+    width: 100%;
     height: 100%;
     overflow: auto;
     z-index: 10;
@@ -139,12 +135,14 @@ const DetailsText = styled.pre`
     white-space: pre-line; // 공백 있는 그대로 표시, 자동 줄바꿈, 줄바꿈 그대로 표시
 `
 
-const AdditionalText = styled.pre`
+const AdditionalText = styled.div`
+    width: 100%;
     font-size: 13px;
     font-family: sans-serif;
     white-space: normal; // 공백 1개만 표시, 자동 줄바꿈
     word-wrap: break-word;
     color: #353535;
+    margin: 10px 0;
     @media screen and (max-width: 360px) {
         font-size: 10px;
     }
@@ -155,8 +153,14 @@ const DisagreeButton = styled.div`
     font-size: 13px;
     text-decoration: underline;
     color: #353535;
-    margin-top: -2vh;
-    @media screen and (max-width: 360px) {
+    margin-top: -13px;
+    margin-bottom: 55px;
+    z-index: 100000;
+    @media screen and (max-width: 450px) {
+        margin-bottom: 50px;
+    }
+    @media screen and (max-width: 330px) {
+        margin-bottom: 45px;
         font-size: 11px;
     }
 `
