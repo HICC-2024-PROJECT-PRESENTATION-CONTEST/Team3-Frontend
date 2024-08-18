@@ -11,13 +11,7 @@ export default function EditProfile() {
 
     const refs = { // focus & 유효성 체크를 위한 ref
         nameRef: useRef(null),
-        phoneNumberFirstRef: useRef(null),
-        phoneNumberSecondRef: useRef(null),
         instagramRef: useRef(null),
-        passwordRef: useRef(null),
-        confirmPasswordRef: useRef(null),
-        genderRef: useRef(null),
-        birthyearRef: useRef(null),
         heightRef: useRef(null),
         looklikeRef: useRef(null),
         smokingRef: useRef(null),
@@ -59,7 +53,6 @@ export default function EditProfile() {
                     looklike: data.looklike || "",
                     smoking: data.smoking || "",
                 });
-                navigate('/mypage');
             }
         } catch (error) {
             if (error.status === 403) {
@@ -77,13 +70,7 @@ export default function EditProfile() {
 
     const [warnings, setWarnings] = useState({
         name: false,
-        phoneNumberFirst: false,
-        phoneNumberSecond: false,
         instagram: false,
-        password: false,
-        confirmPassword: false,
-        gender: false,
-        birthyear: false,
         height: false,
         looklike: false,
         smoking: false,
@@ -160,7 +147,6 @@ export default function EditProfile() {
                         const instagramIdRegex = /^([a-z0-9._]{3,30})$/;
                         isValid = (value === "" || instagramIdRegex.test(value));
                         break;
-                    case 'birthyear':
                     case 'looklike':
                         isValid = (value !== "" && value !== 'default');
                         break;
