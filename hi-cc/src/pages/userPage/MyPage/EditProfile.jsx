@@ -51,7 +51,7 @@ export default function EditProfile() {
                     height: result.data.height || "",
                     MBTI: result.data.mbti || "",
                     looklike: result.data.looklike || "",
-                    smoking: result.data.smoking || "",
+                    smoking: result.data.smoking === "true" ? true : false,
                 });
             }
         } catch (error) {
@@ -184,7 +184,7 @@ export default function EditProfile() {
             major: inputs.major,
             mbti: inputs.MBTI,
             looklike: inputs.looklike,
-            smoking: inputs.smoking === "true" ? "true" : "false",
+            smoking: inputs.smoking === "true" ? true : false,
         };
 
         try {
