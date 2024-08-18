@@ -51,7 +51,7 @@ export default function EditProfile() {
                     height: result.data.height || "",
                     MBTI: result.data.mbti || "",
                     looklike: result.data.looklike || "",
-                    smoking: result.data.smoking === "true" ? true : false,
+                    smoking: result.data.smoking ? "true" : "false",
                 });
             }
         } catch (error) {
