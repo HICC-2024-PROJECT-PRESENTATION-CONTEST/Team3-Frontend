@@ -26,9 +26,9 @@ import Raccoon from "../../../assets/raccoon.png";
 import Wolf from "../../../assets/wolf.png";
 import Sheep from "../../../assets/sheep.png";
 import Frog from "../../../assets/frog.png";
-import Monkey from "../assets/monkey.png";
-import Pig from "../assets/pig.png";
-import Turtle from "../assets/turtle.png";
+import Monkey from "../../../assets/monkey.png";
+import Pig from "../../../assets/pig.png";
+import Turtle from "../../../assets/turtle.png";
 
 const API_URL = import.meta.env.VITE_API_URL;
 
