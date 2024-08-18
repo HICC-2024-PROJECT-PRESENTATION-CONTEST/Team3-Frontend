@@ -224,7 +224,7 @@ export default function MyPage() {
 
     // 내 정보 수정 페이지로 이동
     function handleProfileEdit() {
-
+        navigate('/mypage/editprofile');
     }
 
     return (
