@@ -184,7 +184,7 @@ export default function EditProfile() {
             major: inputs.major,
             mbti: inputs.MBTI,
             looklike: inputs.looklike,
-            smoking: inputs.smoking === "true" ? true : false,
+            smoking: inputs.smoking === "true" ? "true" : "false",
         };
 
         try {
@@ -440,28 +440,6 @@ const InputWrapper = styled.form`
     color: #000000;
 `
 
-const PhoneNumberWrapper = styled.div`
-    position: relative;
-    display: flex;
-    flex-direction: column;
-    align-items: flex-start;
-    text-align: center;
-    width: 100%;
-`
-
-const PhoneNumberInnerWrapper = styled.div`
-    display: flex;
-    align-items: center;
-    text-align: center;
-    width: 100%;
-`
-
-const PhoneNumberInput = styled.div`
-    width: 30%;
-    padding: 0 5px;
-    margin: 0 4%;
-`
-
 const InstaInnerWrapper = styled.div`
     display: flex;
     flex-direction: row;
@@ -472,56 +450,6 @@ const InstaInnerWrapper = styled.div`
 const InstaText = styled.div`
     margin-right: 5px;
     font-size: 15px;
-`
-
-const PasswordWrapper = styled.div`
-    position: relative;
-    display: flex;
-    flex-direction: column;
-    align-items: flex-start;
-    width: 100%;
-`
-
-const BirthyearWrapper = styled.div`
-    position: relative;
-    display: flex;
-    flex-direction: column;
-    align-items: flex-start;
-    width: 100%;
-`
-const AgeDifferenceWrapper = styled.div`
-    position: relative;
-    display: flex;
-    flex-direction: column;
-    align-items: flex-start;
-    width: 100%;
-    @media screen and (max-width: 360px) {
-        font-size: 13px;
-    }
-`
-
-const AgeDifferenceInnerWrapper = styled.div`
-    position: relative;
-    display: flex;
-    align-items: center;
-    flex-direction: row;
-    width: 100%;
-`
-
-const AgeDifferenceInputWrapper = styled.div`
-    display: flex;
-    position: relative;
-    flex-direction: row;
-    display: flex;
-    align-items: center;
-    margin: 0 10px;
-    width: 110px;
-
-    @media screen and (max-width: 360px) {
-        margin: 0;
-        width: 80px;
-        font-size: 13px;
-    }
 `
 
 const BasicWrapper = styled.div`
@@ -628,28 +556,5 @@ const Checkbox = styled.div`
         margin-right: 10px;
         padding: 1.5px 10px;
         font-size: 13px;
-    }
-`
-
-const CountButton = styled.button`
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    text-align: center;
-    width: 27px;
-    height: 27px;
-    border: solid 2px;
-    border-radius: 5px;
-    margin: 0 10px;
-    color: #000000;
-    border-color: #000000;
-
-    background-color: ${(props) => props.$valid ? "#FAA8B1" : "#D9D9D9"};
-
-    @media screen and (max-width: 360px) {
-        width: 20px;
-        height: 20px;
-        margin: 0 5px;
-        font-size: 11px;
     }
 `
