@@ -43,15 +43,15 @@ export default function EditProfile() {
             if(!response.ok) {
                 throw { status: response.status, message: response.statusText };
             } else {
-                const data = await response.json();            
+                const result = await response.json();            
                 setInputs({
-                    name: data.name || "",
-                    instagram: data.instagram || "",
-                    major: data.major || "",
-                    height: data.height || "",
-                    MBTI: data.mbti || "",
-                    looklike: data.looklike || "",
-                    smoking: data.smoking || "",
+                    name: result.data.name || "",
+                    instagram: result.data.instagram || "",
+                    major: result.data.major || "",
+                    height: result.data.height || "",
+                    MBTI: result.data.mbti || "",
+                    looklike: result.data.looklike || "",
+                    smoking: result.data.smoking || "",
                 });
             }
         } catch (error) {
