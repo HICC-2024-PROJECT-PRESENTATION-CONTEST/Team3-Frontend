@@ -39,7 +39,7 @@ export default function EditProfile() {
 
     async function fetchProfileData() {
         try {
-            const response = await fetch(`${API_URL}/profiles`, {
+            const response = await fetch(`${API_URL}/profiles/@me`, {
                 method: 'GET',
                 credentials: 'include',
                 headers: {
