@@ -19,6 +19,7 @@ import Recommends from './pages/userPage/Recommends/Recommends';
 import Message from './pages/userPage/Message/Message';
 import MyPage from './pages/userPage/MyPage/MyPage';
 import EditProfilePicture from "./pages/userPage/MyPage/EditProfilePicture";
+import EditProfile from "./pages/userPage/MyPage/EditProfile";
 import Error404 from './pages/Error/Error404';
 import Error500 from './pages/Error/Error500';
 
@@ -43,6 +44,7 @@ function App() {
         <Route path="/message" element={<Message />} />
         <Route path="/mypage" element={<MyPage />} />
         <Route path="/mypage/profilepicture" element={<EditProfilePicture />} />
+        <Route path="/mypage/editprofile" element={<EditProfile />} />
         <Route path="*" element={<Error404 />} />
         <Route path="/500" element={<Error500 />} />
       </Routes>
