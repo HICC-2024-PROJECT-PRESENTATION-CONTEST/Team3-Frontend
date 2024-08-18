@@ -575,7 +575,7 @@ export default function Profile() {
                         $valid={!warnings.looklike}
                     >
                         <option value="default" hidden>본인의 닮은꼴을 선택해주세요.</option>
-                        {['토끼상', '고양이상', '강아지상', '여우상', '곰상', '사슴상', '말상', '공룡상', '펭귄상', '물고기상', '호랑이상', '다람쥐상', '뱀상', '오리상', '늑대상', '너구리상', '양상', '개구리상'].map(person => (
+                        {['강아지상', '개구리상', '거북이상', '곰상', '공룡상', '고양이상', '너구리상', '늑대상', '다람쥐상', '돼지상', '말상', '물고기상', '뱀상', '사슴상', '양상', '여우상', '오리상', '원숭이상', '토끼상', '펭귄상', '호랑이상'].map(person => (
                             <Option key={person} value={person}>{person}</Option>
                         ))}
                     </SelectInput>
