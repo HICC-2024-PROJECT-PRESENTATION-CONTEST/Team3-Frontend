@@ -27,6 +27,7 @@ const API_URL = import.meta.env.VITE_API_URL;
 
 export default function MyPageProfileCard(props) {
     const [imageSrc, setImageSrc] = useState(`${API_URL}/profiles/${props.id}/image?size=200`);
+    const [border, setBorder] = useState(true);
 
     function looklikeHandler(looklike) {
         const looklikeImages = {
@@ -56,6 +57,7 @@ export default function MyPageProfileCard(props) {
 
         const image = looklikeImages[looklike] || null;
         setImageSrc(image);
+        setBorder(false);
     }
 
     return (
@@ -70,7 +72,7 @@ export default function MyPageProfileCard(props) {
                 </WriteHere>
                 :
                 <WriteHere>
-                    <Image src={imageSrc} onError={() => looklikeHandler(props.data.looklike)}></Image>
+                    <Image src={imageSrc} $border={border} onError={() => looklikeHandler(props.data.looklike)}></Image>
                     <DataWrapper>
                         {props.data.major ?
                             <Data>
@@ -158,6 +160,10 @@ const Image = styled.img`
     padding: 0 25px;
     width: 70px;
     height: 70px;
+    
+    border: ${props => props.$border ? "3px solid #000000" : "none"};
+    border-radius: ${props => props.$border ? "15px" : "none"};
+    box-shadow: ${props => props.$border ? "0px 4px 8px 3px rgba(0, 0, 0, 0.15)" : "none"};
 `
 
 const Icon1 = styled.div`

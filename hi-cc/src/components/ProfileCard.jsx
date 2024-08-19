@@ -205,7 +205,6 @@ const Image = styled.img`
     
     border: ${props => props.$border ? "3px solid #000000" : "none"};
     border-radius: ${props => props.$border ? "15px" : "none"};
-    
     box-shadow: ${props => props.$border ? "0px 4px 8px 3px rgba(0, 0, 0, 0.15)" : "none"};
 `
 
