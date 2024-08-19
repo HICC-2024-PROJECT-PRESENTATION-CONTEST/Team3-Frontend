@@ -17,9 +17,48 @@ export default function Message() {
     const [message, setMessage] = useState(undefined);
 
     useEffect(() => {
-        console.log(data.uid);
-    }, []);
+        fetchProfiles();
+    }, [])
 
+    // 메시지 전송 횟수에 따라 리다이렉트. 그외 오류에 따라서도 리다이렉트
+    async function fetchProfiles() {
+        await fetch(`${API_URL}/profiles/@me`, {
+            method: 'GET',
+            credentials: 'include',
+            headers: {
+                'Content-Type': 'application/json'
+            }
+        })
+            .then((response) => {
+                if (!response.ok) {
+                    throw { status: response.status, message: response.statusText }
+                }
+                else
+                    return response.json();
+            })
+            .then((result) => {
+                if(result.data.messagescount === 0) {
+                    alert('메시지 전송 횟수가 부족합니다. 메시지 전송 횟수는 상대 당 한번입니다.');
+                    navigate('/mypage');
+                    return;
+                }
+            })
+            .catch((error) => {
+                if (error.status === 403) {
+                    // 접근 경로가 잘못된 사용자
+                    alert("접근 권한이 없습니다. 올바른 경로로 접속했는지 확인해주세요.");
+                } else if (error.status === 404) {
+                    navigate('/login');
+                } else if (error.status === 500 || error.status === 502) {
+                    navigate("/500");
+                } else {
+                    alert('알 수 없는 오류가 발생했습니다.');
+                    console.error(error);
+                }
+            });
+    }
+
+    // 추가 메시지 보내기
     async function sendAdditionalMessage() {
         await fetch(`${API_URL}/profiles/@me/message`, {
             method: 'POST',
@@ -69,7 +108,7 @@ export default function Message() {
             {/* 선택한 상대의 프로필 카드 */}
             {data ?
                 <ProfileCard id={data.uid} key={data.uid} data={data} />
-                : <div>상대 데이터 가져오지 못했습니다.</div>}
+                : <Error>선택한 상대의 데이터를 가져오지 못했습니다.</Error>}
 
             {/* 메시지 입력칸 */}
             <MessageBoxWrapper>
@@ -84,6 +123,7 @@ export default function Message() {
             <Button onClick={sendAdditionalMessage} $valid={message} $position="absolute">
                 문자 보내기
             </Button>
+            <NextButton onClick={() => navigate('/mypage')}>그냥 넘어가기</NextButton>
         </MessageWrapper>
     )
 };
@@ -122,6 +162,22 @@ const LogoImg = styled.img`
 const Description = styled.div`
     font-size: 18px;
     color: #353535;
+`
+
+const Error = styled.div`
+    display: flex;
+    align-items: center;
+    text-align: center;
+    width: auto;
+
+    padding: 10px;
+    margin: 30px 20px;
+
+    color: #000000;
+    background-color: #9B9B9B;
+    border-radius: 10px;
+
+    word-break: keep-all;
 `
 
 // 메시지 입력칸
@@ -202,4 +258,21 @@ const HeartImg = styled.img`
     
     width: 40px;
     height: auto;
+`
+
+const NextButton = styled.div`
+    position: relative;
+    font-size: 13px;
+    text-decoration: underline;
+    color: #353535;
+    margin-top: -13px;
+    margin-bottom: 55px;
+    z-index: 100000;
+    @media screen and (max-width: 450px) {
+        margin-bottom: 50px;
+    }
+    @media screen and (max-width: 330px) {
+        margin-bottom: 45px;
+        font-size: 11px;
+    }
 `
