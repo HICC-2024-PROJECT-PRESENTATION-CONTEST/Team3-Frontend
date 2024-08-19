@@ -1,10 +1,15 @@
+import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { styled } from "styled-components";
 import StartLogo from "../../../assets/StartLogo.png";
 import StartButtonImg from "../../../assets/StartButton.png";
 
+const API_URL = import.meta.env.VITE_API_URL;
+
 export default function Start() {
+    const [choicescount, setChoicescount] = useState(null);
     const navigate = useNavigate();
+
     function handleStartClick() {
         navigate('/agreement');
     }
@@ -13,16 +18,66 @@ export default function Start() {
         navigate('/login');
     }
 
-    return (
-        <StartWrapper>
-            <Logo src={StartLogo} />
-            <LoginWrapper>
-                <StartButton src={StartButtonImg} onClick={handleStartClick} />
-                <Text>이미 등록한 적 있나요?</Text>
-                <LoginButton onClick={handleLoginClick}>로그인하기</LoginButton>
-            </LoginWrapper>
-        </StartWrapper>
-    )
+    useEffect(() => {
+        fetchProfiles();
+    }, [])
+
+    async function fetchProfiles() {
+        await fetch(`${API_URL}/profiles/@me`, {
+            method: 'GET',
+            credentials: 'include',
+            headers: {
+                'Content-Type': 'application/json'
+            }
+        })
+            .then((response) => {
+                if (!response.ok) {
+                    throw { status: response.status, message: response.statusText }
+                }
+                else
+                    return response.json();
+            })
+            .then((result) => {
+                setChoicescount(result.data.choicescount);
+            })
+            .catch((error) => {
+                if (error.status === 403) {
+                    // 접근 경로가 잘못된 사용자
+                    alert("접근 권한이 없습니다. 올바른 경로로 접속했는지 확인해주세요.");
+                } else if (error.status === 404) {
+                    // 로그인 정보 없는 사용자 - 정상
+                    return;
+                } else if (error.status === 500 || error.status === 502) {
+                    navigate("/500");
+                } else {
+                    alert('알 수 없는 오류가 발생했습니다.');
+                    console.error(error);
+                }
+            });
+    }
+
+    useEffect(() => {
+        if (choicescount !== null) {
+            if (choicescount > 0) {
+                navigate('/recommends');
+            } else {
+                navigate('/mypage');
+            }
+        }
+    }, [choicescount]);
+
+    if (choicescount === null) {
+        return (
+            <StartWrapper>
+                <Logo src={StartLogo} />
+                <LoginWrapper>
+                    <StartButton src={StartButtonImg} onClick={handleStartClick} />
+                    <Text>이미 등록한 적 있나요?</Text>
+                    <LoginButton onClick={handleLoginClick}>로그인하기</LoginButton>
+                </LoginWrapper>
+            </StartWrapper>
+        )
+    }
 };
 
 const StartWrapper = styled.div`
