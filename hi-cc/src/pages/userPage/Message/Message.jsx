@@ -267,6 +267,7 @@ const NextButton = styled.div`
     color: #353535;
     margin-top: -13px;
     margin-bottom: 55px;
+    cursor: pointer;
     z-index: 100000;
     @media screen and (max-width: 450px) {
         margin-bottom: 50px;
