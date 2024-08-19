@@ -17,31 +17,53 @@ export default function Recommends() {
     const [isModalOpen, setIsModalOpen] = useState(false);
     const modal = useRef();
 
-    useEffect(() => { // 시작하면 추천 상대 가져오기
-        fetchRecommends();
+    useEffect(() => {
+        const fetchData = async () => {
+            await fetchProfiles(); // 시작하면 선택 횟수 확인
+            await fetchRecommends(); // 선택 횟수 확인이 끝나면 추천 상대 가져오기
+        };
+
+        fetchData();
     }, []);
 
-    useEffect(() => {
-
-    }, [data]);
-
-    function handleClick(id, data) { // 상대 클릭 시
-        setSelectedId(id);
-        setSelectedData(data);
+    // 상대 선택 횟수 따라 리다이렉트. 그외 오류에 따라서도 리다이렉트
+    async function fetchProfiles() {
+        await fetch(`${API_URL}/profiles/@me`, {
+            method: 'GET',
+            credentials: 'include',
+            headers: {
+                'Content-Type': 'application/json'
+            }
+        })
+            .then((response) => {
+                if (!response.ok) {
+                    throw { status: response.status, message: response.statusText }
+                }
+                else
+                    return response.json();
+            })
+            .then((result) => {
+                if(result.data.choicescount === 0) {
+                    alert('상대 선택 횟수가 부족합니다. 상대 선택 횟수는 QR 당 한번입니다.');
+                    navigate('/mypage');
+                    return;
+                }
+            })
+            .catch((error) => {
+                if (error.status === 403) {
+                    // 접근 경로가 잘못된 사용자
+                    alert("접근 권한이 없습니다. 올바른 경로로 접속했는지 확인해주세요.");
+                } else if (error.status === 404) {
+                    navigate('/start');
+                } else if (error.status === 500 || error.status === 502) {
+                    navigate("/500");
+                } else {
+                    alert('알 수 없는 오류가 발생했습니다.');
+                    console.error(error);
+                }
+            });
     }
-
-    function handleSelect() { // 하단의 선택하기 버튼
-        setIsModalOpen(true);
-    }
-
-    function handleSend() {
-        sendMessage(selectedId, selectedData); // 즉시 문자 보내고 다음 페이지로 이동
-    }
-
-    function handleStopSend() {
-        setIsModalOpen(false);
-    }
-
+    
     async function fetchRecommends() {
         await fetch(`${API_URL}/profiles/@me/recommands`, {
             method: 'GET',
@@ -60,6 +82,23 @@ export default function Recommends() {
             .catch((error) => {
                 console.error(error);
             });
+    }
+
+    function handleClick(id, data) { // 상대 클릭 시
+        setSelectedId(id);
+        setSelectedData(data);
+    }
+
+    function handleSelect() { // 하단의 선택하기 버튼
+        setIsModalOpen(true);
+    }
+
+    function handleSend() {
+        sendMessage(selectedId, selectedData); // 즉시 문자 보내고 다음 페이지로 이동
+    }
+
+    function handleStopSend() {
+        setIsModalOpen(false);
     }
 
     async function sendMessage(id, data) {
