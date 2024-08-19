@@ -61,9 +61,10 @@ export default function MyPage() {
             .catch((error) => {
                 if (error.status === 403) {
                     alert("접근 권한이 없습니다. 올바른 경로로 접속했는지 확인해주세요.");
+                    navigate('/');
                 } else if (error.status === 404) {
                     // 프로필 사진 등록 안한 경우
-                    return;
+                    fetchMyProfile();
                 } else if (error.status === 500 || error.status === 502) {
                     navigate("/500");
                 } else {
@@ -71,8 +72,6 @@ export default function MyPage() {
                     alert('알 수 없는 오류가 발생했습니다.');
                 }
             });
-
-        fetchMyProfile();
     }, []);
 
     useEffect(() => {
@@ -337,6 +336,7 @@ const ProfilePicturePreview = styled.img`
     min-height: 80px;
     max-height: 140px;
 
+    border: solid 7px #000000;
     border-radius: 20%;
     object-fit: cover;
     
