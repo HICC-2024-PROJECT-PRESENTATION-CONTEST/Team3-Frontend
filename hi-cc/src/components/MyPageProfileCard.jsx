@@ -157,7 +157,7 @@ const DeleteMessage = styled.div`
 `
 
 const Image = styled.img`
-    padding: 0 25px;
+    margin: 0 25px;
     width: 70px;
     height: 70px;
     

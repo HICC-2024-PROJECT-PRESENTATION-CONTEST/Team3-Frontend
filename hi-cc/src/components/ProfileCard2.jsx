@@ -132,7 +132,7 @@ const WriteHere = styled.div`
 `
 
 const Image = styled.img`
-    padding: 5px;
+    margin: 5px;
     width: 70px;
     height: 70px;
 
