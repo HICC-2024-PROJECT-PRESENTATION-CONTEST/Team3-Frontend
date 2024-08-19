@@ -48,7 +48,7 @@ export default function Message() {
                     // 접근 경로가 잘못된 사용자
                     alert("접근 권한이 없습니다. 올바른 경로로 접속했는지 확인해주세요.");
                 } else if (error.status === 404) {
-                    navigate('/login');
+                    navigate('/start');
                 } else if (error.status === 500 || error.status === 502) {
                     navigate("/500");
                 } else {
