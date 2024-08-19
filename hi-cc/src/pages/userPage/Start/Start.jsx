@@ -42,8 +42,8 @@ export default function Start() {
             })
             .catch((error) => {
                 if (error.status === 403) {
-                    // 접근 경로가 잘못된 사용자
-                    alert("접근 권한이 없습니다. 올바른 경로로 접속했는지 확인해주세요.");
+                    // 접근 경로가 잘못된 사용자 - 그래도 로그인 가능
+                    return;
                 } else if (error.status === 404) {
                     // 로그인 정보 없는 사용자 - 정상
                     return;
