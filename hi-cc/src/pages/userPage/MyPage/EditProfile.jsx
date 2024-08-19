@@ -188,7 +188,7 @@ export default function EditProfile() {
         };
 
         try {
-            const response = await fetch(`${API_URL}/profiles`, {
+            const response = await fetch(`${API_URL}/profiles/@me`, {
                 method: 'PATCH',
                 credentials: 'include',
                 headers: {
