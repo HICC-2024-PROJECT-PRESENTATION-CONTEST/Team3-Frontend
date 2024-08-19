@@ -80,6 +80,7 @@ const ProfileCardWrapper = styled.div`
 const Error = styled.div`
     display: flex;
     align-items: center;
+    text-align: center;
     width: auto;
     height: 20px;
 
