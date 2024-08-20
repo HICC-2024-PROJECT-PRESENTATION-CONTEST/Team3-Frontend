@@ -11,10 +11,10 @@ export function UserTable({data}) {
     }
 
     async function fetchDeleteProfile(uid) {
-        fetch(`${API_URL}/profiles/${uid}`, {
+        await fetch(`${API_URL}/profiles/${uid}`, {
             method: 'DELETE',
             credentials: 'include',
-        }
+        })
         .then((response) => {
             if(!response.ok) {
                 throw {status: response.status, message: response.statusText}
@@ -31,8 +31,7 @@ export function UserTable({data}) {
             } else {
                 console.error(error);
             }
-        })
-        )
+        });
     }
 
     return (
