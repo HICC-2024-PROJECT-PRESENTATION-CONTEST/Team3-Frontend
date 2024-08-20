@@ -59,14 +59,21 @@ export default function Login() {
         })
         .then((response) => {
             if(!response.ok){
-                throw new Error('error');
+                throw {status: response.status, message: response.statusText}
             } else {
                 navigate('/mypage');
             }
         })
         .catch((error) => {
-            console.error(error.message);
-        });
+            if(error.status === 401) {
+                alert('가입되지 않은 전화번호 혹은 잘못된 비밀번호입니다.');
+            } else if(error.status === 500 || error.status === 502) {
+                navigate('/500');
+            } else {
+                alert('알 수 없는 오류가 발생했습니다.');
+                console.error(error);
+            }
+        })
     }
 
     function handleKeyDown(e) {
@@ -97,6 +104,7 @@ export default function Login() {
                     type="password"
                     name="password"
                     value={password}
+                    autoComplete="off"
                     onChange={handlePasswordChange}
                     onKeyDown={handleKeyDown} // enter 키 처리
                     placeholder="비밀번호" />
@@ -120,7 +128,7 @@ const LoginWrapper = styled.div`
     overflow: auto;
 `
 
-const LoginInnerWrapper = styled.div`
+const LoginInnerWrapper = styled.form`
     position: relative;
     display: flex;
     flex-direction: column;
