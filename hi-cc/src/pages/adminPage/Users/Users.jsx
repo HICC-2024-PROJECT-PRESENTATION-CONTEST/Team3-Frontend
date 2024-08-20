@@ -116,18 +116,22 @@ export default function Users() {
                 <Button onClick={fetchSearch}>검색</Button>
             </SearchBoxWrapper>
             <ResultWrapper>
-                <tr>
-                    <Th>uid</Th>
-                    <Th>이름</Th>
-                    <Th>전화번호</Th>
-                    <Th>인스타그램</Th>
-                    <Th>성별</Th>
-                    <Th>보기</Th>
-                    <Th>삭제</Th>
-                </tr>
-                {profiles ? profiles.map((profiles) => {
-                    return <UserTable data={profiles} />
-                }) : ""}
+                <thead>
+                    <tr>
+                        <Th>uid</Th>
+                        <Th>이름</Th>
+                        <Th>전화번호</Th>
+                        <Th>인스타그램</Th>
+                        <Th>성별</Th>
+                        <Th>보기</Th>
+                        <Th>삭제</Th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {profiles ? profiles.map((profiles, index) => {
+                        return <UserTable key={index} data={profiles} />
+                    }) : ""}
+                </tbody>
             </ResultWrapper>
         </AdminUserWrapper>
     )
