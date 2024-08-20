@@ -27,12 +27,12 @@ export default function Users() {
                 return response.json();
         })
         .then((result) => {
-            setCountUsers(result.data.count);
+            setCountUsers(result.data);
         })
         .catch((error) => {
             if(error.status === 403) {
                 alert('접근 권한이 없습니다.');
-                // navigate('/admin/login');
+                navigate('/admin/login');
             } else if(error.status === 500 || error.status === 502) {
                 navigate('/500');
             } else {
