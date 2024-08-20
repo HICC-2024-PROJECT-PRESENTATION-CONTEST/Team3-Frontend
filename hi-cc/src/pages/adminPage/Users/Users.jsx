@@ -118,7 +118,6 @@ export default function Users() {
             <ResultWrapper>
                 <thead>
                     <tr>
-                        <Th>uid</Th>
                         <Th>이름</Th>
                         <Th>전화번호</Th>
                         <Th>인스타그램</Th>
@@ -209,14 +208,20 @@ const ResultWrapper = styled.table`
     box-sizing: border-box;
     
     width: 90%;
+    max-width: 800px;
     margin: 10px 0;
     background-color: #1e1e29;
 
-    border-radius: 5px;
+    border-collapse: collapse;
+
+    padding: 10px;
 `
 
 const Th = styled.th`
     color: #FFFFFF;
     font-family: sans-serif;
     font-size: 15px;
+    border: solid 1px #44485d;
+
+    padding: 5px 0;
 `

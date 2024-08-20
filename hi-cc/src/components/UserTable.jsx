@@ -31,12 +31,11 @@ export function UserTable({data}) {
             } else {
                 console.error(error);
             }
-        });
+        })
     }
 
     return (
         <Result>
-            <Td>{data.uid}</Td>
             <Td>{data.name}</Td>
             <Td>{data.phone}</Td>
             <Td>{data.instagram}</Td>
@@ -59,11 +58,12 @@ const Result = styled.tr`
 const Td = styled.td`
     text-align: center;
 
+    border: solid 1px #44485d;
     color: #FFFFFF;
     font-family: sans-serif;
     font-size: 15px;
+    padding: 5px 0;
 
-    max-width: 50px;
     white-space: nowrap;
     text-overflow: ellipsis;
     overflow: hidden;
