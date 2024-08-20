@@ -286,7 +286,7 @@ const MyProfileWrapper = styled.div`
     flex-direction: column;
     width: 100vw;
     height: auto;
-    min-height: Math.max(300px, 30vh);
+    min-height: max(300px, 30vh);
     margin-bottom: 10px;
     align-items: center;
 `
