@@ -22,14 +22,19 @@ export default function AdminLogin() {
             });
 
             if(!response.ok){
-                throw new Error('error');
+                throw {status: response.status, message: response.statusText}
+            } else {
+                navigate('/admin');
             }
-
-            navigate('/admin');
-
         } catch(error) {
-            setError(true);
-            console.error(error);
+            if(error.status === 401) {
+                setError(true);
+            } else if(error.status === 500 || error.status === 502) {
+                navigate('/500');
+            } else {
+                alert('알 수 없는 오류가 발생했습니다.');
+                console.error(error);
+            }
         }
     }
 
