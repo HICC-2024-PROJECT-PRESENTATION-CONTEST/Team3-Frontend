@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { useNavigate, useLocation } from "react-router-dom";
 import styled from "styled-components";
 
@@ -8,8 +8,38 @@ export default function UsersProfile() {
     const navigate = useNavigate();
     const location = useLocation();
     const { data } = location.state || {};
-    const [profilePicture, setProfilePicture] = useState(`${API_URL}/profiles/${data.uid}/image?size=200`);
-    
+    const [profilePicture, setProfilePicture] = useState(null);
+
+    useEffect(() => {
+        fetchProfilePicture(data.uid);
+    }, []);
+
+    async function fetchProfilePicture(uid) {
+        await fetch(`${API_URL}/profiles/${uid}/image?size=200`, {
+            method: 'GET',
+            credentials: 'include',
+        })
+            .then((response) => {
+                if (!response.ok) {
+                    throw { status: response.status, message: response.statusText }
+                } else {
+                    setProfilePicture(`${API_URL}/profiles/${uid}/image?size=200`);
+                }
+            })
+            .catch((error) => {
+                if (error.status === 403) {
+                    alert('접근 권한이 없습니다.');
+                    navigate('/admin/login');
+                } else if (error.status === 404) {
+                    setProfilePicture(null);
+                } else if (error.status === 500 || error.status === 502) {
+                    navigate('/500');
+                } else {
+                    console.error(error);
+                }
+            })
+    }
+
     function handleProfilePictureDelete(uid) {
         fetchProfilePicutreDelete(uid);
     }
@@ -50,7 +80,7 @@ export default function UsersProfile() {
             credentials: 'include',
         })
             .then((response) => {
-                if(!response.ok) {
+                if (!response.ok) {
                     throw { status: response.status, message: response.statusText }
                 } else {
                     alert("프로필 사진이 정상적으로 삭제되었습니다.");
@@ -82,7 +112,7 @@ export default function UsersProfile() {
                 <Result>
                     <Data style={{ width: '100px', height: '100px' }}>
                         {profilePicture ?
-                            <Image src={profilePicture} />
+                            <Image src={profilePicture} alt="프로필 사진" />
                             :
                             <span>프로필 사진 없음</span>
                         }
