@@ -117,8 +117,8 @@ export default function UsersProfile() {
                 };
             })
             .then((result) => {
-                setChoicesTo(result.choices_to);
-                setChoicesFrom(result.choices_from);
+                setChoicesTo(result.data.choices_to);
+                setChoicesFrom(result.data.choices_from);
             })
             .catch((error) => {
                 if (error.status === 403) {
@@ -259,6 +259,8 @@ const ResultWrapper = styled.div`
 const ResultInnerWrapper = styled.div`
     display: flex;
     flex-direction: row;
+    color: #FFFFFF;
+    font-size: 15px;
 `
 
 const Result = styled.div`
