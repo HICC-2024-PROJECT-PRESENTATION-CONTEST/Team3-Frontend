@@ -53,7 +53,11 @@ export default function Users() {
         //         "smoking": false
         //     }
         // ]);
-    }, [page]);
+    }, []);
+
+    useEffect(() => {
+        fetchSearch();
+    }, [page])
 
     async function fetchUserCount() {
         await fetch(`${API_URL}/profiles?count`, {
