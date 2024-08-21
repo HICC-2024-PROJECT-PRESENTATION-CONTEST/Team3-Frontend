@@ -60,6 +60,7 @@ export default function Users() {
         fetchSearch();
     }, [page, searchValue])
 
+    // 총 이용자 수 계산 후 이용자 목록 페이지 수 계산
     async function fetchUserCount() {
         await fetch(`${API_URL}/profiles?count`, {
             method: 'GET',
@@ -90,6 +91,7 @@ export default function Users() {
         })
     }
 
+    // 검색어 검색
     async function fetchSearch() {
         await fetch(`${API_URL}/profiles?find=${searchValue}&page=${page}&size=${size}`, {
             method: 'GET',
@@ -117,6 +119,7 @@ export default function Users() {
         })
     }
 
+    // 검색 결과 개수 확인 -> 총 페이지 수 결정
     async function fetchSearchCount() {
         await fetch(`${API_URL}/profiles?find=${searchValue}&count`, {
             method: 'GET',
@@ -144,9 +147,17 @@ export default function Users() {
         })
     }
 
+    // 자식 컴포넌트(사용자)를 삭제하면 사용자 목록 다시 가져옴
+    function handleUserDeleted() {
+        fetchSearch();
+    }
+
     return(
         <AdminUserWrapper>
+            {/* 총 이용자 수 */}
             <UserCountWrapper>이용자 수: {countUsers}명</UserCountWrapper>
+
+            {/* 검색창 */}
             <SearchBoxWrapper>
                 <SearchBox type="text" value={value} onChange={e => setValue(e.target.value)} placeholder="이름, 전화번호, 인스타 아이디"/>
                 <Button onClick={async () => {
@@ -157,6 +168,8 @@ export default function Users() {
                     검색
                 </Button>
             </SearchBoxWrapper>
+
+            {/* 검색 결과 표 */}
             <ResultWrapper>
                 <thead>
                     <tr>
@@ -170,10 +183,17 @@ export default function Users() {
                 </thead>
                 <tbody>
                     {profiles ? profiles.map((profiles, index) => {
-                        return <UserTable key={index} data={profiles} />
+                        return (
+                            <UserTable
+                                key={index}
+                                data={profiles}
+                                onUserDeleted={handleUserDeleted}
+                            /> )
                     }) : ""}
                 </tbody>
             </ResultWrapper>
+
+            {/* 페이지네이션 */}
             <Pagination>
                 <Prev onClick={() => {setPage(page - 1)}} style={{visibility: page > 1 ? 'visible' : 'hidden'}}>이전</Prev>
                 <span>{page}</span>

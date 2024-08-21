@@ -3,7 +3,7 @@ import styled from "styled-components";
 
 const API_URL = import.meta.env.VITE_API_URL;
 
-export function UserTable({data}) {
+export function UserTable({ data, onUserDeleted }) {
     const navigate = useNavigate();
 
     function handleDelete(uid) {
@@ -20,6 +20,7 @@ export function UserTable({data}) {
                 throw {status: response.status, message: response.statusText}
             } else {
                 alert('정상적으로 삭제되었습니다.');
+                onUserDeleted(); // 삭제되면 부모 컴포넌트의 콜백 함수 호출. 삭제된 목록으로 다시 가져옴.
             }
         })
         .catch((error) => {
@@ -41,7 +42,7 @@ export function UserTable({data}) {
             <Td>{data.instagram}</Td>
             <Td>{data.gender}</Td>
             <Td>
-                <Button onClick={() => {}}>보기</Button>
+                <Button onClick={() => {navigate(`/admin/${data.uid}`)}}>보기</Button>
             </Td>
             <Td>
                 <Button onClick={() => handleDelete(data.uid)}>삭제</Button>
