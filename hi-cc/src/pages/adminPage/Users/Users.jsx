@@ -142,7 +142,12 @@ export default function Users() {
             <UserCountWrapper>이용자 수: {countUsers}명</UserCountWrapper>
             <SearchBoxWrapper>
                 <SearchBox type="text" value={searchValue} onChange={e => setSearchValue(e.target.value)} placeholder="이름, 전화번호, 인스타 아이디"/>
-                <Button onClick={fetchSearch}>검색</Button>
+                <Button onClick={() => {
+                    fetchSearch();
+                    fetchSearchCount();
+                }}>
+                    검색
+                </Button>
             </SearchBoxWrapper>
             <ResultWrapper>
                 <thead>
