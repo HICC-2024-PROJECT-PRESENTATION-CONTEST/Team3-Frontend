@@ -9,10 +9,11 @@ const API_URL = import.meta.env.VITE_API_URL;
 export default function Users() {
     const navigate = useNavigate();
     const [countUsers, setCountUsers] = useState(0);
-    const [searchValue, setSearchValue] = useState("");
+    const [value, setValue] = useState(""); // 입력 중인 값
+    const [searchValue, setSearchValue] = useState(""); // 실제 검색어
     const [page, setPage] = useState(1);
     const [maxPage, setMaxPage] = useState(1);
-    const [size, setSize] = useState(50);
+    const [size, setSize] = useState(30);
     const [profiles, setProfiles] = useState([]);
 
     useEffect(() => {
@@ -57,7 +58,7 @@ export default function Users() {
 
     useEffect(() => {
         fetchSearch();
-    }, [page])
+    }, [page, searchValue])
 
     async function fetchUserCount() {
         await fetch(`${API_URL}/profiles?count`, {
@@ -144,11 +145,11 @@ export default function Users() {
         <AdminUserWrapper>
             <UserCountWrapper>이용자 수: {countUsers}명</UserCountWrapper>
             <SearchBoxWrapper>
-                <SearchBox type="text" value={searchValue} onChange={e => setSearchValue(e.target.value)} placeholder="이름, 전화번호, 인스타 아이디"/>
-                <Button onClick={() => {
-                    fetchSearch();
-                    fetchSearchCount();
-                    setPage(1);
+                <SearchBox type="text" value={value} onChange={e => setValue(e.target.value)} placeholder="이름, 전화번호, 인스타 아이디"/>
+                <Button onClick={async () => {
+                    setPage(1); // 페이지 1로 초기화
+                    setSearchValue(value); // 검색어 업데이트, useEffect에 따라 fetchSearch 실행
+                    await fetchSearchCount(); // 검색결과 수를 가져와 페이지 수 설정
                 }}>
                     검색
                 </Button>
