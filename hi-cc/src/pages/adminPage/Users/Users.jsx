@@ -11,6 +11,7 @@ export default function Users() {
     const [countUsers, setCountUsers] = useState(0);
     const [searchValue, setSearchValue] = useState("");
     const [page, setPage] = useState(1);
+    const [maxPage, setMaxPage] = useState(1);
     const [size, setSize] = useState(50);
     const [profiles, setProfiles] = useState([]);
 
@@ -52,7 +53,7 @@ export default function Users() {
         //         "smoking": false
         //     }
         // ]);
-    }, []);
+    }, [page]);
 
     async function fetchUserCount() {
         await fetch(`${API_URL}/profiles?count`, {
@@ -95,6 +96,34 @@ export default function Users() {
         })
         .then((result) => {
             setProfiles(result.data);
+            setPage(1);
+        })
+        .catch((error) => {
+            if(error.status === 403) {
+                alert('접근 권한이 없습니다.');
+                navigate('/admin/login');
+            } else if(error.status === 500 || error.status === 502) {
+                navigate('/500');
+            } else {
+                console.error(error);
+            }
+        })
+    }
+
+    async function fetchSearchCount() {
+        await fetch(`${API_URL}/profiles?find=${searchValue}&count`, {
+            method: 'GET',
+            credentials: 'include',
+        })
+        .then((response) => {
+            if(!response.ok) {
+                throw {status: response.status, message: response.statusText}
+            }
+            else
+                return response.json();
+        })
+        .then((result) => {
+            setMaxPage(Math.ceil(result.data/size));
         })
         .catch((error) => {
             if(error.status === 403) {
@@ -120,7 +149,7 @@ export default function Users() {
                     <tr>
                         <Th>이름</Th>
                         <Th>전화번호</Th>
-                        <Th>인스타그램</Th>
+                        <Th>인스타</Th>
                         <Th>성별</Th>
                         <Th>보기</Th>
                         <Th>삭제</Th>
@@ -132,6 +161,11 @@ export default function Users() {
                     }) : ""}
                 </tbody>
             </ResultWrapper>
+            <Pagination>
+                <Prev onClick={() => {setPage(page - 1)}} style={{visibility: page > 1 ? 'visible' : 'hidden'}}>이전</Prev>
+                <span>{page}</span>
+                <Next onClick={() => {setPage(page + 1)}} style={{visibility: page < maxPage ? 'visible' : 'hidden'}}>다음</Next>
+            </Pagination>
         </AdminUserWrapper>
     )
 };
@@ -153,31 +187,34 @@ const UserCountWrapper = styled.div`
     text-align: end;
     padding: 20px;
     color: #FFFFFF;
-    font-size: 20px;
+    font-size: 17px;
     font-family: sans-serif;
 `
 
 const SearchBoxWrapper = styled.div`
     box-sizing: border-box;
     width: fit-content;
+    min-width: 300px;
     background-color: #1e1e29;
-    padding: 20px;
+    padding: 15px;
+    margin: 10px;
     border-radius: 10px;
 `
 
 const SearchBox = styled.input`
     box-sizing: border-box;
-    width: 250px;
+    width: 50vw;
+    min-width: 180px;
     height: 25px;
     border: none;
     border-radius: 5px;
     padding: 0 5px;
-    margin: 0 20px;
+    margin: 0 10px;
     font-size: 15px;
     font-family: sans-serif;
 
     &::placeholder{
-        font-size: 13px;
+        font-size: 12px;
     }
 `
 
@@ -187,7 +224,7 @@ const Button = styled.button`
     
     border: none;
     border-radius: 10px;
-    padding: 10px 25px;
+    padding: 10px 20px;
     
     font-size: 15px;
     font-family: sans-serif;
@@ -207,6 +244,7 @@ const Button = styled.button`
 const ResultWrapper = styled.table`
     box-sizing: border-box;
     
+    min-width: 320px;
     width: 90%;
     max-width: 800px;
     margin: 10px 0;
@@ -224,4 +262,31 @@ const Th = styled.th`
     border: solid 1px #44485d;
 
     padding: 5px 0;
+`
+
+const Pagination = styled.div`
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    color: #FFFFFF;
+    font-family: sans-serif;
+    font-size: 15px;
+`
+
+const Prev = styled.button`
+    color: #FFFFFF;
+    font-family: sans-serif;
+    font-size: 15px;
+
+    background-color: transparent;
+    border: none;
+`
+
+const Next = styled.button`
+    color: #FFFFFF;
+    font-family: sans-serif;
+    font-size: 15px;
+
+    background-color: transparent;
+    border: none;
 `
