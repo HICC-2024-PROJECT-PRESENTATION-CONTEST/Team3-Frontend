@@ -1,10 +1,11 @@
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useLocation } from "react-router-dom";
 import styled from "styled-components";
 
 const API_URL = import.meta.env.VITE_API_URL;
 
 export function UserTable({ data, onUserDeleted }) {
     const navigate = useNavigate();
+    const location = useLocation();
 
     function handleDelete(uid) {
         fetchDeleteProfile(uid);
@@ -42,7 +43,11 @@ export function UserTable({ data, onUserDeleted }) {
             <Td>{data.instagram}</Td>
             <Td>{data.gender}</Td>
             <Td>
-                <Button onClick={() => {navigate(`/admin/${data.uid}`)}}>보기</Button>
+                <Button onClick={() => {
+                    navigate('/admin/users/profile', { state: { data: data } })
+                }}>
+                    보기
+                </Button>
             </Td>
             <Td>
                 <Button onClick={() => handleDelete(data.uid)}>삭제</Button>

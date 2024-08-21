@@ -7,6 +7,7 @@ import AdminLogin from "./pages/adminPage/Admin/AdminLogin";
 import Admin from "./pages/adminPage/Admin/Admin";
 import QR from './pages/adminPage/QR/QR';
 import Users from './pages/adminPage/Users/Users';
+import UsersProfile from "./pages/adminPage/Users/UsersProfile";
 
 import Start from './pages/userPage/Start/Start';
 import Login from './pages/userPage/Login/Login';
@@ -33,6 +34,7 @@ function App() {
         <Route path="/admin/login" element={<AdminLogin />} />
         <Route path="/admin" element={<Admin />} />
         <Route path="/admin/users" element={<Users />} />
+        <Route path="/admin/users/profile" element={<UsersProfile />} />
         <Route path="/admin/qr" element={<QR />} />
         <Route path="/login" element={<Login />} />
         <Route path="/agreement" element={<Agreement />} />
