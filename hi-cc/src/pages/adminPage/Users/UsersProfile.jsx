@@ -264,12 +264,13 @@ const ResultInnerWrapper = styled.div`
 `
 
 const ResultProfileWrapper = styled.div`
+    box-sizing: border-box;
     display: flex;
     flex-direction: column;
     color: #FFFFFF;
     font-size: 15px;
     font-family: sans-serif;
-    font-weight: 600;
+    margin: 15px 0;
 `
 
 const Result = styled.div`
