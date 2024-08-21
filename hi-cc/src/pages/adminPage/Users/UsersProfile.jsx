@@ -9,9 +9,12 @@ export default function UsersProfile() {
     const location = useLocation();
     const { data } = location.state || {};
     const [profilePicture, setProfilePicture] = useState(null);
+    const [choicesTo, setChoicesTo] = useState([]);
+    const [choicesFrom, setChoicesFrom] = useState([]);
 
     useEffect(() => {
         fetchProfilePicture(data.uid);
+        fetchChoices(data.uid);
     }, []);
 
     async function fetchProfilePicture(uid) {
@@ -101,6 +104,36 @@ export default function UsersProfile() {
             });
     }
 
+    async function fetchChoices(uid) {
+        fetch(`${API_URL}/profiles/${uid}/choices`, {
+            method: 'GET',
+            credentials: 'include',
+        })
+            .then((response) => {
+                if (!response.ok) {
+                    throw { status: response.status, message: response.statusText }
+                } else {
+                    return response.json();
+                };
+            })
+            .then((result) => {
+                setChoicesTo(result.choices_to);
+                setChoicesFrom(result.choices_from);
+            })
+            .catch((error) => {
+                if (error.status === 403) {
+                    alert("접근 권한이 없습니다. 올바른 경로로 접속했는지 확인해주세요.");
+                } else if (error.status === 404) {
+                    // 프로필 사진 등록 안한 경우
+                    return;
+                } else if (error.status === 500 || error.status === 502) {
+                    navigate("/500");
+                } else {
+                    alert('알 수 없는 오류가 발생했습니다.');
+                }
+            });
+    }
+
     return (
         <ResultWrapper>
             <ResultInnerWrapper>
@@ -128,8 +161,9 @@ export default function UsersProfile() {
                     <Data>전화번호: {data.phone}</Data>
                     <Data>인스타: {data.instagram}</Data>
                     <Data>성별: {data.gender}</Data>
+                    <Data>나이: {data.birthyear}</Data>
                     <Data>전공: {data.major}</Data>
-                    <Data>키: {data.height}</Data>
+                    <Data>키: {data.height === 0 ? "" : data.height}</Data>
                     <Data>닮은꼴: {data.looklike}</Data>
                     <Data>나이차: 위로 {data.birthyear_offset.plus}살, 아래로 {data.birthyear_offset.minus}살</Data>
                     <Data>MBTI: {data.mbti}</Data>
@@ -138,6 +172,70 @@ export default function UsersProfile() {
                         <Button onClick={() => handleDelete(data.uid)}>사용자 삭제</Button>
                     </Data>
                 </Result>
+            </ResultInnerWrapper>
+            <ResultInnerWrapper>
+                내가 선택한 상대
+                    {choicesTo ? choicesTo.map((profile) => {
+                        return (
+                            <DataWrapper>
+                                <Data>{profile.uid}</Data>
+                                {profile.delete ?
+                                    <Data>삭제된 프로필</Data>
+                                    :
+                                    <>
+                                        <Data>{profile.name}</Data>
+                                        {profile.instagram ? 
+                                            <Data>{profile.instagram}</Data>
+                                            : ""}
+                                        <Data>{profile.gender}</Data>
+                                        <Data>{profile.birthyear}</Data>
+                                        {profile.height === 0 ? ""
+                                            :
+                                            <Data>{profile.height}</Data>
+                                        }
+                                        {profile.major ? 
+                                            <Data>{profile.major}</Data>
+                                            : ""}
+                                        <Data>{profile.mbti}</Data>
+                                        <Data>{profile.looklike}</Data>
+                                        <Data>{profile.smoking ? "예" : "아니오"}</Data>
+                                    </>
+                                }
+                            </DataWrapper>
+                        )
+                    }) : ""}
+            </ResultInnerWrapper>
+            <ResultInnerWrapper>
+                나를 선택한 상대
+                    {choicesFrom ? choicesFrom.map((profile) => {
+                        return (
+                            <DataWrapper>
+                                <Data>{profile.uid}</Data>
+                                {profile.delete ?
+                                    <Data>삭제된 프로필</Data>
+                                    :
+                                    <>
+                                        <Data>{profile.name}</Data>
+                                        {profile.instagram ? 
+                                            <Data>{profile.instagram}</Data>
+                                            : ""}
+                                        <Data>{profile.gender}</Data>
+                                        <Data>{profile.birthyear}</Data>
+                                        {profile.height === 0 ? ""
+                                            :
+                                            <Data>{profile.height}</Data>
+                                        }
+                                        {profile.major ? 
+                                            <Data>{profile.major}</Data>
+                                            : ""}
+                                        <Data>{profile.mbti}</Data>
+                                        <Data>{profile.looklike}</Data>
+                                        <Data>{profile.smoking ? "예" : "아니오"}</Data>
+                                    </>
+                                }
+                            </DataWrapper>
+                        )
+                    }) : ""}
             </ResultInnerWrapper>
         </ResultWrapper>
     );
@@ -166,6 +264,11 @@ const ResultInnerWrapper = styled.div`
 const Result = styled.div`
     box-sizing: border-box;
     font-family: sans-serif;
+`
+
+const DataWrapper = styled.div`
+    box-sizing: border-box;
+    border: solid 2px #FFFFFF;
 `
 
 const Data = styled.div`
