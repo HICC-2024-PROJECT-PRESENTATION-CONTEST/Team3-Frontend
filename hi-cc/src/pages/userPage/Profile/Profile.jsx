@@ -436,7 +436,7 @@ export default function Profile() {
                         name="major"
                         onChange={handleChange}
                         value={inputs.major}
-                        placeholder="학과를 입력해주세요."
+                        placeholder="대학생일 경우 학과를 입력해주세요."
                         $valid="true"
                     />
                 </BasicWrapper>
