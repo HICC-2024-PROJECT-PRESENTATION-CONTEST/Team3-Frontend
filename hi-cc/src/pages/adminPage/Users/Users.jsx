@@ -17,7 +17,7 @@ export default function Users() {
     const [profiles, setProfiles] = useState([]);
 
     useEffect(() => {
-        fetchUserCount();
+        fetchUserCount(); // 이용자 수 계산 + 전체 이용자 목록 페이지 수 계산
         // setProfiles([
         //     {
         //         "uid": "00000000-0000-0000-0000-000000000000",
@@ -74,6 +74,9 @@ export default function Users() {
         })
         .then((result) => {
             setCountUsers(result.data);
+        })
+        .then(() => {
+            fetchSearchCount();
         })
         .catch((error) => {
             if(error.status === 403) {
