@@ -100,7 +100,6 @@ export default function Users() {
         })
         .then((result) => {
             setProfiles(result.data);
-            setPage(1);
         })
         .catch((error) => {
             if(error.status === 403) {
@@ -149,6 +148,7 @@ export default function Users() {
                 <Button onClick={() => {
                     fetchSearch();
                     fetchSearchCount();
+                    setPage(1);
                 }}>
                     검색
                 </Button>
