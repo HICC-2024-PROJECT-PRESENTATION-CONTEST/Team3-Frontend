@@ -178,7 +178,7 @@ const Data = styled.div`
     padding: 5px;
 `
 
-const Image = styled.image`
+const Image = styled.img`
     width: 90px;
     height: 90px;
 `
