@@ -173,7 +173,7 @@ export default function UsersProfile() {
                     </Data>
                 </Result>
             </ResultInnerWrapper>
-            <ResultInnerWrapper>
+            <ResultProfileWrapper>
                 내가 선택한 상대
                     {choicesTo ? choicesTo.map((profile) => {
                         return (
@@ -204,8 +204,8 @@ export default function UsersProfile() {
                             </DataWrapper>
                         )
                     }) : ""}
-            </ResultInnerWrapper>
-            <ResultInnerWrapper>
+            </ResultProfileWrapper>
+            <ResultProfileWrapper>
                 나를 선택한 상대
                     {choicesFrom ? choicesFrom.map((profile) => {
                         return (
@@ -236,7 +236,7 @@ export default function UsersProfile() {
                             </DataWrapper>
                         )
                     }) : ""}
-            </ResultInnerWrapper>
+            </ResultProfileWrapper>
         </ResultWrapper>
     );
 }
@@ -261,6 +261,15 @@ const ResultInnerWrapper = styled.div`
     flex-direction: row;
     color: #FFFFFF;
     font-size: 15px;
+`
+
+const ResultProfileWrapper = styled.div`
+    display: flex;
+    flex-direction: column;
+    color: #FFFFFF;
+    font-size: 15px;
+    font-family: sans-serif;
+    font-weight: 600;
 `
 
 const Result = styled.div`
