@@ -11,6 +11,7 @@ export default function Login() {
     const [phonenumber, setPhonenumber] = useState("");
     const [password, setPassword] = useState("");
     const [isValid, setIsValid] = useState(false);
+    const [choicescount, setChoicescount] = useState(null);
 
     useEffect(() => {
         const validPhone = (phonenumber.length === 11);
