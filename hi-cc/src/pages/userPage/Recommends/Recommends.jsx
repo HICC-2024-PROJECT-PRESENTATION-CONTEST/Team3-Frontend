@@ -3,6 +3,8 @@ import { useNavigate } from 'react-router-dom';
 import styled from "styled-components";
 
 import Logo from "../../../assets/Logo.png";
+import Next from "../../../assets/NextButton.png";
+import Profile from "../../../assets/ProfileButton.png";
 import ProfileCard from "../../../components/ProfileCard";
 import Button from "../../../components/MainButton";
 import TimerModal from "../../../components/TimerModal";
@@ -136,17 +138,23 @@ export default function Recommends() {
 
     return (
         <RecommendsWrapper>
+            <ButtonWrapper>
+                <NextButton src={Next} onClick={() => navigate('/mypage/editprofile')} />
+                <ProfileButton src={Profile} onClick={() => navigate('/mypage')} />
+            </ButtonWrapper>
             <DescriptionWrapper>
                 <LogoWrapper src={Logo} />
                 <DescriptionText>
                     알아가고 싶은 상대를 골라주세요.
                 </DescriptionText>
             </DescriptionWrapper>
+            {data ?
             <ProfileCardWrapper>
-                {data ? data.map((data) => {
+                {data.map((data) => {
                     return <ProfileCard id={data.uid} key={data.uid} data={data} onClick={() => handleClick(data.uid, data)} $selected={selectedId === data.uid} />
-                }) : <div>추천 상대 목록을 가져오지 못했습니다.</div>}
+                })}
             </ProfileCardWrapper>
+            : <div>추천 상대 목록을 가져오지 못했습니다.</div>}
 
             <Button onClick={handleSelect} $valid={selectedId !== null} $position="fixed">선택하기</Button>
 
@@ -186,11 +194,39 @@ const ProfileCardWrapper = styled.div`
     }
 `
 
+const ButtonWrapper = styled.div`
+    box-sizing: border-box;
+    display: flex;
+    justify-content: end;
+    align-items: center;
+
+    width: 80vw;
+    min-width: 250px;
+    max-width: 635px;
+    height: 45px;
+    margin: 20px 0;
+`
+
+const NextButton = styled.img`
+    width: 29px;
+    height: 29px;
+    margin: 0 5px;
+
+    cursor: pointer;
+`
+
+const ProfileButton = styled.img`
+    width: 40px;
+    height: 40px;
+
+    cursor: pointer;
+`
+
 const DescriptionWrapper = styled.div`
     display: flex;
     flex-direction: column;
     justify-content: start;
-    margin: 100px 0 30px 0;
+    margin: 35px 0 30px 0;
     width: calc(80vw + 10px); // -30px 한 상태
     max-width: 620px; // -30px 한 상태
 
