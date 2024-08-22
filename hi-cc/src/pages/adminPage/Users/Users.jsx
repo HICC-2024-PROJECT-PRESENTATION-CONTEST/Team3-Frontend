@@ -152,6 +152,12 @@ export default function Users() {
         fetchSearch();
     }
 
+    function handleKeyDown(e) {
+        if (e.key === "Enter") {
+            handleClick();
+        }
+    }
+
     return(
         <AdminUserWrapper>
             {/* 총 이용자 수 */}
@@ -159,7 +165,13 @@ export default function Users() {
 
             {/* 검색창 */}
             <SearchBoxWrapper>
-                <SearchBox type="text" value={value} onChange={e => setValue(e.target.value)} placeholder="이름, 전화번호, 인스타 아이디"/>
+                <SearchBox
+                    type="text"
+                    value={value}
+                    onChange={e => setValue(e.target.value)}
+                    placeholder="이름, 전화번호, 인스타 아이디"
+                    onKeyDown={handleKeyDown} // enter 키 처리
+                />
                 <Button onClick={async () => {
                     setPage(1); // 페이지 1로 초기화
                     setSearchValue(value); // 검색어 업데이트, useEffect에 따라 fetchSearch 실행
