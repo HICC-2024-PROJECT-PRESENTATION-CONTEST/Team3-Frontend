@@ -165,7 +165,7 @@ const ButtonWrapper = styled.div`
 
 const NextButton = styled.img`
     width: 29px;
-    height: 29px;
+    height: 27px;
     margin: 0 5px;
 
     cursor: pointer;
