@@ -278,7 +278,8 @@ const MyPageWrapper = styled.div`
     flex-direction: column;
     align-items: center;
     width: 100vw;
-    height: 100vh;
+    height: auto;
+    min-height: 100vh;
     background: #F9DBDD;
     overflow: auto;
     overflow-x: hidden;
@@ -296,7 +297,7 @@ const MyProfileWrapper = styled.div`
 const ProfilePictureWrapper = styled.div`
     position: relative;
     display: flex;
-    margin-top: 7vh;
+    margin-top: 30px;
     
     width: calc(32vw + 1px);
     height: 32vw;
@@ -376,7 +377,7 @@ const ProfilePictureEditButton = styled.img`
 const NameWrapper = styled.div`
     width: auto;
     text-align: center;
-    margin: 2vw;
+    margin: 10px;
 `
 
 const Name = styled.span`
@@ -392,6 +393,7 @@ const EditButton = styled.button`
     border-radius: 5px;
     font-size: 10px;
     padding: 3px 8px;
+    margin-bottom: 10px;
     color: #000000;
 
     background-color: #F94364;
@@ -403,8 +405,8 @@ const ContentWrapper = styled.div`
     display: flex;
     flex-direction: column;
     width: 100vw;
-    min-width: calc(230px - 5vw);
-    max-width: calc(480px - 5vw);
+    min-width: 280px;
+    max-width: 480px;
     flex-grow: 1;
 `
 
