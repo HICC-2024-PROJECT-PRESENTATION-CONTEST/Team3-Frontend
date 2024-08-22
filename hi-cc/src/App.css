@@ -17,7 +17,7 @@ input, textarea, button{
   -webkit-border-radius: 0;
 }
 
-input:focus, textarea:focus{
+input:focus, textarea:focus, button:focus {
   outline: none !important;
 }
 
