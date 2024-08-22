@@ -139,8 +139,8 @@ export default function Recommends() {
     return (
         <RecommendsWrapper>
             <ButtonWrapper>
-                <NextButton src={Next} onClick={() => navigate('/mypage/editprofile')} />
-                <ProfileButton src={Profile} onClick={() => navigate('/mypage')} />
+                <NextButton src={Next} onClick={() => navigate('/mypage')} />
+                <ProfileButton src={Profile} onClick={() => navigate('/mypage/editprofile')} />
             </ButtonWrapper>
             <DescriptionWrapper>
                 <LogoWrapper src={Logo} />
