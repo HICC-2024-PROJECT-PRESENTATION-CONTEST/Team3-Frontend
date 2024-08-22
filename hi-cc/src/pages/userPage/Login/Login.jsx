@@ -61,11 +61,18 @@ export default function Login() {
             if(!response.ok){
                 throw {status: response.status, message: response.statusText}
             } else {
-                navigate('/mypage');
+                // 추천 횟수가 1 이상이면 추천 페이지로
+                if (choicescount !== null) {
+                    if (choicescount > 0) {
+                        navigate('/recommends');
+                    } else {
+                        navigate('/mypage');
+                    }
+                }
             }
         })
         .catch((error) => {
-            if(error.status === 401) {
+            if(error.status === 404) {
                 alert('가입되지 않은 전화번호 혹은 잘못된 비밀번호입니다.');
             } else if(error.status === 500 || error.status === 502) {
                 navigate('/500');
@@ -80,6 +87,45 @@ export default function Login() {
         if (e.key === "Enter") {
             handleClick();
         }
+    }
+
+    // 추천 횟수를 가져옴
+    useEffect(() => {
+        fetchProfiles();
+    }, [])
+
+    async function fetchProfiles() {
+        await fetch(`${API_URL}/profiles/@me`, {
+            method: 'GET',
+            credentials: 'include',
+            headers: {
+                'Content-Type': 'application/json'
+            }
+        })
+            .then((response) => {
+                if (!response.ok) {
+                    throw { status: response.status, message: response.statusText }
+                }
+                else
+                    return response.json();
+            })
+            .then((result) => {
+                setChoicescount(result.data.choicescount);
+            })
+            .catch((error) => {
+                if (error.status === 403) {
+                    // 접근 경로가 잘못된 사용자 - 그래도 로그인 가능
+                    return;
+                } else if (error.status === 404) {
+                    // 로그인 정보 없는 사용자 - 정상
+                    return;
+                } else if (error.status === 500 || error.status === 502) {
+                    navigate("/500");
+                } else {
+                    alert('알 수 없는 오류가 발생했습니다.');
+                    console.error(error);
+                }
+            });
     }
 
     return (
