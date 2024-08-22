@@ -201,7 +201,7 @@ export default function EditProfile() {
                 error.status = response.status;
                 throw error;
             }
-            navigate('/mypage');
+            navigate(-1);
         } catch (error) {
             if (error.status === 403) {
                 alert("접근 권한이 없습니다. 올바른 경로로 접속했는지 확인해주세요.");
