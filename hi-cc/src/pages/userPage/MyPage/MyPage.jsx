@@ -40,6 +40,10 @@ export default function MyPage() {
     const canvasRef = useRef(null);
     const [name, setName] = useState(null);
 
+    useEffect(() => {
+        fetchMyProfile();
+    }, []);
+
     // 프로필 사진 가져오기
     useEffect(() => {
         fetch(`${API_URL}/profiles/@me/image?size=200`, {
@@ -64,7 +68,6 @@ export default function MyPage() {
                     navigate('/');
                 } else if (error.status === 404) {
                     // 프로필 사진 등록 안한 경우
-                    fetchMyProfile();
                 } else if (error.status === 500 || error.status === 502) {
                     navigate("/500");
                 } else {
@@ -78,7 +81,7 @@ export default function MyPage() {
         handleFileChange();
     }, [imageSrc]);
 
-    {/* 사진 없을 경우 닮은꼴로 대체 */ }
+    {/* 사진 없을 경우 닮은꼴로 대체, 이름 받아오기 */ }
     async function fetchMyProfile() {
         await fetch(`${API_URL}/profiles/@me`, {
             method: 'GET',
@@ -286,7 +289,6 @@ const MyProfileWrapper = styled.div`
     flex-direction: column;
     width: 100vw;
     height: auto;
-    min-height: max(300px, 30vh);
     margin-bottom: 10px;
     align-items: center;
 `
