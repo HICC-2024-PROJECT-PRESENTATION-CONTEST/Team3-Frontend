@@ -3,6 +3,8 @@ import { useState, useEffect } from "react";
 import styled from "styled-components";
 
 import Logo from "../../../assets/Logo.png";
+import Next from "../../../assets/NextButton.png";
+import Profile from "../../../assets/ProfileButton.png";
 import Heart from "../../../assets/Heart.png";
 import InternetButton from "../../../assets/InternetButton.png";
 import ProfileCard from "../../../components/ProfileCard2";
@@ -101,6 +103,12 @@ export default function Message() {
 
     return (
         <MessageWrapper>
+            
+            {/* 넘어가기 버튼, 프로필 수정 버튼 */}
+            <ButtonWrapper>
+                <NextButton src={Next} onClick={() => navigate('/mypage')} />
+                <ProfileButton src={Profile} onClick={() => navigate('/mypage/editprofile')} />
+            </ButtonWrapper>
             <MessageTitleWrapper>
                 <LogoImg src={Logo} />
                 <Description>
@@ -127,7 +135,6 @@ export default function Message() {
             <Button onClick={sendAdditionalMessage} $valid={message} $position="absolute">
                 문자 보내기
             </Button>
-            <NextButton onClick={() => navigate('/mypage')}>그냥 넘어가기</NextButton>
         </MessageWrapper>
     )
 };
@@ -143,11 +150,39 @@ const MessageWrapper = styled.div`
     overflow: auto;
 `
 
+const ButtonWrapper = styled.div`
+    box-sizing: border-box;
+    display: flex;
+    justify-content: end;
+    align-items: center;
+
+    width: 80vw;
+    min-width: 250px;
+    max-width: 635px;
+    height: 45px;
+    margin: 20px 0;
+`
+
+const NextButton = styled.img`
+    width: 29px;
+    height: 29px;
+    margin: 0 5px;
+
+    cursor: pointer;
+`
+
+const ProfileButton = styled.img`
+    width: 40px;
+    height: 40px;
+
+    cursor: pointer;
+`
+
 const MessageTitleWrapper = styled.div`
     display: flex;
     flex-direction: column;
     justify-content: start;
-    margin: 100px 0 10px 0;
+    margin: 35px 0 10px 0;
     width: calc(80vw + 10px); // -30px 한 상태
     max-width: 620px; // -30px 한 상태
 
@@ -262,22 +297,4 @@ const HeartImg = styled.img`
     
     width: 40px;
     height: auto;
-`
-
-const NextButton = styled.div`
-    position: relative;
-    font-size: 13px;
-    text-decoration: underline;
-    color: #353535;
-    margin-top: -13px;
-    margin-bottom: 55px;
-    cursor: pointer;
-    z-index: 100000;
-    @media screen and (max-width: 450px) {
-        margin-bottom: 50px;
-    }
-    @media screen and (max-width: 330px) {
-        margin-bottom: 45px;
-        font-size: 11px;
-    }
 `
