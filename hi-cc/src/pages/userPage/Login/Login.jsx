@@ -11,7 +11,6 @@ export default function Login() {
     const [phonenumber, setPhonenumber] = useState("");
     const [password, setPassword] = useState("");
     const [isValid, setIsValid] = useState(false);
-    const [choicescount, setChoicescount] = useState(null);
 
     useEffect(() => {
         const validPhone = (phonenumber.length === 11);
@@ -45,7 +44,7 @@ export default function Login() {
         fetchLogin();
     }
 
-    async function fetchLogin(){
+    async function fetchLogin() {
         const data = {
             phone: phonenumber,
             password: password,
@@ -58,30 +57,23 @@ export default function Login() {
             },
             body: JSON.stringify(data),
         })
-        .then((response) => {
-            if(!response.ok){
-                throw {status: response.status, message: response.statusText}
-            } else {
-                // 추천 횟수가 1 이상이면 추천 페이지로
-                if (choicescount !== null) {
-                    if (choicescount > 0) {
-                        navigate('/recommends');
-                    } else {
-                        navigate('/mypage');
-                    }
+            .then((response) => {
+                if (!response.ok) {
+                    throw { status: response.status, message: response.statusText }
+                } else {
+                    fetchProfiles(); // 추천 횟수를 가져와서 페이지 이동
                 }
-            }
-        })
-        .catch((error) => {
-            if(error.status === 404) {
-                alert('가입되지 않은 전화번호 혹은 잘못된 비밀번호입니다.');
-            } else if(error.status === 500 || error.status === 502) {
-                navigate('/500');
-            } else {
-                alert('알 수 없는 오류가 발생했습니다.');
-                console.error(error);
-            }
-        })
+            })
+            .catch((error) => {
+                if (error.status === 404) {
+                    alert('가입되지 않은 전화번호 혹은 잘못된 비밀번호입니다.');
+                } else if (error.status === 500 || error.status === 502) {
+                    navigate('/500');
+                } else {
+                    alert('알 수 없는 오류가 발생했습니다.');
+                    console.error(error);
+                }
+            })
     }
 
     function handleKeyDown(e) {
@@ -89,11 +81,6 @@ export default function Login() {
             handleClick();
         }
     }
-
-    // 추천 횟수를 가져옴
-    useEffect(() => {
-        fetchProfiles();
-    }, [])
 
     async function fetchProfiles() {
         await fetch(`${API_URL}/profiles/@me`, {
@@ -111,7 +98,12 @@ export default function Login() {
                     return response.json();
             })
             .then((result) => {
-                setChoicescount(result.data.choicescount);
+                // 추천 횟수가 1 이상이면 추천 페이지로
+                if (result.data.choicescount > 0) {
+                    navigate('/recommends');
+                } else {
+                    navigate('/mypage');
+                }
             })
             .catch((error) => {
                 if (error.status === 403) {
