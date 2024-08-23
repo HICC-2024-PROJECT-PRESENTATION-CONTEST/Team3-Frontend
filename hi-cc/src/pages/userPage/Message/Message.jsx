@@ -64,6 +64,14 @@ export default function Message() {
             });
     }
 
+    // 메시지 입력 처리, 900자 제한
+    function handleMessageChange(event) {
+        const newMessage = event.target.value;
+        if(newMessage.length <= 900) {
+            setMessage(newMessage);
+        }
+    }
+
     // 추가 메시지 보내기
     async function sendAdditionalMessage() {
         await fetch(`${API_URL}/profiles/@me/message`, {
@@ -127,7 +135,10 @@ export default function Message() {
                 <MessageBox>
                     <Top2 />
                     <ButtonImg src={InternetButton} />
-                    <MessageInput placeholder="메시지를 입력하세요." onChange={(e) => setMessage(e.target.value)} value={message} />
+                    <MessageInput
+                        placeholder="메시지를 입력하세요. 메시지는 900자까지 입력 가능합니다."
+                        onChange={handleMessageChange}
+                        value={message} />
                     <HeartImg src={Heart} />
                 </MessageBox>
             </MessageBoxWrapper>
