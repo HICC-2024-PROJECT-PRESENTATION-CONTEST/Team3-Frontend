@@ -40,12 +40,15 @@ export default function AdminLogin() {
 
     return(
         <AdminLoginWrapper onSubmit={handleSubmit}>
-            <StyledInput
-                value={key}
-                onChange={(e) => setKey(e.target.value)}
-                required
-                placeholder="관리자키 입력"
-            />
+            <form>
+                <StyledInput
+                    type="password"
+                    value={key}
+                    onChange={(e) => setKey(e.target.value)}
+                    required
+                    placeholder="관리자키 입력"
+                />
+            </form>
             <Button type="submit">로그인</Button>
             {error ? <Error>올바른 관리자키를 입력해주세요.</Error> : ""}
         </AdminLoginWrapper>
