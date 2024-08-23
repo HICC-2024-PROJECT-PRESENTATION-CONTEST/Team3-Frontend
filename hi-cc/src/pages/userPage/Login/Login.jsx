@@ -65,7 +65,7 @@ export default function Login() {
                 }
             })
             .catch((error) => {
-                if (error.status === 404) {
+                if (error.status === 404 || error.status === 403) {
                     alert('가입되지 않은 전화번호 혹은 잘못된 비밀번호입니다.');
                 } else if (error.status === 500 || error.status === 502) {
                     navigate('/500');
