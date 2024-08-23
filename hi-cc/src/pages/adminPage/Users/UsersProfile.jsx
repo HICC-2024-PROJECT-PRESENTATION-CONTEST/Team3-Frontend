@@ -143,11 +143,11 @@ export default function UsersProfile() {
             </ResultInnerWrapper>
             <ResultInnerWrapper>
                 <Result>
-                    <Data style={{ width: '100px', height: '100px' }}>
+                    <Data style={{ display: 'flex', justifyContent: 'center', alignItems: 'center', width: '100px', height: '100px' }}>
                         {profilePicture ?
                             <Image src={profilePicture} alt="프로필 사진" />
                             :
-                            <span>프로필 사진 없음</span>
+                            <span style={{  display: 'flex', justifyContent: 'center', alignItems: 'center', textAlign: 'center', wordBreak: 'keep-all' }}>프로필 사진 없음</span>
                         }
                     </Data>
                     <Data>
