@@ -14,7 +14,7 @@ export default function UsersProfile() {
 
     useEffect(() => {
         fetchProfilePicture(data.uid);
-        fetchChoices(data.uid);
+        // fetchChoices(data.uid);
     }, []);
 
     async function fetchProfilePicture(uid) {
