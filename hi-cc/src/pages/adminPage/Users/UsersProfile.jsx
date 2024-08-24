@@ -104,35 +104,35 @@ export default function UsersProfile() {
             });
     }
 
-    async function fetchChoices(uid) {
-        fetch(`${API_URL}/profiles/${uid}/choices`, {
-            method: 'GET',
-            credentials: 'include',
-        })
-            .then((response) => {
-                if (!response.ok) {
-                    throw { status: response.status, message: response.statusText }
-                } else {
-                    return response.json();
-                };
-            })
-            .then((result) => {
-                setChoicesTo(result.data.choices_to);
-                setChoicesFrom(result.data.choices_from);
-            })
-            .catch((error) => {
-                if (error.status === 403) {
-                    alert("접근 권한이 없습니다. 올바른 경로로 접속했는지 확인해주세요.");
-                } else if (error.status === 404) {
-                    // 프로필 사진 등록 안한 경우
-                    return;
-                } else if (error.status === 500 || error.status === 502) {
-                    navigate("/500");
-                } else {
-                    alert('알 수 없는 오류가 발생했습니다.');
-                }
-            });
-    }
+    // async function fetchChoices(uid) {
+    //     fetch(`${API_URL}/profiles/${uid}/choices`, {
+    //         method: 'GET',
+    //         credentials: 'include',
+    //     })
+    //         .then((response) => {
+    //             if (!response.ok) {
+    //                 throw { status: response.status, message: response.statusText }
+    //             } else {
+    //                 return response.json();
+    //             };
+    //         })
+    //         .then((result) => {
+    //             setChoicesTo(result.data.choices_to);
+    //             setChoicesFrom(result.data.choices_from);
+    //         })
+    //         .catch((error) => {
+    //             if (error.status === 403) {
+    //                 alert("접근 권한이 없습니다. 올바른 경로로 접속했는지 확인해주세요.");
+    //             } else if (error.status === 404) {
+    //                 // 프로필 사진 등록 안한 경우
+    //                 return;
+    //             } else if (error.status === 500 || error.status === 502) {
+    //                 navigate("/500");
+    //             } else {
+    //                 alert('알 수 없는 오류가 발생했습니다.');
+    //             }
+    //         });
+    // }
 
     return (
         <ResultWrapper>
@@ -147,7 +147,7 @@ export default function UsersProfile() {
                         {profilePicture ?
                             <Image src={profilePicture} alt="프로필 사진" />
                             :
-                            <span style={{  display: 'flex', justifyContent: 'center', alignItems: 'center', textAlign: 'center', wordBreak: 'keep-all' }}>프로필 사진 없음</span>
+                            <span style={{ display: 'flex', justifyContent: 'center', alignItems: 'center', textAlign: 'center', wordBreak: 'keep-all' }}>프로필 사진 없음</span>
                         }
                     </Data>
                     <Data>
@@ -161,19 +161,12 @@ export default function UsersProfile() {
                     <Data>전화번호: {data.phone}</Data>
                     <Data>인스타: {data.instagram}</Data>
                     <Data>성별: {data.gender}</Data>
-                    <Data>나이: {data.birthyear}</Data>
-                    <Data>전공: {data.major}</Data>
-                    <Data>키: {data.height === 0 ? "" : data.height}</Data>
-                    <Data>닮은꼴: {data.looklike}</Data>
-                    <Data>나이차: 위로 {data.birthyear_offset.plus}살, 아래로 {data.birthyear_offset.minus}살</Data>
-                    <Data>MBTI: {data.mbti}</Data>
-                    <Data>흡연여부: {data.smoking ? "예" : "아니오"}</Data>
                     <Data>
                         <Button onClick={() => handleDelete(data.uid)}>사용자 삭제</Button>
                     </Data>
                 </Result>
             </ResultInnerWrapper>
-            <ResultProfileWrapper>
+            {/* <ResultProfileWrapper>
                 내가 선택한 상대
                     {choicesTo ? choicesTo.map((profile) => {
                         return (
@@ -238,7 +231,7 @@ export default function UsersProfile() {
                             </DataWrapper>
                         )
                     }) : ""}
-            </ResultProfileWrapper>
+            </ResultProfileWrapper> */}
         </ResultWrapper>
     );
 }
