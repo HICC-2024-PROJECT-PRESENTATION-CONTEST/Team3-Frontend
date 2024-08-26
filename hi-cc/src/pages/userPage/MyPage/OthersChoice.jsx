@@ -75,16 +75,19 @@ const ProfileCardWrapper = styled.div`
     display: flex;
     justify-content: center;
     flex-direction: column;
+    align-items: center;
 `
 
 const Error = styled.div`
+    box-sizing: border-box;
+    padding: 10px;
+    
     display: flex;
+    justify-content: center;
     align-items: center;
     text-align: center;
-    width: auto;
-    height: 20px;
-
-    padding: 10px;
+    width: 100%;
+    height: 40px;
 
     background-color: #FFDEE2;
     border-radius: 10px;
