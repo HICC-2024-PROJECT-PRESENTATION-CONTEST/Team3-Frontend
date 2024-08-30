@@ -78,7 +78,7 @@ export default function BasicInfo() {
                 </Data>
                 <Data>
                     <DataKey>흡연여부</DataKey>
-                    <DataValue>{data.smoking ? "예" : "아니오"}</DataValue>
+                    <DataValue>{data.smoking ? "예" : "아니요"}</DataValue>
                 </Data>
             </DataWrapper>
         )

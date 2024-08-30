@@ -131,7 +131,7 @@ export default function ProfileCard(props) {
                 </Data>
                 <Data>
                     <DataKey>흡연여부</DataKey>
-                    <DataValue>{props.data.smoking ? "예" : "아니오"}</DataValue>
+                    <DataValue>{props.data.smoking ? "예" : "아니요"}</DataValue>
                 </Data>
             </WriteHere>
         </ProfileCardWrapper>

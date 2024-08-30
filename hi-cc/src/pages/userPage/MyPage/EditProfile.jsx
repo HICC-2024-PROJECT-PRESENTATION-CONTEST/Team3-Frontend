@@ -381,7 +381,7 @@ export default function EditProfile() {
                             value="false"
                             $selected={inputs.smoking === "false"}
                         >
-                            아니오
+                            아니요
                         </Checkbox>
                     </CheckboxWrapper>
                     {warnings.smoking &&

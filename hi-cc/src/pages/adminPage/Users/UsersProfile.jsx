@@ -191,7 +191,7 @@ export default function UsersProfile() {
                                             : ""}
                                         <Data>{profile.mbti}</Data>
                                         <Data>{profile.looklike}</Data>
-                                        <Data>{profile.smoking ? "예" : "아니오"}</Data>
+                                        <Data>{profile.smoking ? "예" : "아니요"}</Data>
                                     </>
                                 }
                             </DataWrapper>
@@ -225,7 +225,7 @@ export default function UsersProfile() {
                                             <Data>{profile.mbti}</Data>
                                             : ""}
                                         <Data>{profile.looklike}</Data>
-                                        <Data>{profile.smoking ? "예" : "아니오"}</Data>
+                                        <Data>{profile.smoking ? "예" : "아니요"}</Data>
                                     </>
                                 }
                             </DataWrapper>
