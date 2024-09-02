@@ -22,8 +22,9 @@ export default function Message() {
         if(data === null) {
             alert('선택한 상대가 없습니다. 잘못된 경로로 들어오지 않았는지 확인해주세요.');
             navigate('/mypage');
+        } else {
+            fetchProfiles();
         }
-        fetchProfiles();
     }, [])
 
     // 메시지 전송 횟수에 따라 리다이렉트. 그외 오류에 따라서도 리다이렉트
