@@ -114,11 +114,11 @@ export default function Message() {
             
             {/* 넘어가기 버튼, 프로필 수정 버튼 */}
             <ButtonWrapper>
-                <NextButton src={Next} onClick={() => navigate('/mypage')} />
-                <ProfileButton src={Profile} onClick={() => navigate('/mypage/editprofile')} />
+                <NextButton src={Next} onClick={() => navigate('/mypage')} onDragStart={e => e.preventDefault()} />
+                <ProfileButton src={Profile} onClick={() => navigate('/mypage/editprofile')} onDragStart={e => e.preventDefault()} />
             </ButtonWrapper>
             <MessageTitleWrapper>
-                <LogoImg src={Logo} />
+                <LogoImg src={Logo} onDragStart={e => e.preventDefault()} />
                 <Description>
                     상대에게 한 번,<br />
                     추가 문자를 보낼 수 있어요.
@@ -139,7 +139,7 @@ export default function Message() {
                         placeholder="메시지를 입력하세요. 메시지는 900자까지 입력 가능합니다."
                         onChange={handleMessageChange}
                         value={message} />
-                    <HeartImg src={Heart} />
+                    <HeartImg src={Heart} onDragStart={e => e.preventDefault()} />
                 </MessageBox>
             </MessageBoxWrapper>
 
