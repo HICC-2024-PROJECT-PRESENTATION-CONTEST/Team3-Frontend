@@ -7,6 +7,7 @@ import BasicInfo from "./BasicInfo";
 import MyChoice from "./MyChoice";
 import OthersChoice from "./OthersChoice";
 
+import hiccLogo from "../../../assets/hiccLogo.png";
 import pfpEditButton from "../../../assets/pfpEditButton.png";
 import Bear from "../../../assets/bear.png";
 import Deer from "../../../assets/deer.png";
@@ -103,7 +104,8 @@ export default function MyPage() {
             })
             .then((data) => {
                 setName(data.name);
-                setChoicesCount(data.choicescount);
+                setChoicesCount(10);
+                console.log(name + " " + choicesCount);
                 if (!imageSrc) {
                     let image = null;
                     switch (data.looklike) {
@@ -241,9 +243,10 @@ export default function MyPage() {
             <MyProfileWrapper>
                 <ChoiceLeftButtonWrapper>
                     {/* 선택횟수가 남았을 경우 선택창으로 돌아가는 버튼 */}
-                    {choicesCount ? <ChoiceLeftButton onClick={()=> handleChoiceLeftButtonClick()}>{choicesCount}</ChoiceLeftButton> : ""}
+                    {choicesCount > 0 ? <ChoiceLeftButton onClick={()=> handleChoiceLeftButtonClick()}>
+                        <HeartImg src={hiccLogo} />
+                    </ChoiceLeftButton> : ""}
                 </ChoiceLeftButtonWrapper>
-                
                 {/* 프로필 사진 */}
                 <ProfilePictureWrapper>
                     <ProfilePicture>
@@ -315,14 +318,19 @@ const ChoiceLeftButton = styled.div`
     text-align: center;
     margin: 30px 0 0 30px;
 
-    width: 30px;
-    height: 30px;
+    width: 40px;
+    height: 40px;
     border: solid 3px #000000;
     border-radius: 30%;
 
-    background-color: #F94364;
+    background-color: #FAA8B1;
 
     cursor: pointer;
+`
+
+const HeartImg = styled.img`
+    width: 27px;
+    height: 27px;
 `
 
 const MyProfileWrapper = styled.div`
