@@ -40,7 +40,7 @@ export default function MyPage() {
     const [lookLikeImageSrc, setLookLikeImageSrc] = useState(null);
     const canvasRef = useRef(null);
     const [name, setName] = useState(null);
-    const [choicesCount, setChoicesCount] = useState(0);
+    const [choicesCount, setChoicesCount] = useState(null);
 
     useEffect(() => {
         fetchMyProfile();
@@ -104,8 +104,7 @@ export default function MyPage() {
             })
             .then((data) => {
                 setName(data.name);
-                setChoicesCount(10);
-                console.log(name + " " + choicesCount);
+                setChoicesCount(data.choicescount);
                 if (!imageSrc) {
                     let image = null;
                     switch (data.looklike) {
@@ -243,7 +242,7 @@ export default function MyPage() {
             <MyProfileWrapper>
                 <ChoiceLeftButtonWrapper>
                     {/* 선택횟수가 남았을 경우 선택창으로 돌아가는 버튼 */}
-                    {choicesCount > 0 ? <ChoiceLeftButton onClick={()=> handleChoiceLeftButtonClick()}>
+                    {choicesCount !== null && choicesCount > 0 ? <ChoiceLeftButton onClick={()=> handleChoiceLeftButtonClick()}>
                         <HeartImg src={hiccLogo} />
                     </ChoiceLeftButton> : ""}
                 </ChoiceLeftButtonWrapper>
