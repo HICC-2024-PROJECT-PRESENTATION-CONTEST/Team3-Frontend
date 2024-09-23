@@ -39,6 +39,7 @@ export default function MyPage() {
     const [lookLikeImageSrc, setLookLikeImageSrc] = useState(null);
     const canvasRef = useRef(null);
     const [name, setName] = useState(null);
+    const [choicesCount, setChoicesCount] = useState(0);
 
     useEffect(() => {
         fetchMyProfile();
@@ -102,6 +103,7 @@ export default function MyPage() {
             })
             .then((data) => {
                 setName(data.name);
+                setChoicesCount(data.choicesCount);
                 if (!imageSrc) {
                     let image = null;
                     switch (data.looklike) {
@@ -206,6 +208,11 @@ export default function MyPage() {
         }
     }
 
+    // 상대 선택 화면으로 돌아가기
+    function handleChoiceLeftButtonClick() {
+        navigate('/recommends');
+    }
+
     function renderContent() {
         switch (activeTab) {
             case 'BasicInfo':
@@ -232,6 +239,11 @@ export default function MyPage() {
     return (
         <MyPageWrapper>
             <MyProfileWrapper>
+                <ChoiceLeftButtonWrapper>
+                    {/* 선택횟수가 남았을 경우 선택창으로 돌아가는 버튼 */}
+                    {choicesCount ? <ChoiceLeftButton onClick={()=> handleChoiceLeftButtonClick()}>{choicesCount}</ChoiceLeftButton> : ""}
+                </ChoiceLeftButtonWrapper>
+                
                 {/* 프로필 사진 */}
                 <ProfilePictureWrapper>
                     <ProfilePicture>
@@ -283,6 +295,34 @@ const MyPageWrapper = styled.div`
     background: #F9DBDD;
     overflow: auto;
     overflow-x: hidden;
+`
+
+const ChoiceLeftButtonWrapper = styled.div`
+    display: flex;
+    justify-content: start;
+    align-items: center;
+
+    width: 100vw;
+    min-width: 280px;
+    max-width: 480px;
+    height: 100%;
+`
+
+const ChoiceLeftButton = styled.div`
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+    margin: 30px 0 0 30px;
+
+    width: 30px;
+    height: 30px;
+    border: solid 3px #000000;
+    border-radius: 30%;
+
+    background-color: #F94364;
+
+    cursor: pointer;
 `
 
 const MyProfileWrapper = styled.div`
