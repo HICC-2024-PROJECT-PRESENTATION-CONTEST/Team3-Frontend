@@ -103,7 +103,7 @@ export default function MyPage() {
             })
             .then((data) => {
                 setName(data.name);
-                setChoicesCount(data.choicesCount);
+                setChoicesCount(data.choicescount);
                 if (!imageSrc) {
                     let image = null;
                     switch (data.looklike) {
